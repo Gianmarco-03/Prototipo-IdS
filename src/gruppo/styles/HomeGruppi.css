@@ -1,0 +1,29 @@
+/* Imposta il colore di sfondo principale */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1D203E;
+  color: white;
+}
+
+/* Contenitore principale */
+.app-container {
+  padding: 20px;
+}
+
+/* Griglia per le card */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Bordo sfumato per elementi */
+.gradient-border {
+  border: 2px solid transparent;
+  background: linear-gradient(#1D203E, #1D203E) padding-box,
+              linear-gradient(135deg, #A73EE7, #00EBFF) border-box;
+  border-radius: 12px;
+  padding: 1px;
+}

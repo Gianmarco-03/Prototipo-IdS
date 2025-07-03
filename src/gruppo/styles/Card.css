@@ -1,0 +1,74 @@
+.card {
+  border-radius: 12px !important;  
+  margin-top: 3ex;
+  margin-left: 5ex;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  height: 200px;
+  width: 480px;
+  cursor: pointer;
+  outline: none;
+  border: 3px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(90deg, #A73EE7, #00EBFF);
+  background-color: #393D5E; /* fallback colore secondario */
+  color: white;
+}
+
+.cardBackground {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.75);
+}
+
+.overlayBox {
+  position: absolute;
+  top: 3000px;
+  left: 20px;
+  background-color: rgba(29, 32, 62, 0.85); /* colore primario scuro semitrasparente */
+  padding: 10px;
+  width: 60%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 8px;
+}
+
+.card-overlay {
+  height: 15ex;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem;
+  background-color: rgba(29, 32, 62, 0.85);
+  padding: 1rem;
+  border-radius: 12px;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+#nome {
+  font-size: 1.4rem;       /* aumenta la dimensione del font del nome */
+  margin-bottom: 0.75rem;  /* distanza sotto il nome, prima della descrizione */
+  background: transparent;
+  border: none;
+  color: white;
+  outline: none;
+}
+
+#descrizione {
+  height: 75px; /* o l’altezza che preferisci */
+  font-size: 0.90rem;       /* dimensione font descrizione più piccola */
+  background: transparent;
+  border: none;
+  color: white;
+  outline: none;
+  resize: none;
+}

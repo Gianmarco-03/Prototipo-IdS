@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SearchBar from "./componentsGruppo/SearchBar";
-import NewGroupButton from "./componentsGruppo/NewGroupButton";
-import Card from "./componentsGruppo/Card";
-import "./HomeGruppo.css"; // solo per container e layout generale
+import SearchBar from "./components/SearchBar";
+import NewGroupButton from "./components/NewGroupButton";
+import Card from "./components/Card";
+import "./styles/HomeGruppi.css"; // solo per container e layout generale
 
 const cardsData = [
   {
@@ -15,7 +15,7 @@ const cardsData = [
     id: 2,
     nome: "Gruppo B",
     descrizione: "Descrizione più lunga del gruppo B con dettagli extra",
-    imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+B",
+    imgUrl: "/gruppo/images/Gruppo B.png",
   },
   {
     id: 3,

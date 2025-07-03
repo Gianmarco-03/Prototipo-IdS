@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/NewGroupButton.css";
+import "../styles/NewGroupButton.css";
 
 const NewGroupButton = ({ onClick }) => {
   return (

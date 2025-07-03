@@ -6,8 +6,8 @@ const GruppoPage = () => {
 
   return (
     <div>
-      <h1>Dettagli gruppo: {nomeGruppo}</h1>
-      {/* Qui metti il contenuto dinamico per il gruppo */}
+      <h1>Sei nel gruppo: {decodeURIComponent(nomeGruppo)}</h1>
+      {/* Qui metti contenuto dinamico */}
     </div>
   );
 };
