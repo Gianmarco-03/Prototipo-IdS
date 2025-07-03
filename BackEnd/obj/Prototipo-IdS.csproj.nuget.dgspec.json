@@ -1,0 +1,70 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/gianmarco/Prototipo-IdS/BackEnd/Prototipo-IdS.csproj": {}
+  },
+  "projects": {
+    "/home/gianmarco/Prototipo-IdS/BackEnd/Prototipo-IdS.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/gianmarco/Prototipo-IdS/BackEnd/Prototipo-IdS.csproj",
+        "projectName": "Prototipo-IdS",
+        "projectPath": "/home/gianmarco/Prototipo-IdS/BackEnd/Prototipo-IdS.csproj",
+        "packagesPath": "/home/gianmarco/.nuget/packages/",
+        "outputPath": "/home/gianmarco/Prototipo-IdS/BackEnd/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/gianmarco/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.SignalR": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.117/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+/* MessaggioCard.css */
+.messaggio-card {
+  min-width: 80em;    /* larghezza minima */
+  max-width: 40em;    /* larghezza massima */
+  overflow-wrap: break-word; /* per evitare che il testo esca fuori */
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 3px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(270deg, #A73EE7, #00EBFF);
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background-color: #393D5E;
+  color: white;
+}   
+
+.messaggio-nome.mio {
+  text-align: right;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.messaggio-nome.altro {
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+
+.messaggio-contenuto.mio {
+  text-align: right;
+  white-space: pre-wrap;
+}
+.messaggio-contenuto.altro {
+  text-align: left;
+  white-space: pre-wrap;
+}
+/* 🔹 Messaggi propri */
+.MessaggioCard.mio {
+  float : right;
+  color: white;
+  border-bottom-right-radius: 0;
+}
+
+/* 🔸 Messaggi altrui */
+.MessaggioCard.altro {
+  float : left;
+  border-bottom-left-radius: 0;
+}
