@@ -1,0 +1,8 @@
+.main-content {
+  flex-grow: 1;
+  background-color: #1D203E;
+  color: white;
+  padding: 1rem;
+  overflow-y: auto;
+  width: 85%;
+}

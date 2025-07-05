@@ -23,6 +23,12 @@ const cardsData = [
     descrizione: "Descrizione breve del gruppo C",
     imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+C",
   },
+  {
+    id: 4,
+    nome: "Gruppo D",
+    descrizione: "Descrizione breve del gruppo D",
+    imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+C",
+  },
 ];
 
 const App = () => {
@@ -41,15 +47,20 @@ const App = () => {
 
   return (
     <div className="container">
-      <div className="topBar">
-        <SearchBar
-          search={search}
-          setSearch={setSearch}
-          filter={filter}
-          setFilter={setFilter}
-        />
-        <NewGroupButton onClick={handleNewGroup} />
-      </div>
+      <div className="topBarWithButton">
+        <div className="newGroupBar">
+  <NewGroupButton onClick={handleNewGroup} />
+</div>
+
+  <SearchBar
+    search={search}
+    setSearch={setSearch}
+    filter={filter}
+    setFilter={setFilter}
+  />
+</div>
+
+
 
       <div className="cardsContainer">
         {filteredCards.map(({ id, nome, descrizione, imgUrl }) => (

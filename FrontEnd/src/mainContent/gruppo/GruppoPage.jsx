@@ -6,7 +6,7 @@ const GruppoPage = () => {
   const { nomeGruppo } = useParams();
 
   const goToChat = () => {
-    navigate("/chat");
+    navigate(`/chat/${encodeURIComponent(nomeGruppo)}`)
   };
 
   return (

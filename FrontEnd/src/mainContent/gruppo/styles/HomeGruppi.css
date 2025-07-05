@@ -2,9 +2,36 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  gap: 1rem; /* spazio tra SearchBar e pulsante */
+  margin-bottom: 1rem;
 }
+
+.newGroupBar {
+  background-color: #2C2F48; /* striscia scura */
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.newGroupBar button {
+  background: linear-gradient(90deg, #A73EE7, #00EBFF);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.newGroupBar button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 235, 255, 0.3);
+}
+
 
 
 /* Imposta il colore di sfondo principale */
@@ -44,4 +71,14 @@ body {
 .card:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* opzionale per un effetto più evidente */
+}
+
+.container {
+  width: 85%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }

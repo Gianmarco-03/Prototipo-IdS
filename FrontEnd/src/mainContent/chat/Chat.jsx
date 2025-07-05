@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import connection from "./ChatService";
 import MessaggioCard from "./components/MessaggioCard"
 import "./styles/Chat.css";
+import { useParams } from "react-router-dom";
 
 const Chat = () => {
+  const { nomeGruppo } = useParams();
   const [messages, setMessages] = useState([]);
   const [inputMsg, setInputMsg] = useState("");
   const [user, setUser] = useState("");
@@ -20,8 +22,13 @@ const Chat = () => {
 
     connection
       .start()
-      .then(() => console.log("SignalR connected"))
+      .then(() => {
+          console.log("SignalR connected")
+          connection.invoke("JoinGroup", nomeGruppo)
+      })
       .catch((err) => console.error("SignalR connection error:", err));
+
+      
 
     connection.on("ReceiveMessage", (user, message) => {
       setMessages((msgs) => [...msgs, { user, message }]);
@@ -36,7 +43,7 @@ const Chat = () => {
   const sendMessage = () => {
     if (inputMsg.trim()) {
       // Puoi modificare qui se vuoi un utente fisso o dinamico
-      connection.invoke("SendMessage",user, inputMsg).catch(console.error);
+      connection.invoke("SendMessage",nomeGruppo,user, inputMsg).catch(console.error);
       setInputMsg("");
     }
   };
