@@ -1,0 +1,88 @@
+/* Sidebar sinistra */
+.selector {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 3.5%;
+  height: 100vh;
+  background-color: #2C2F48; /* colore coerente con il tuo tema */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+  gap: 1rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  justify-content: center; /* <-- Questa riga centra verticalmente */
+  gap: 41em;
+}
+
+/* Bottoni circolari */
+.goto-Evento,
+.goto-Gruppo {
+ position: relative; /* NECESSARIO per confinare il glow */
+  width: 50px;
+  height: 50px;
+  background-color: #444a75;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  overflow: visible;
+}
+
+/* Hover: illumina con gradiente */
+.goto-Evento:hover,
+.goto-Gruppo:hover {
+  background: linear-gradient(135deg, #A73EE7, #00EBFF);
+  box-shadow: 0 0 12px #A73EE7;
+  color: white;
+
+}
+
+/* Icone */
+.goto-Evento::before {
+  content: "📅";
+
+  
+}
+
+.goto-Gruppo::before {
+  content: "👥";
+}
+
+
+
+/* Hover: attiva solo il bagliore */
+.selector:hover{
+  opacity: 1;
+  transform: scale(1); /* Rende l'animazione più fluida */
+}
+
+.goto-Evento::after,
+.goto-Gruppo::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%) scale(0.8);
+  width: 120%;
+  height: 120%;
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  background: radial-gradient(circle, #00EBFF66 20%, transparent 70%);
+}
+
+
+.goto-Evento:hover::after,
+.goto-Gruppo:hover::after {
+  opacity: 1;
+  transform: translate(-50%, -60%) scale(1.2);
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Card.css";
+import "../styles/CardG.css";
 
 const Card = ({ nome, descrizione, imgUrl }) => {
   const navigate = useNavigate();
@@ -10,26 +10,25 @@ const Card = ({ nome, descrizione, imgUrl }) => {
   };
 
   return (
-    <div className="card" onClick={handleClick} style={{ backgroundImage: `url(${imgUrl})` }}>
-      <div className="card-image" >
-        <div className="card-overlay gradient-border">
-          <div className="card-content">
-            <input
-              type="text"
-              id="nome"
-              className="card-title"
-              value={nome}
-              readOnly
-            />
-            <textarea
-              id="descrizione"
-              className="card-description"
-              value={descrizione}
-              readOnly
-            />
-          </div>
+    <div className="cardG" onClick={handleClick}>
+      <div className="cardG-image"  style={{ backgroundImage: `url(${imgUrl})` }}></div>
+      <div className="cardG-overlay gradient-border">
+        <div className="cardG-content">
+          <input
+            type="text"
+            id="nome"
+            className="cardG-title"
+            value={nome}
+            readOnly
+          />
+          <textarea
+            id="descrizione"
+            className="cardG-description"
+            value={descrizione}
+            readOnly
+          />
         </div>
-      </div>
+        </div>
     </div>
   );
 };

@@ -1,18 +1,19 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./styles/GruppoPage.css"
+import "./styles/EventoPage.css"
 
 const GruppoPage = () => {
   const navigate = useNavigate();
+  const { nomeEvento } = useParams();
   const { nomeGruppo } = useParams();
 
   const goToChat = () => {
-    navigate(`/chat/${encodeURIComponent(nomeGruppo)}`)
+    navigate(`/chat/${encodeURIComponent(nomeGruppo)}/${encodeURIComponent(nomeEvento)}`)
   };
 
   return (
     <div className="GruppoPage">
-      <h1>Gruppo: {nomeGruppo}</h1>
+      <h1>Evento: {nomeEvento}</h1>
       {/* Altri contenuti del gruppo */}
 
       <button 

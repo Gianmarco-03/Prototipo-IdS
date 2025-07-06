@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "./commonComponents/SideBarDestra";
-import MainContent from "./mainContent/MainContent";
-import HomeGruppi from "./mainContent/gruppo/HomeGruppi"
+import Selector from "./commonComponents/SideBarSinistra";
 import { Outlet } from "react-router-dom";
 
 const Layout = () => {
@@ -10,6 +9,7 @@ const Layout = () => {
   return (
     <>
     <div className="layout-container">
+      <Selector />
       <Outlet/>
       <Sidebar/>
     </div>

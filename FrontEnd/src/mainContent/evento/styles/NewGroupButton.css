@@ -1,0 +1,59 @@
+.groupContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* distanza tra textbox e bottone */
+}
+
+.newGroupButtonWrapper {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 3px; /* spessore bordo */
+  background: white; /* bordo bianco */
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.newGroupButton {
+  position: relative;
+  width: 50px;
+  background: linear-gradient(90deg, #A73EE7, #00EBFF);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border: 2px solid white;  /* bordo bianco */
+  cursor: pointer;
+  clip-path: polygon(
+    25% 0%, 
+    75% 0%, 
+    100% 50%, 
+    75% 100%, 
+    25% 100%, 
+    0% 50%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 6px #A73EE7;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  border-color: #FFFFFF; /* cambia colore bordo al passaggio */
+
+}
+.newGroupButton:hover {
+  box-shadow: 0 0 15px #00EBFF;
+  border-color: #00EBFF; /* cambia colore bordo al passaggio */
+
+}
+.groupTextBox {
+  background: #1D203E;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  width: 100px;
+  text-align: center;
+  pointer-events: none; /* se vuoi che sia solo testo, non modificabile */
+  user-select: none;
+  margin-right: 4em; /* aggiunto spazio a destra */
+  border-color: #FFFFFF;
+
+}

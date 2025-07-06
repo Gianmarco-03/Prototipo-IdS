@@ -2,36 +2,41 @@ import React, { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import NewGroupButton from "./components/NewGroupButton";
 import Card from "./components/Card";
-import "./styles/HomeGruppi.css"; // solo per container e layout generale
+import "./styles/HomeEventi.css"; // solo per container e layout generale
 
 const cardsData = [
   {
     id: 1,
-    nome: "Gruppo A",
-    descrizione: "Descrizione breve del gruppo A",
+    nome: "Evento A",
+    descrizione: "Descrizione breve dell'evento proposto nel  gruppo A",
     imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+A",
+    gruppo : "gruppo A"
   },
   {
     id: 2,
-    nome: "Gruppo B",
-    descrizione: "Descrizione più lunga del gruppo B con dettagli extra",
+    nome: "Evento B",
+    descrizione: "Descrizione più lunga dell'evento proposto nel gruppo B con dettagli extra e contenuto che esce fuori da tutto aljhfspoàihgaoghaeoihgadsojvwpjgpshgslakdmaperjgapjnepaihrjapjfpaerijhgaepmnbpesrajhaejhldakfnbkùapojgrwùprj",
     imgUrl: "/gruppo/images/Gruppo B.png",
+    gruppo : "gruppo B"
   },
   {
     id: 3,
-    nome: "Gruppo C",
-    descrizione: "Descrizione breve del gruppo C",
+    nome: "Evento C",
+    descrizione: "Descrizione breve dell'evento proposto nel  gruppo C",
     imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+C",
+    gruppo : "gruppo C"
   },
   {
     id: 4,
-    nome: "Gruppo D",
-    descrizione: "Descrizione breve del gruppo D",
+    nome: "Evento D",
+    descrizione: "Descrizione breve dell'evento proposto nel  gruppo D",
     imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+C",
+    gruppo : "gruppo D"
+
   },
 ];
 
-const HomeGruppi = () => {
+const HomeEventi = () => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
 
@@ -63,12 +68,13 @@ const HomeGruppi = () => {
 
 
       <div className="cardsContainer">
-        {filteredCards.map(({ id, nome, descrizione, imgUrl }) => (
+        {filteredCards.map(({ id, nome, descrizione, imgUrl, gruppo }) => (
           <Card
             key={id}
             nome={nome}
             descrizione={descrizione}
             imgUrl={imgUrl}
+            gruppo={gruppo}
           />
         ))}
       </div>
@@ -76,4 +82,4 @@ const HomeGruppi = () => {
   );
 };
 
-export default HomeGruppi;
+export default HomeEventi;

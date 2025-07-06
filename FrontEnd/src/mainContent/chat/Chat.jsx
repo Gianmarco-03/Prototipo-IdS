@@ -6,10 +6,14 @@ import { useParams } from "react-router-dom";
 
 const Chat = () => {
   const { nomeGruppo } = useParams();
+  const {nomeEvento } = useParams();
   const [messages, setMessages] = useState([]);
   const [inputMsg, setInputMsg] = useState("");
   const [user, setUser] = useState("");
 
+  let idChat = nomeGruppo;
+  if (nomeEvento)
+    idChat += ("/" + nomeEvento)
 
   useEffect(() => {
      // Simulazione sessione utente
@@ -24,7 +28,7 @@ const Chat = () => {
       .start()
       .then(() => {
           console.log("SignalR connected")
-          connection.invoke("JoinGroup", nomeGruppo)
+          connection.invoke("JoinGroup", idChat)
       })
       .catch((err) => console.error("SignalR connection error:", err));
 
@@ -43,7 +47,7 @@ const Chat = () => {
   const sendMessage = () => {
     if (inputMsg.trim()) {
       // Puoi modificare qui se vuoi un utente fisso o dinamico
-      connection.invoke("SendMessage",nomeGruppo,user, inputMsg).catch(console.error);
+      connection.invoke("SendMessage",idChat,user, inputMsg).catch(console.error);
       setInputMsg("");
     }
   };
