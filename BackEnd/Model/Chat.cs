@@ -1,12 +1,14 @@
 // Models/Chat.cs
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace ChatSpace
+namespace ChatBackend.Model
 {
     public class Chat
     {
 
 
+        [Key]
         public string Gruppo { get; set; }
         public List<Messaggio> Messaggi { get; set; } = new List<Messaggio>();
 
