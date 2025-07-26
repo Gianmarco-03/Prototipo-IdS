@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ChatBackend.Model;
+using AuthBackend.Model;
 
-namespace ChatBackend.Data
+namespace Base.Data
 {
     public class AppDbContext : DbContext
     {
@@ -11,11 +12,13 @@ namespace ChatBackend.Data
 
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Messaggio> Messaggi { get; set; }
+        public DbSet<Utente> Utenti { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Configurazioni extra (ad esempio chiavi, relazioni) qui
-        }
+                modelBuilder.Entity<Utente>()
+                .HasIndex(u => u.Username)
+                .IsUnique();        }
     }
 }

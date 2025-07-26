@@ -1,6 +1,7 @@
 using ChatBackend.Model;
 using ChatBackend.Hubs;
-using ChatBackend.Data;
+using Base.Data;
+using Base.Controllers;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 

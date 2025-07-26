@@ -4,7 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ChatBackend.Hubs;
 using ChatBackend.Controllers;
-using ChatBackend.Data; // Namespace del tuo DbContext
+using Base.Data;
+using AuthBackend.Controllers;
+using Microsoft.AspNetCore.Identity;
+using AuthBackend.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +31,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Aggiungi controller MVC (per REST API)
 builder.Services.AddControllers();
 builder.Services.AddScoped<IChatController, ChatController>();
+builder.Services.AddScoped<IAuthController, AuthController>();
 // Aggiungi SignalR
 builder.Services.AddSignalR();
 
@@ -44,6 +48,7 @@ app.UseAuthorization();
 
 // Mappa l'hub SignalR
 app.MapHub<ChatHub>("/chatHub");
+app.MapHub<AuthHub>("/authHub");
 
 // Test GET base
 app.MapGet("/", () => "Server Chat Backend Online");
