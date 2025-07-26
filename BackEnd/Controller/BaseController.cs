@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ChatBackend.Data;
+using Base.Data;
 
-namespace ChatBackend.Controllers
+namespace Base.Controllers
 {
     [ApiController]
     public abstract class BaseController : ControllerBase
