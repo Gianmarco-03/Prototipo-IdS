@@ -1,0 +1,22 @@
+.sidebar-event {
+  text-align: center;
+}
+
+.sidebar-event img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.sidebar-event p {
+  margin: 0.5rem 0;
+}
+
+.sidebar-event ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-event li {
+  margin: 0.25rem 0;
+}

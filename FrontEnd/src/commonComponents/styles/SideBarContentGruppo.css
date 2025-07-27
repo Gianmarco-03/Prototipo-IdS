@@ -1,0 +1,22 @@
+.sidebar-group {
+  text-align: center;
+}
+
+.sidebar-group img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.sidebar-group p {
+  margin: 0.5rem 0;
+}
+
+.sidebar-group ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-group li {
+  margin: 0.25rem 0;
+}

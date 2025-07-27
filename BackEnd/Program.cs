@@ -8,6 +8,11 @@ using Base.Data;
 using AuthBackend.Controllers;
 using Microsoft.AspNetCore.Identity;
 using AuthBackend.Hubs;
+using GroupBackend.Controllers;
+using EventBackend.Controllers;
+using GroupBackend.Hubs;
+using EventBackend.Hubs;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +37,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddScoped<IChatController, ChatController>();
 builder.Services.AddScoped<IAuthController, AuthController>();
+builder.Services.AddScoped<IGruppoController, GruppoController>();
+builder.Services.AddScoped<IEventController, EventController>();
 // Aggiungi SignalR
 builder.Services.AddSignalR();
 
@@ -49,6 +56,8 @@ app.UseAuthorization();
 // Mappa l'hub SignalR
 app.MapHub<ChatHub>("/chatHub");
 app.MapHub<AuthHub>("/authHub");
+app.MapHub<GruppoHub>("/gruppoHub");
+app.MapHub<EventHub>("/eventoHub");
 
 // Test GET base
 app.MapGet("/", () => "Server Chat Backend Online");
