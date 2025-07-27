@@ -1,0 +1,13 @@
+.sidebar-user {
+  text-align: center;
+}
+
+.sidebar-user img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.sidebar-user p {
+  margin: 0.5rem 0;
+}

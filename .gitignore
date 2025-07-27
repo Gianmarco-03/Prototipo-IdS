@@ -1,0 +1,14 @@
+# Build artifacts
+bin/
+obj/
+# Node dependencies
+node_modules/
+# React build
+build/
+dist/
+# Logs
+*.log
+# VSCode settings
+.vscode/
+# OS files
+.DS_Store
