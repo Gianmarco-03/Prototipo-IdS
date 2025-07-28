@@ -20,6 +20,7 @@ export default function Login({ onLogin }) {
       if (ok) {
         setSuccesso('Login completata con successo!');
         login(user);
+        console.log("login in di \n" + user);
         navigate('/');
         
       } else {

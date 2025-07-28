@@ -3,12 +3,14 @@ import { useLocation } from "react-router-dom";
 import UserInfo from "./UtenteInfo";
 import GroupInfo from "./GruppoInfo";
 import EventInfo from "./EventoInfo";
-import { getGruppoInfo, getEventoInfo } from "./SideBarService";
+import { getGruppoInfo, getEventoInfo, getUtenteInfo } from "./SideBarService";
+
 
 const SidebarContent = () => {
   const location = useLocation();
-   const [gruppo, setGruppo] = useState(null);
+  const [gruppo, setGruppo] = useState(null);
   const [evento, setEvento] = useState(null);
+  const [utente, setUtente] = useState(null);
 
   useEffect(() => {
     setGruppo(null);
@@ -30,13 +32,18 @@ const SidebarContent = () => {
         const nomeEvento = decodeURIComponent(parts[2]);
         getEventoInfo(`${nomeGruppo}/${nomeEvento}`).then(setEvento);
       }
+    } else {
+      const username = sessionStorage.getItem("user") || sessionStorage.getItem("username");
+      if (username) {
+        getUtenteInfo(username).then(setUtente);
+      }
     }
   }, [location]);
 
   if (evento) return <EventInfo evento={evento} />;
-  if (gruppo) return <GroupInfo gruppo={gruppo} />;
-  const username = sessionStorage.getItem('username');
-  return <UserInfo user={{ username }} />;
+  if (gruppo) return <GroupInfo gruppo={gruppo} getUtenteInfo={getUtenteInfo}  />;
+  if (utente) return <UserInfo user={utente} />;
+  return null;
 };
 
 export default SidebarContent;

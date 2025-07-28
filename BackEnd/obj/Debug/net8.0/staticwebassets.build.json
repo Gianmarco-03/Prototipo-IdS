@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "Cdrn8SWG4nHb8RZA50OZm9kZeKn4iBtV689y9QGn23Q=",
+  "Hash": "l9y9/8dDuBPaxc9hsgYxkQ/au32LQMKXDHeYoECm2PU=",
   "Source": "Prototipo-IdS",
   "BasePath": "_content/Prototipo-IdS",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Prototipo-IdS/wwwroot",
+      "Source": "Prototipo-IdS",
+      "ContentRoot": "/home/gianmarco/Tesi/Prototipo-IdS/BackEnd/wwwroot/",
+      "BasePath": "_content/Prototipo-IdS",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

@@ -17,10 +17,10 @@ const Chat = () => {
 
   useEffect(() => {
      // Simulazione sessione utente
-    let savedUser = sessionStorage.getItem("username");
+    let savedUser = sessionStorage.getItem("user");
     if (!savedUser) {
       savedUser = "Utente_" + Math.floor(Math.random() * 1000);
-      sessionStorage.setItem("username", savedUser);
+      sessionStorage.setItem("user", savedUser);
     }
     setUser(savedUser);
 
