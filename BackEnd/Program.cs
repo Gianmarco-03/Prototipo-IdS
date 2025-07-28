@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization; // 🔹 per ReferenceHandler    
 using ChatBackend.Hubs;
 using ChatBackend.Controllers;
 using Base.Data;
@@ -12,6 +13,11 @@ using GroupBackend.Controllers;
 using EventBackend.Controllers;
 using GroupBackend.Hubs;
 using EventBackend.Hubs;
+using UtenteBackend.Hubs;
+using UtenteBackend.Controllers;
+using HomeBackend.Controllers;
+using HomeBackend.Hubs;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,12 +39,23 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Aggiungi SignalR con supporto per cicli oggetto
+builder.Services.AddSignalR()
+    .AddJsonProtocol(options =>
+    {
+        options.PayloadSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.PayloadSerializerOptions.WriteIndented = false;
+    });
+
+
 // Aggiungi controller MVC (per REST API)
 builder.Services.AddControllers();
 builder.Services.AddScoped<IChatController, ChatController>();
 builder.Services.AddScoped<IAuthController, AuthController>();
 builder.Services.AddScoped<IGruppoController, GruppoController>();
 builder.Services.AddScoped<IEventController, EventController>();
+builder.Services.AddScoped<IUtenteController, UtenteController>();
+builder.Services.AddScoped<IHomeController, HomeController>();
 // Aggiungi SignalR
 builder.Services.AddSignalR();
 
@@ -50,14 +67,16 @@ app.UseCors();
 // Abilita routing e authorization
 app.UseRouting();
 app.UseAuthorization();
+app.UseStaticFiles();
 
 // Mappa i controller
-
 // Mappa l'hub SignalR
 app.MapHub<ChatHub>("/chatHub");
 app.MapHub<AuthHub>("/authHub");
 app.MapHub<GruppoHub>("/gruppoHub");
 app.MapHub<EventHub>("/eventoHub");
+app.MapHub<UtenteHub>("/utenteHub");
+app.MapHub<HomeHub>("/homeHub");
 
 // Test GET base
 app.MapGet("/", () => "Server Chat Backend Online");

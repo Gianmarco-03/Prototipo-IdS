@@ -19,7 +19,9 @@ namespace EventBackend.Model
 
         [Column("creatore_id")] public int? CreatoreId { get; set; }
 
-        [Column("gruppo_id")] public int? GruppoId { get; set; }
+        [Column("gruppo_username")] public int? GruppoId { get; set; }
+        [Column("img_url")] public string? ImmagineProfilo { get; set; }
+
 
         public List<string> Partecipanti { get; set; } = new List<string>();
 

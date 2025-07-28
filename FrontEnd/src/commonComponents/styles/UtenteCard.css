@@ -1,0 +1,26 @@
+.utente-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border: 3px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(90deg, #A73EE7, #00EBFF);
+  border-radius: 12px;
+  background-color: #393D5E;
+  color: white;
+  margin-top: 8%;
+  
+}
+
+.utente-card-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.utente-card-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}

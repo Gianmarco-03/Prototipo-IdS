@@ -1,0 +1,47 @@
+using Microsoft.AspNetCore.SignalR;
+using HomeBackend.Controllers;
+using GroupBackend.Model;
+using EventBackend.Model;
+
+namespace HomeBackend.Hubs
+{
+    public class HomeHub : Hub, IHomeService
+    {
+        private readonly IServiceScopeFactory _scopeFactory;
+
+        public HomeHub(IServiceScopeFactory scopeFactory)
+        {
+            _scopeFactory = scopeFactory;
+        }
+
+        private IHomeController GetCtrl()
+        {
+            var scope = _scopeFactory.CreateScope();
+            return scope.ServiceProvider.GetRequiredService<IHomeController>();
+        }
+
+        public async Task<List<Gruppo>> GetGruppi(string username)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.GetGruppi(username);
+        }
+
+        public async Task<List<Gruppo>> FindGruppi(string toSearch)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.FindGruppi(toSearch);
+        }
+
+        public async Task<List<Evento>> GetEventi(string username)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.GetEventi(username);
+        }
+
+        public async Task<List<Evento>> FindEventi(string toSearch)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.FindEventi(toSearch);
+        }
+    }
+}
