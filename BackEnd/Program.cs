@@ -1,3 +1,5 @@
+using CloudinaryDotNet;
+using Prototipo_IdS.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,13 @@ using HomeBackend.Hubs;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var cloudAccount = new Account(builder.Configuration["Cloudinary:CloudName"],
+    builder.Configuration["Cloudinary:ApiKey"],
+    builder.Configuration["Cloudinary:ApiSecret"]);
+var cloudinary = new Cloudinary(cloudAccount);
+builder.Services.AddSingleton(cloudinary);
+builder.Services.AddScoped<IImageService, CloudinaryImageService>();
+
 
 // Aggiungi servizi CORS
 builder.Services.AddCors(options =>

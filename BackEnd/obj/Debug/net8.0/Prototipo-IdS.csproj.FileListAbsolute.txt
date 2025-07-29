@@ -83,3 +83,4 @@
 /home/gianmarco/Tesi/Prototipo-IdS/BackEnd/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /home/gianmarco/Tesi/Prototipo-IdS/BackEnd/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
 /home/gianmarco/Tesi/Prototipo-IdS/BackEnd/bin/Debug/net8.0/Prototipo-IdS.staticwebassets.runtime.json
+/home/gianmarco/Tesi/Prototipo-IdS/BackEnd/bin/Debug/net8.0/CloudinaryDotNet.dll

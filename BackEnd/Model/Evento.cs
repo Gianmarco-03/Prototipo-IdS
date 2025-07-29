@@ -17,14 +17,10 @@ namespace EventBackend.Model
 
         [Column("data_fine")] public DateTime? DataFine { get; set; }
 
-        [Column("creatore_id")] public int? CreatoreId { get; set; }
-
-        [Column("gruppo_username")] public int? GruppoId { get; set; }
+        [Column("gruppo_nome")] public int? GruppoId { get; set; }
         [Column("img_url")] public string? ImmagineProfilo { get; set; }
 
 
-        public List<string> Partecipanti { get; set; } = new List<string>();
-
-        public List<string> Organizzatori { get; set; } = new List<string>();
-    }
+        public List<EventoPartecipante> Partecipanti { get; set; } = new List<EventoPartecipante>();
+        public List<EventoOrganizzatore> Organizzatori { get; set; } = new List<EventoOrganizzatore>();    }
 }

@@ -28,7 +28,7 @@ const UserInfo = ({ user }) => {
       <div className="profile-border-wrapper">
         <div className="profile-image-container">
           <img
-            src={`${BACKEND_URL}/images/Def_propic.png`}
+            src={user.immagineProfilo || `${BACKEND_URL}/images/Def_propic.png`}
             className="sidebar-image"
             alt="profilo"
           />
