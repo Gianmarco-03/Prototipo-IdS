@@ -22,7 +22,7 @@ const GroupInfo = ({ gruppo, getUtenteInfo }) => {
      <div className="profile-border-wrapper">
         <div className="profile-image-container">
           <img
-            src={`${BACKEND_URL}/images/Def_gropic.png`}
+            src={gruppo.immagineProfilo || `${BACKEND_URL}/images/Def_gropic.png`}
             className="sidebar-image"
             alt="profilo"
           />

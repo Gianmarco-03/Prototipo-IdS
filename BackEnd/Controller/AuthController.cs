@@ -4,15 +4,20 @@ using Microsoft.EntityFrameworkCore;
 using Base.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-
+using Prototipo_IdS.Services;
 
 namespace AuthBackend.Controllers;
 
 [Route("api/[controller]")]
 public class AuthController : BaseController, IAuthController
 {
-    public AuthController(AppDbContext context) : base(context) { }
+    private readonly IImageService _imageService;
 
+    public AuthController(AppDbContext context, IImageService imageService)
+        : base(context)
+    {
+        _imageService = imageService;
+    }
     public async Task<bool> Registra(Utente u)
     {
         if (await _context.Utenti.AnyAsync(x => x.Username == u.Username))
@@ -39,17 +44,8 @@ public class AuthController : BaseController, IAuthController
         if (user == null)
             return NotFound();
 
-        var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-        Directory.CreateDirectory(folder);
-
-        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-        var path = Path.Combine(folder, fileName);
-        using (var stream = new FileStream(path, FileMode.Create))
-        {
-            await file.CopyToAsync(stream);
-        }
-
-        user.ImmagineProfilo = $"/images/{fileName}";
+        var url = await _imageService.UploadImageAsync(file);
+        user.ImmagineProfilo = url;
         await _context.SaveChangesAsync();
 
         return Ok(new { path = user.ImmagineProfilo });

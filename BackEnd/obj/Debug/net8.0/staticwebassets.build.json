@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "l9y9/8dDuBPaxc9hsgYxkQ/au32LQMKXDHeYoECm2PU=",
+  "Hash": "QAmne+gXuFKgBlc6JH0IWNkbHZa49PjPJjtZZhl4TvU=",
   "Source": "Prototipo-IdS",
   "BasePath": "_content/Prototipo-IdS",
   "Mode": "Default",
@@ -15,5 +15,63 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "/home/gianmarco/Tesi/Prototipo-IdS/BackEnd/wwwroot/images/Def_gropic.png",
+      "SourceId": "Prototipo-IdS",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/gianmarco/Tesi/Prototipo-IdS/BackEnd/wwwroot/",
+      "BasePath": "_content/Prototipo-IdS",
+      "RelativePath": "images/Def_gropic.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/Def_gropic.png"
+    },
+    {
+      "Identity": "/home/gianmarco/Tesi/Prototipo-IdS/BackEnd/wwwroot/images/Def_propic.png",
+      "SourceId": "Prototipo-IdS",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/gianmarco/Tesi/Prototipo-IdS/BackEnd/wwwroot/",
+      "BasePath": "_content/Prototipo-IdS",
+      "RelativePath": "images/Def_propic.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/Def_propic.png"
+    },
+    {
+      "Identity": "/home/gianmarco/Tesi/Prototipo-IdS/BackEnd/wwwroot/images/Gruppo B.png",
+      "SourceId": "Prototipo-IdS",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/gianmarco/Tesi/Prototipo-IdS/BackEnd/wwwroot/",
+      "BasePath": "_content/Prototipo-IdS",
+      "RelativePath": "images/Gruppo B.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/Gruppo B.png"
+    }
+  ]
 }

@@ -18,6 +18,10 @@ namespace Base.Data
         public DbSet<Gruppo> Gruppi { get; set; }
         public DbSet<GruppoAmministratore> GruppoAmministratori { get; set; }
         public DbSet<Evento> Eventi { get; set; }
+         public DbSet<EventoPartecipante> EventoPartecipanti { get; set; }
+        public DbSet<EventoOrganizzatore> EventoOrganizzatori { get; set; }
+
+
 
 
 
@@ -46,6 +50,23 @@ namespace Base.Data
                 .HasOne(ga => ga.Gruppo)
                 .WithMany(g => g.Amministratori)
                 .HasForeignKey(ga => ga.GruppoNome);
+
+                // Evento
+            modelBuilder.Entity<EventoPartecipante>()
+                .HasKey(ep => new { ep.EventoNome, ep.Username });
+
+            modelBuilder.Entity<EventoPartecipante>()
+                .HasOne(ep => ep.Evento)
+                .WithMany(e => e.Partecipanti)
+                .HasForeignKey(ep => ep.EventoNome);
+
+            modelBuilder.Entity<EventoOrganizzatore>()
+                .HasKey(eo => new { eo.EventoNome, eo.Username });
+
+            modelBuilder.Entity<EventoOrganizzatore>()
+                .HasOne(eo => eo.Evento)
+                .WithMany(e => e.Organizzatori)
+                .HasForeignKey(eo => eo.EventoNome);
                 
         }
 

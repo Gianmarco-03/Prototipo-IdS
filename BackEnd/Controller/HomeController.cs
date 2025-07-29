@@ -30,7 +30,8 @@ namespace HomeBackend.Controllers
         public async Task<List<Evento>> GetEventi(string username)
         {
             return await _context.Eventi
-                .Where(e => e.Partecipanti.Contains(username))
+                .Include(e => e.Partecipanti)
+                .Where(e => e.Partecipanti.Any(p => p.Username == username))
                 .Take(10)
                 .ToListAsync();
         }

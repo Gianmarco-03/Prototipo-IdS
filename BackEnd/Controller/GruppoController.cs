@@ -4,13 +4,16 @@ using Base.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Prototipo_IdS.Services;
 
 namespace GroupBackend.Controllers
 {
     [Route("api/[controller]")]
     public class GruppoController : BaseController, IGruppoController
     {
-        public GruppoController(AppDbContext context) : base(context) { }
+        private readonly IImageService _imageService;
+        public GruppoController(AppDbContext context, IImageService imageService) : base(context) { _imageService = imageService; }
+
 
         public async Task<Gruppo?> GetInfo(string nomeGruppo)
         {
@@ -74,17 +77,8 @@ namespace GroupBackend.Controllers
             if (gruppo == null)
                 return NotFound();
 
-            var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-            Directory.CreateDirectory(folder);
-
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var path = Path.Combine(folder, fileName);
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            gruppo.ImmagineProfilo = $"/images/{fileName}";
+             var url = await _imageService.UploadImageAsync(file);
+            gruppo.ImmagineProfilo = url;
             await _context.SaveChangesAsync();
 
             return Ok(new { path = gruppo.ImmagineProfilo });
