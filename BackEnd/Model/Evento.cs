@@ -17,7 +17,7 @@ namespace EventBackend.Model
 
         [Column("data_fine")] public DateTime? DataFine { get; set; }
 
-        [Column("gruppo_nome")] public int? GruppoId { get; set; }
+        [Column("gruppo_nome")] public string GruppoId { get; set; }
         [Column("img_url")] public string? ImmagineProfilo { get; set; }
 
 

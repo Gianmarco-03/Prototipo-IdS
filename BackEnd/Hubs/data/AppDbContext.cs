@@ -17,6 +17,7 @@ namespace Base.Data
         public DbSet<Utente> Utenti { get; set; }
         public DbSet<Gruppo> Gruppi { get; set; }
         public DbSet<GruppoAmministratore> GruppoAmministratori { get; set; }
+         public DbSet<GruppoPartecipante> GruppoPartecipanti { get; set; }
         public DbSet<Evento> Eventi { get; set; }
          public DbSet<EventoPartecipante> EventoPartecipanti { get; set; }
         public DbSet<EventoOrganizzatore> EventoOrganizzatori { get; set; }

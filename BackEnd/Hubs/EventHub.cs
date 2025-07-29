@@ -26,6 +26,12 @@ namespace EventBackend.Hubs
             return await ctrl.GetInfo(nomeEvento);
         }
 
+        public async Task<bool> CreaEvento(Evento evento, string username)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.CreaEvento(evento, username);
+        }
+
         public async Task Partecipa(string username, string nomeEvento)
         {
             var ctrl = GetCtrl();

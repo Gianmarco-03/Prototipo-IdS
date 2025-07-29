@@ -7,5 +7,6 @@ namespace GroupBackend.Controllers
         Task<Gruppo?> GetInfo(string nomeGruppo);
         Task<bool> Partecipa(string username, string nomeGruppo);
         Task<bool> Abbandona(string username, string nomeGruppo);
+        Task<bool> CreaGruppo(Gruppo gruppo, string username);
     }
 }
