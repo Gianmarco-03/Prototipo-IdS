@@ -23,7 +23,12 @@ namespace HomeBackend.Hubs
         public async Task<List<Gruppo>> GetGruppi(string username)
         {
             var ctrl = GetCtrl();
-            return await ctrl.GetGruppi(username);
+            var res = await ctrl.GetGruppi(username);
+            foreach (var gruppo in res)
+            {
+                Console.WriteLine($"Nome: {gruppo.Nome}");
+            }         
+            return res;
         }
 
         public async Task<List<Gruppo>> FindGruppi(string toSearch)

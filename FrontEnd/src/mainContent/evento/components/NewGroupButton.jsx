@@ -5,7 +5,7 @@ import "./SearchBar"
 const NewGroupButton = ({ onClick }) => {
   return (
     <div className="groupContainer">
-      <input type="text" value="Gruppi" readOnly className="groupTextBox" />
+      <input type="text" value="Eventi" readOnly className="groupTextBox" />
       <div className="newGroupButtonWrapper">
 
         <button className="newGroupButton" onClick={onClick}>

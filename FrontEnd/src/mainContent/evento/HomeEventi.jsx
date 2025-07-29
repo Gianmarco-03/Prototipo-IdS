@@ -1,48 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import NewGroupButton from "./components/NewGroupButton";
 import Card from "./components/Card";
 import "./styles/HomeEventi.css"; // solo per container e layout generale
+import { getEventi } from "../HomeService";
 
-const cardsData = [
-  {
-    id: 1,
-    nome: "Evento A",
-    descrizione: "Descrizione breve dell'evento proposto nel  gruppo A",
-    imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+A",
-    gruppo : "gruppo A"
-  },
-  {
-    id: 2,
-    nome: "Evento B",
-    descrizione: "Descrizione più lunga dell'evento proposto nel gruppo B con dettagli extra e contenuto che esce fuori da tutto aljhfspoàihgaoghaeoihgadsojvwpjgpshgslakdmaperjgapjnepaihrjapjfpaerijhgaepmnbpesrajhaejhldakfnbkùapojgrwùprj",
-    imgUrl: "/gruppo/images/Gruppo B.png",
-    gruppo : "gruppo B"
-  },
-  {
-    id: 3,
-    nome: "Evento C",
-    descrizione: "Descrizione breve dell'evento proposto nel  gruppo C",
-    imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+C",
-    gruppo : "gruppo C"
-  },
-  {
-    id: 4,
-    nome: "Evento D",
-    descrizione: "Descrizione breve dell'evento proposto nel  gruppo D",
-    imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+C",
-    gruppo : "gruppo D"
 
-  },
-];
 
 const HomeEventi = () => {
+  const [cardsData, setCardsData] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
+  const [errore, setErrore] = useState("");
+
+  useEffect(() => {
+    const username = sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
+    getEventi(username)
+      .then((d) => {
+        setCardsData(d.$values || []);
+        if (!d || d.$values.length === 0) setErrore("nessun evento disponibile");
+      })
+      .catch(() => setErrore("nessun evento disponibile"));
+  }, []);useEffect(() => {
+    const username = sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
+    getEventi(username)
+      .then((d) => {
+          setCardsData(Array.isArray(d.$values) ? d.$values : []);
+      })
+      .catch(() => setErrore("nessun evento disponibile"));
+  }, []);
 
   const filteredCards = cardsData.filter((card) => {
-    const matchesSearch = card.nome.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter = filter ? card.nome === filter : true;
+    const name = (card.Nome || card.nome || "").toLowerCase();
+    const matchesSearch = name.includes(search.toLowerCase());
+    const matchesFilter = filter ? name === filter.toLowerCase() : true;
     return matchesSearch && matchesFilter;
   });
 
@@ -68,13 +59,14 @@ const HomeEventi = () => {
 
 
       <div className="cardsContainer">
-        {filteredCards.map(({ id, nome, descrizione, imgUrl, gruppo }) => (
+        {filteredCards.length === 0 && errore && <p>{errore}</p>}
+        {filteredCards.map((g, index) => (          
           <Card
-            key={id}
-            nome={nome}
-            descrizione={descrizione}
-            imgUrl={imgUrl}
-            gruppo={gruppo}
+            key={g.Nome || g.nome || index}
+            nome={g.Nome || g.nome}
+            descrizione={g.Descrizione || g.descrizione}
+            imgUrl={g.ImmagineProfilo || g.immagineProfilo}
+            gruppo={g.GruppoId || g.gruppo}
           />
         ))}
       </div>
