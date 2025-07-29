@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import UserInfo from "./UtenteInfo";
 import GroupInfo from "./GruppoInfo";
 import EventInfo from "./EventoInfo";
-import { getGruppoInfo, getEventoInfo, getUtenteInfo } from "./SideBarService";
+import { getGruppoInfo, getEventoInfo, getUtenteInfo } from "../../service/SideBarService";
 
 
 const SidebarContent = () => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import connection from '../AuthService';
+import connection from '../../service/AuthService';
 
 const Registrazione = ({ onRegistrazioneSuccess }) => {
   const [formData, setFormData] = useState({

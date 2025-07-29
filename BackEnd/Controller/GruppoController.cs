@@ -24,6 +24,27 @@ namespace GroupBackend.Controllers
         }
 
 
+        public async Task<bool> CreaGruppo(Gruppo gruppo, string username)
+        {
+            if (await _context.Gruppi.AnyAsync(g => g.Nome == gruppo.Nome))
+                return false;
+
+            _context.Gruppi.Add(gruppo);
+            _context.GruppoAmministratori.Add(new GruppoAmministratore
+            {
+                GruppoNome = gruppo.Nome,
+                Username = username
+            });
+
+             _context.GruppoPartecipanti.Add(new GruppoPartecipante
+            {
+                GruppoNome = gruppo.Nome,
+                Username = username
+            });
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
 
 
         public async Task<bool> Partecipa(string username, string nomeGruppo)

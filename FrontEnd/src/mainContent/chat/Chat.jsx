@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import connection from "./ChatService";
+import connection from "../../service/ChatService";
 import MessaggioCard from "./components/MessaggioCard"
 import "./styles/Chat.css";
 import { useParams } from "react-router-dom";

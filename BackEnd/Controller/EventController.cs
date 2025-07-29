@@ -21,7 +21,31 @@ namespace EventBackend.Controllers
             return await _context.Eventi
                 .Include(e => e.Partecipanti)
                 .Include(e => e.Organizzatori)
-                .SingleOrDefaultAsync(e => e.Nome == nomeEvento);        }
+                .SingleOrDefaultAsync(e => e.Nome == nomeEvento);
+        }
+
+
+        public async Task<bool> CreaEvento(Evento evento, string username)
+        {
+            if (await _context.Eventi.AnyAsync(e => e.Nome == evento.Nome))
+                return false;
+
+            _context.Eventi.Add(evento);
+            _context.EventoOrganizzatori.Add(new EventoOrganizzatore
+            {
+                EventoNome = evento.Nome,
+                Username = username
+            });
+             _context.EventoPartecipanti.Add(new EventoPartecipante
+            {
+                EventoNome = evento.Nome,
+                Username = username
+            });
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+
 
         public async Task<bool> Partecipa(string username, string nomeEvento)
         {

@@ -3,7 +3,9 @@ import SearchBar from "./components/SearchBar";
 import NewGroupButton from "./components/NewGroupButton";
 import Card from "./components/Card";
 import "./styles/HomeEventi.css"; // solo per container e layout generale
-import { getEventi } from "../HomeService";
+import { creaEvento } from "../../service/EventoService";
+import { getEventi } from "../../service/HomeService";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -37,8 +39,9 @@ const HomeEventi = () => {
     return matchesSearch && matchesFilter;
   });
 
+  const navigate = useNavigate();
   const handleNewGroup = () => {
-    alert("Funzione 'Nuovo Gruppo' da implementare!");
+    navigate("/nuovo-evento");
   };
 
   return (
@@ -66,7 +69,7 @@ const HomeEventi = () => {
             nome={g.Nome || g.nome}
             descrizione={g.Descrizione || g.descrizione}
             imgUrl={g.ImmagineProfilo || g.immagineProfilo}
-            gruppo={g.GruppoId || g.gruppo}
+            gruppo={g.gruppoId}
           />
         ))}
       </div>

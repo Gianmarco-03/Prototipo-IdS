@@ -3,8 +3,9 @@ import SearchBar from "./components/SearchBar";
 import NewGroupButton from "./components/NewGroupButton";
 import Card from "./components/Card";
 import "./styles/HomeGruppi.css"; // solo per container e layout generale
-import { getGruppi } from "../HomeService";
-
+import { creaGruppo } from "../../service/GruppoService";
+import { getGruppi } from "../../service/HomeService";
+import { useNavigate } from "react-router-dom";
 
 const HomeGruppi = () => {
   const [cardsData, setCardsData] = useState([]);
@@ -28,8 +29,9 @@ const HomeGruppi = () => {
     return matchesSearch && matchesFilter;
   });
 
+  const navigate = useNavigate();
   const handleNewGroup = () => {
-    alert("Funzione 'Nuovo Gruppo' da implementare!");
+    navigate("/nuovo-gruppo");
   };
 
   return (

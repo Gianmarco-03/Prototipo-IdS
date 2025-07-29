@@ -7,5 +7,6 @@ namespace EventBackend.Controllers
         Task<Evento?> GetInfo(string nomeEvento);
         Task<bool> Partecipa(string username, string nomeEvento);
         Task<bool> Abbandona(string username, string nomeEvento);
+        Task<bool> CreaEvento(Evento evento, string username);
     }
 }

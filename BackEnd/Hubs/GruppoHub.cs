@@ -26,6 +26,12 @@ namespace GroupBackend.Hubs
             return await ctrl.GetInfo(nomeGruppo);
         }
 
+        public async Task<bool> CreaGruppo(Gruppo gruppo, string username)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.CreaGruppo(gruppo, username);
+        }
+
         public async Task Partecipa(string username, string nomeGruppo)
         {
             var ctrl = GetCtrl();
