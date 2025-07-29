@@ -1,43 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import NewGroupButton from "./components/NewGroupButton";
 import Card from "./components/Card";
 import "./styles/HomeGruppi.css"; // solo per container e layout generale
+import { getGruppi } from "../HomeService";
 
-const cardsData = [
-  {
-    id: 1,
-    nome: "Gruppo A",
-    descrizione: "Descrizione breve del gruppo A",
-    imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+A",
-  },
-  {
-    id: 2,
-    nome: "Gruppo B",
-    descrizione: "Descrizione più lunga del gruppo B con dettagli extra",
-    imgUrl: "/gruppo/images/Gruppo B.png",
-  },
-  {
-    id: 3,
-    nome: "Gruppo C",
-    descrizione: "Descrizione breve del gruppo C",
-    imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+C",
-  },
-  {
-    id: 4,
-    nome: "Gruppo D",
-    descrizione: "Descrizione breve del gruppo D",
-    imgUrl: "https://via.placeholder.com/400x200?text=Gruppo+C",
-  },
-];
 
 const HomeGruppi = () => {
+  const [cardsData, setCardsData] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
+  const [errore, setErrore] = useState("");
+
+  useEffect(() => {
+    const username = sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
+    getGruppi(username)
+      .then((d) => {
+        setCardsData(Array.isArray(d.$values) ? d.$values : []);
+      })
+      .catch(() => setErrore("nessun gruppo disponibile"));
+  }, []);
 
   const filteredCards = cardsData.filter((card) => {
-    const matchesSearch = card.nome.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter = filter ? card.nome === filter : true;
+    const name = (card.Nome || card.nome || "").toLowerCase();
+    const matchesSearch = name.includes(search.toLowerCase());
+    const matchesFilter = filter != "" ? name === filter.toLowerCase() : true;
     return matchesSearch && matchesFilter;
   });
 
@@ -63,12 +50,13 @@ const HomeGruppi = () => {
 
 
       <div className="cardsContainer">
-        {filteredCards.map(({ id, nome, descrizione, imgUrl }) => (
+          {filteredCards.length === 0 && errore && <p>{errore}</p>}
+        {filteredCards.map((g, index) => (
           <Card
-            key={id}
-            nome={nome}
-            descrizione={descrizione}
-            imgUrl={imgUrl}
+            key={g.Nome || g.nome || index}
+            nome={g.Nome || g.nome}
+            descrizione={g.Descrizione || g.descrizione}
+            imgUrl={g.ImmagineProfilo || g.immagineProfilo}
           />
         ))}
       </div>

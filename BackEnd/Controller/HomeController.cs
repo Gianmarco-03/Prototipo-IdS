@@ -15,6 +15,7 @@ namespace HomeBackend.Controllers
             return await _context.Gruppi
                 .Include(g => g.Partecipanti)
                 .Where(g => g.Partecipanti.Any(p => p.Username == username))
+                .OrderByDescending(g => g.Nome)
                 .Take(10)
                 .ToListAsync();
         }
