@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import UtenteCard from "./UtenteCard";
 
 const BACKEND_URL = "http://localhost:3000";
 
 
 const GroupInfo = ({ gruppo}) => {
-  if (!gruppo) return null;
 
   const partecipantiArray = gruppo.partecipanti?.$values || gruppo.partecipanti || [];
   const amministratoriArray = gruppo.amministratori?.$values || gruppo.amministratori || [];
@@ -17,8 +16,18 @@ const GroupInfo = ({ gruppo}) => {
     typeof a === "string" ? a : a.username
   );
 
+  const [showBanner, setShowBanner] = useState(false);
+
+  const toggleBanner = () => setShowBanner(!showBanner);
+
+  if (!gruppo) return null;
+
   return (
     <div className="sidebar-section">
+      <div className="username-box ">
+        <span className="field-label">{gruppo.nome}</span>
+      </div>
+      
      <div className="profile-border-wrapper">
         <div className="profile-image-container">
           <img
@@ -28,10 +37,8 @@ const GroupInfo = ({ gruppo}) => {
           />
         </div>
       </div>
-      <div className="username-box info-box">
-        <span className="field-label">{gruppo.nome}</span>
-      </div>
-      <div className="bio-box info-box">
+     
+      <div className="bio-box">
         <span className="field-label">Descrizione</span>
         <span className="field-value">{gruppo.descrizione}</span>
       </div>
@@ -39,13 +46,26 @@ const GroupInfo = ({ gruppo}) => {
       {partecipanti.length > 0 && (
         <div>
           <strong>Partecipanti:</strong>
-          <div className="hashtags-box info-box">
-              <ul>
-                {partecipanti.slice(0, 5).map((p) => (
-                  <UtenteCard className="u-card" key={p} username={p}/>
-                ))}
-              </ul>
-          </div>  
+   <div className="hashtags-box" onClick={toggleBanner}>
+            <ul>
+              {partecipanti.slice(0, 5).map((p) => (
+                <UtenteCard className="u-card" key={p} username={p} />
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {showBanner && (
+        <div className="partecipanti-banner" onClick={toggleBanner}>
+          <div className="banner-content">
+            <h3>Partecipanti</h3>
+            <ul>
+              {partecipanti.map((p) => (
+                <UtenteCard key={p} username={p} />
+              ))}
+            </ul>
+          </div>
         </div>
       )}
     </div>

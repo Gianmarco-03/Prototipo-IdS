@@ -61,6 +61,8 @@
 .sidebar-section {
   text-align: center;
   margin-bottom: 1rem;
+  width: 80%;
+
 }
 
 .sidebar-image {
@@ -84,17 +86,7 @@
 }
 
 /* Box con larghezza fissa per le informazioni */
-.info-box {
-  border-top: 1px solid #444;
-  margin: 0.5rem 1rem;
-  background-color: #1d203e;
-  border-radius: 8px;
-  padding: 0.75rem; /* padding interno per contenuto */
-  margin-bottom: 1rem; /* aggiunto spazio tra le info-box */
-  min-height: 5%;
-  overflow: auto;
 
-}
 
 /* Etichetta dei campi racchiusa in un piccolo rettangolo */
 .field-label {
@@ -110,10 +102,13 @@
 /* Linea di separazione sopra la sezione hashtag */
 .hashtags-box {
   border-top: 1px solid #444;
-  margin: 0.5rem 1rem;
   background-color: #1d203e;
   border-radius: 8px;
-  min-height: 18%;
+  padding: 0.75rem; /* padding interno per contenuto */
+  margin-bottom: 1rem; /* aggiunto spazio tra le info-box */
+  min-height: 5%;
+  width: 100%;
+  right: 0%;
   
 }
 
@@ -197,4 +192,31 @@
   font-size: 1.1rem;
   max-height: 1%;
   
+}
+
+.partecipanti-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.partecipanti-banner .banner-content {
+  background-color: #1d203e;
+  min-width: 40%;
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 3px solid transparent;
+  background-image: linear-gradient(#1d203e, #1d203e),
+    linear-gradient(90deg, #A73EE7, #00EBFF);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
 }

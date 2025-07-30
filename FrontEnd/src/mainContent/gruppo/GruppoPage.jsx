@@ -69,21 +69,7 @@ const GruppoPage = () => {
         ))}
       </div>
 
-      <button
-        onClick={goToChat}
-        style={{
-          marginTop: "20px",
-          padding: "10px 20px",
-          background: "linear-gradient(90deg, #A73EE7, #00EBFF)",
-          border: "none",
-          borderRadius: "8px",
-          color: "white",
-          cursor: "pointer",
-          fontWeight: "bold"
-        }}
-      >
-        Vai alla Chat
-      </button>
+      <button className="chat-button"onClick={goToChat}>Vai alla Chat</button>
     </div>
   );
 };

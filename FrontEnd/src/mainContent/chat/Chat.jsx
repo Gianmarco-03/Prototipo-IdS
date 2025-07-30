@@ -68,7 +68,7 @@ const Chat = () => {
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           className="chat-input"
         />
-        <button onClick={sendMessage} className="chat-button">
+        <button onClick={sendMessage} className="invio">
           Invia
         </button>
       </div>

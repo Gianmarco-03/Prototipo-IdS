@@ -1,8 +1,59 @@
-.GruppoPage{  
-    margin-left : 5%; 
-    width: 82%;
-    padding: "20px";
-    color: "#fff";
-    background-color: "#1D203E";
-    height: "100%"
+.GruppoPage {
+  margin-left: 5%;
+  width: 82%;
+  padding: 20px;
+  color: #fff;
+  background-color: #1D203E;
+  height: 100%;
+  position: relative;
 }
+
+.GruppoPage h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.eventi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50%, 80%));
+  gap: 20px;
+}
+
+.btn-valutare {
+  display: block;
+  margin: 0 auto 2rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(90deg, #A73EE7, #00EBFF);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn-valutare:hover {
+  transform: scale(1.05);
+}
+
+.chat-button {
+  position: fixed;
+  bottom: 20px;
+  left: 15%px;
+  padding: 1rem 2rem;
+  background-color: #2c2f48;
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-color: white;
+  transition: background 0.3s ease, transform 0.3s ease;
+  z-index: 100;
+}
+
+.chat-button:hover {
+  background: linear-gradient(90deg, #A73EE7, #00EBFF);
+  transform: scale(1.1);
+}
+
