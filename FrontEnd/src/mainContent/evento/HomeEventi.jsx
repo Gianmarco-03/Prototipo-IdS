@@ -70,6 +70,7 @@ const HomeEventi = () => {
             descrizione={g.Descrizione || g.descrizione}
             imgUrl={g.ImmagineProfilo || g.immagineProfilo}
             gruppo={g.gruppoId}
+            stato={g.stato}
           />
         ))}
       </div>

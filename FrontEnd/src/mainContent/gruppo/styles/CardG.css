@@ -90,3 +90,28 @@
   outline: none;
   resize: none;
 }
+
+.status-container {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.status-dot.approvato {
+  background-color: green;
+}
+
+.status-dot.rifiutato {
+  background-color: red;
+}
+
+.status-dot.davalutare {
+  background-color: yellow;
+}
+

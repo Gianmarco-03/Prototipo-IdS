@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "../styles/UtenteCard.css";
+import { getUtenteInfo } from "../../service/SideBarService";
 
 const BACKEND_URL = "http://localhost:3000";
 
 
-const UtenteCard = ({ username, getInfo }) => {
+const UtenteCard = ({ username }) => {
       const [utente, setUtente] = useState(null);
     useEffect(() => {
-    if (username && getInfo) {
-        getInfo(username).then(setUtente);
+    if (username) {
+        getUtenteInfo(username).then(setUtente);
     }
-    }, [username, getInfo]);
+    }, [username]);
     if (!utente) return null;
     
   

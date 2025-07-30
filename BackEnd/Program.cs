@@ -11,6 +11,7 @@ using Base.Data;
 using AuthBackend.Controllers;
 using Microsoft.AspNetCore.Identity;
 using AuthBackend.Hubs;
+using AuthBackend.Model;
 using GroupBackend.Controllers;
 using EventBackend.Controllers;
 using GroupBackend.Hubs;
@@ -19,7 +20,7 @@ using UtenteBackend.Hubs;
 using UtenteBackend.Controllers;
 using HomeBackend.Controllers;
 using HomeBackend.Hubs;
-
+using EventBackend.Model;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,8 @@ var cloudinary = new Cloudinary(cloudAccount);
 builder.Services.AddSingleton(cloudinary);
 builder.Services.AddScoped<IImageService, CloudinaryImageService>();
 
+// Mappa l'enum degli eventi a livello globale per Npgsql
+Npgsql.NpgsqlConnection.GlobalTypeMapper.MapEnum<StatoEvento>("evento_stato");
 
 // Aggiungi servizi CORS
 builder.Services.AddCors(options =>
@@ -46,7 +49,10 @@ builder.Services.AddCors(options =>
 
 // Aggiungi il DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+  options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        o => o.MapEnum<StatoEvento>("evento_stato")
+    ));
 
 // Aggiungi SignalR con supporto per cicli oggetto
 builder.Services.AddSignalR()
@@ -65,6 +71,7 @@ builder.Services.AddScoped<IGruppoController, GruppoController>();
 builder.Services.AddScoped<IEventController, EventController>();
 builder.Services.AddScoped<IUtenteController, UtenteController>();
 builder.Services.AddScoped<IHomeController, HomeController>();
+builder.Services.AddScoped<IPasswordHasher<Utente>, PasswordHasher<Utente>>();
 // Aggiungi SignalR
 builder.Services.AddSignalR();
 

@@ -5,6 +5,7 @@ using Base.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Prototipo_IdS.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace AuthBackend.Controllers;
 
@@ -12,11 +13,14 @@ namespace AuthBackend.Controllers;
 public class AuthController : BaseController, IAuthController
 {
     private readonly IImageService _imageService;
+    private readonly IPasswordHasher<Utente> _passwordHasher;
 
-    public AuthController(AppDbContext context, IImageService imageService)
+     public AuthController(AppDbContext context, IImageService imageService,
+        IPasswordHasher<Utente> passwordHasher)
         : base(context)
     {
         _imageService = imageService;
+        _passwordHasher = passwordHasher;
     }
     public async Task<bool> Registra(Utente u)
     {
@@ -24,6 +28,7 @@ public class AuthController : BaseController, IAuthController
         {
             return false;
         }
+        u.Password = _passwordHasher.HashPassword(u, u.Password);
         _context.Utenti.Add(u);
         await _context.SaveChangesAsync();
         return true;
@@ -31,7 +36,12 @@ public class AuthController : BaseController, IAuthController
 
     public async Task<Utente?> Autentica(string username, string password)
     {
-        return await _context.Utenti.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
+        var user = await _context.Utenti.FirstOrDefaultAsync(u => u.Username == username);
+        if (user == null)
+            return null;
+
+        var result = _passwordHasher.VerifyHashedPassword(user, user.Password, password);
+        return result == PasswordVerificationResult.Success ? user : null;
     }
 
     [HttpPost("upload/{username}")]

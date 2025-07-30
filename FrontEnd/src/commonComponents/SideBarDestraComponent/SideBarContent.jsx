@@ -41,7 +41,7 @@ const SidebarContent = () => {
   }, [location]);
 
   if (evento) return <EventInfo evento={evento} />;
-  if (gruppo) return <GroupInfo gruppo={gruppo} getUtenteInfo={getUtenteInfo}  />;
+  if (gruppo) return <GroupInfo gruppo={gruppo}  />;
   if (utente) return <UserInfo user={utente} />;
   return null;
 };
