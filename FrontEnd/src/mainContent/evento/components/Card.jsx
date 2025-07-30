@@ -12,8 +12,9 @@ const Card = ({ nome, descrizione, imgUrl,gruppo,stato }) => {
     navigate(`/gruppo/${gruppo}`);
   };
   
-
+    var statoVal = stato == 0 ? "da valutare" : stato == 1 ? "approvato" : "rifiutato"
   return (
+
     <>
     <div className="cardE">
       <div className="cardE-image" style={{ backgroundImage: `url(${imgUrl})` }}></div>
@@ -32,12 +33,16 @@ const Card = ({ nome, descrizione, imgUrl,gruppo,stato }) => {
             value={descrizione}
             readOnly
           />
-            <textarea
-            id="stato"
-            className="stato"
-            value="approvato"
-            readOnly
-          />
+          <div className="status-container">
+            <span
+              className={`status-dot ${
+                (stato || "da valutare").toLowerCase().replace(/\s+/g, "")
+              }`}
+            ></span>
+            <span className="status-text">{statoVal}</span>
+          </div>
+
+
             
 
         </div>

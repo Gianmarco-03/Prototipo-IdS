@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Prototipo_IdS.Services;
+using EventBackend.Model;
 
 namespace GroupBackend.Controllers
 {
@@ -18,9 +19,28 @@ namespace GroupBackend.Controllers
         public async Task<Gruppo?> GetInfo(string nomeGruppo)
         {
             return await _context.Gruppi
-                .Include(g => g.Partecipanti)
-                .Include(g => g.Amministratori)
-                .SingleOrDefaultAsync(g => g.Nome == nomeGruppo);
+                .Where(g => g.Nome == nomeGruppo)
+                .Select(g => new Gruppo
+                {
+                    Nome = g.Nome,
+                    ImmagineProfilo = g.ImmagineProfilo,
+                    Descrizione = g.Descrizione,
+                    Partecipanti = g.Partecipanti
+                        .Select(p => new GruppoPartecipante
+                        {
+                            GruppoNome = p.GruppoNome,
+                            Username = p.Username
+                        })
+                        .ToList(),
+                    Amministratori = g.Amministratori
+                        .Select(a => new GruppoAmministratore
+                        {
+                            GruppoNome = a.GruppoNome,
+                            Username = a.Username
+                        })
+                        .ToList()
+                })
+                .SingleOrDefaultAsync();
         }
 
 
@@ -104,6 +124,18 @@ namespace GroupBackend.Controllers
 
             return Ok(new { path = gruppo.ImmagineProfilo });
         }
-        
+
+        public async Task<bool> CheckAdmin(string gruppo, string username)
+        {
+            return await _context.GruppoAmministratori
+                .AnyAsync(a => a.GruppoNome == gruppo && a.Username == username);
+        }
+
+        public async Task<List<Evento>?> GetEventiGruppo(string nomeGruppo)
+        {
+            return await _context.Eventi
+                .Where(e => e.GruppoId == nomeGruppo)
+                .ToListAsync();
+        }
     }
 }

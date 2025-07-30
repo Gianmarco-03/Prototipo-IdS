@@ -4,7 +4,7 @@ import UtenteCard from "./UtenteCard";
 const BACKEND_URL = "http://localhost:3000";
 
 
-const GroupInfo = ({ gruppo, getUtenteInfo }) => {
+const GroupInfo = ({ gruppo}) => {
   if (!gruppo) return null;
 
   const partecipantiArray = gruppo.partecipanti?.$values || gruppo.partecipanti || [];
@@ -42,7 +42,7 @@ const GroupInfo = ({ gruppo, getUtenteInfo }) => {
           <div className="hashtags-box info-box">
               <ul>
                 {partecipanti.slice(0, 5).map((p) => (
-                  <UtenteCard className="u-card" key={p} username={p} getInfo={getUtenteInfo}/>
+                  <UtenteCard className="u-card" key={p} username={p}/>
                 ))}
               </ul>
           </div>  

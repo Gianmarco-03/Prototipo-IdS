@@ -30,6 +30,9 @@ namespace Base.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.HasPostgresEnum<StatoEvento>("evento_stato");
+
+
             modelBuilder.Entity<Utente>()
                 .HasIndex(u => u.Username)
                 .IsUnique();

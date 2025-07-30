@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.SignalR;
 using GroupBackend.Hubs;
 using GroupBackend.Controllers;
 using GroupBackend.Model;
+using EventBackend.Model;
 
 namespace GroupBackend.Hubs
 {
@@ -26,6 +27,12 @@ namespace GroupBackend.Hubs
             return await ctrl.GetInfo(nomeGruppo);
         }
 
+        public async Task<bool> CheckAdmin(string gruppo, string username)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.CheckAdmin(gruppo, username);
+        }
+
         public async Task<bool> CreaGruppo(Gruppo gruppo, string username)
         {
             var ctrl = GetCtrl();
@@ -42,6 +49,12 @@ namespace GroupBackend.Hubs
         {
             var ctrl = GetCtrl();
             await ctrl.Abbandona(username, nomeGruppo);
+        }
+
+        public async Task<List<Evento>?> getEventiGruppo(string nomeGruppo)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.GetEventiGruppo(nomeGruppo);
         }
     }
 }

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import connection from '../../service/AuthService';
 import { AuthContext } from '../AuthProvider';
 import "./styles/Login.css";
+import { HubConnectionState } from "@microsoft/signalr";
 
 
 export default function Login({ onLogin }) {
@@ -14,7 +15,8 @@ export default function Login({ onLogin }) {
   const [successo, setSuccesso] = useState('');
 
  useEffect(() => {
-    connection.start().catch(console.error);
+    if (connection.state !== HubConnectionState.Connected)
+      connection.start().catch(console.error);
 
     connection.on('LoginEsito', (ok, user) => {
       if (ok) {
