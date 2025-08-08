@@ -2,18 +2,18 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/CardE.css";
 
-const Card = ({ nome, descrizione, imgUrl,gruppo,stato }) => {
+const Card = ({ nome, descrizione, imgUrl, gruppo, approvato }) => {
   const navigate = useNavigate();
-
+  var nomeEvento = nome.split("/").pop();
   const gotoEvento = () => {
-    navigate(`/evento/${gruppo}/${nome}`);
+    navigate(`/evento/${gruppo}/${nomeEvento}`);
   };
    const gotoGruppo = () => {
     navigate(`/gruppo/${gruppo}`);
   };
   
-    var statoVal = stato == 0 ? "da valutare" : stato == 1 ? "approvato" : "rifiutato"
-  return (
+    const statoVal = approvato ? "approvato" : "da valutare";
+    return (
 
     <>
     <div className="cardE">
@@ -24,7 +24,7 @@ const Card = ({ nome, descrizione, imgUrl,gruppo,stato }) => {
             type="text"
             id="nome"
             className="card-title"
-            value={nome}
+            value={nomeEvento}
             readOnly
           />
           <textarea
@@ -35,9 +35,7 @@ const Card = ({ nome, descrizione, imgUrl,gruppo,stato }) => {
           />
           <div className="status-container">
             <span
-              className={`status-dot ${
-                (stato || "da valutare").toLowerCase().replace(/\s+/g, "")
-              }`}
+            className={`status-dot ${approvato ? "approvato" : "davalutare"}`}
             ></span>
             <span className="status-text">{statoVal}</span>
           </div>

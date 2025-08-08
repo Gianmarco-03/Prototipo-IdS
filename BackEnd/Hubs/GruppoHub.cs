@@ -56,5 +56,7 @@ namespace GroupBackend.Hubs
             var ctrl = GetCtrl();
             return await ctrl.GetEventiGruppo(nomeGruppo);
         }
+
+        
     }
 }

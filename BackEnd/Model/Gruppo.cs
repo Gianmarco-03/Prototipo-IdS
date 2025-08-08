@@ -7,9 +7,9 @@ namespace GroupBackend.Model
     [Table("gruppo")]
     public class Gruppo
     {
-        [Key] [Column("nome")] public string Nome { get; set; } = string.Empty;
+        [Key] [Column("nomeGruppo")] public string Nome { get; set; } = string.Empty;
 
-        [Column("immagine_profilo")] public string? ImmagineProfilo { get; set; }
+        [Column("img_url")] public string? ImmagineProfilo { get; set; }
 
         [Column("descrizione")] public string? Descrizione { get; set; }
 

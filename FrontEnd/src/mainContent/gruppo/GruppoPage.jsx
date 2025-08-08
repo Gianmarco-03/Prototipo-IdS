@@ -34,10 +34,9 @@ const GruppoPage = () => {
   };
 
   const filteredEventi = eventi.filter((ev) => {
-    const stato = ev.Stato || ev.stato;
-    if (!isAdmin) return stato === "Approvato" || stato === "approvato";
-    if (showDaValutare)
-      return stato === "DaValutare" || stato === "daValutare" || stato === "da valutare";
+    const approvato = ev.Approvato ?? ev.approvato;
+    if (!isAdmin) return approvato;
+    if (showDaValutare) return approvato === false;
     return true;
   });
 
@@ -64,7 +63,7 @@ const GruppoPage = () => {
             descrizione={ev.Descrizione || ev.descrizione}
             imgUrl={ev.ImmagineProfilo || ev.immagineProfilo}
             gruppo={nomeGruppo}
-            stato={ev.Stato || ev.stato}
+            approvato={ev.Approvato ?? ev.approvato}
           />
         ))}
       </div>

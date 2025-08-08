@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Prototipo_IdS.Services;
 using EventBackend.Model;
+using ChatBackend.Model;
 
 namespace GroupBackend.Controllers
 {
@@ -56,12 +57,18 @@ namespace GroupBackend.Controllers
                 Username = username
             });
 
-             _context.GruppoPartecipanti.Add(new GruppoPartecipante
+            _context.GruppoPartecipanti.Add(new GruppoPartecipante
             {
                 GruppoNome = gruppo.Nome,
                 Username = username
             });
             await _context.SaveChangesAsync();
+
+            _context.Chats.Add(new Chat
+            {
+                Gruppo = gruppo.Nome
+            });
+
             return true;
         }
 
