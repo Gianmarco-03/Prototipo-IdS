@@ -23,6 +23,7 @@ namespace AuthBackend.Hubs
         {
             var ctrl = GetCtrl();
             var user = await ctrl.Autentica(username, password);
+            Console.WriteLine(user.Username);
             await Clients.Caller.SendAsync("LoginEsito", user != null, user.Username);
         }
 

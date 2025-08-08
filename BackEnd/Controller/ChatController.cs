@@ -13,7 +13,6 @@ public class ChatController : BaseController, IChatController
 
     private async Task<Chat?> GetChatAsync(string gruppo)
     {
-        Console.WriteLine("cerco il gruppo " + gruppo);
         Chat? chat = await _context.Chats.FindAsync(gruppo);
         return chat;
     }
@@ -21,6 +20,8 @@ public class ChatController : BaseController, IChatController
     {
         Chat chat = await GetChatAsync(m.chat_id);
         chat.addMessaggio(m);
+        Console.WriteLine(m.Testo);
+        _context.Messaggi.Add(m);
         await _context.SaveChangesAsync();
     }
 

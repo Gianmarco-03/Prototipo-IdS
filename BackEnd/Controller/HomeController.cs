@@ -28,9 +28,9 @@ namespace HomeBackend.Controllers
                 .ToListAsync();
         }
 
-        public async Task<List<Evento>> GetEventi(string username)
+        public async Task<List<EventoApprovato>> GetEventi(string username)
         {
-            return await _context.Eventi
+            return await _context.EventiApprovati
                 .Include(e => e.Partecipanti)
                 .Where(e => e.Partecipanti.Any(p => p.Username == username))
                 .Take(10)

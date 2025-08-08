@@ -19,7 +19,8 @@ namespace Base.Data
         public DbSet<GruppoAmministratore> GruppoAmministratori { get; set; }
          public DbSet<GruppoPartecipante> GruppoPartecipanti { get; set; }
         public DbSet<Evento> Eventi { get; set; }
-         public DbSet<EventoPartecipante> EventoPartecipanti { get; set; }
+        public DbSet<EventoApprovato> EventiApprovati { get; set; }
+        public DbSet<EventoPartecipante> EventoPartecipanti { get; set; }
         public DbSet<EventoOrganizzatore> EventoOrganizzatori { get; set; }
 
 
@@ -30,8 +31,22 @@ namespace Base.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.HasPostgresEnum<StatoEvento>("evento_stato");
+            modelBuilder.Entity<Evento>()
+               .ToTable("evento");
 
+            modelBuilder.Entity<EventoApprovato>()
+                .ToTable("evento_approvato")
+                .HasBaseType<Evento>();
+
+            modelBuilder.Entity<PropostaEvento>()
+                .ToTable("proposta_evento")
+                .HasBaseType<Evento>();
+            
+
+            modelBuilder.Entity<Messaggio>()
+                .HasOne(m => m.Chat)
+                .WithMany(c => c.Messaggi)
+                .HasForeignKey(m => m.chat_id);
 
             modelBuilder.Entity<Utente>()
                 .HasIndex(u => u.Username)

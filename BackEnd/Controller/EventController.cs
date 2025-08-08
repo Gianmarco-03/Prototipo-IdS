@@ -18,7 +18,7 @@ namespace EventBackend.Controllers
 
         public async Task<Evento?> GetInfo(string nomeEvento)
         {
-            return await _context.Eventi
+            return await _context.EventiApprovati
                 .Include(e => e.Partecipanti)
                 .Include(e => e.Organizzatori)
                 .SingleOrDefaultAsync(e => e.Nome == nomeEvento);
@@ -49,7 +49,7 @@ namespace EventBackend.Controllers
 
         public async Task<bool> Partecipa(string username, string nomeEvento)
         {
-            var evento = await _context.Eventi
+            var evento = await _context.EventiApprovati
                 .Include(g => g.Partecipanti)
                 .SingleOrDefaultAsync(g => g.Nome == nomeEvento);
 
@@ -71,7 +71,7 @@ namespace EventBackend.Controllers
 
         public async Task<bool> Abbandona(string username, string nomeEvento)
         {
-           var evento = await _context.Eventi
+           var evento = await _context.EventiApprovati
                 .Include(ev => ev.Partecipanti)
                 .SingleOrDefaultAsync(ev => ev.Nome == nomeEvento);
             if (evento == null) return false;

@@ -2,10 +2,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GroupBackend.Model
 {
-    [Table("gruppo_partecipanti")]
+    [Table("partecipante_gruppo")]
     public class GruppoPartecipante
     {
-        [Column("gruppo_nome")]
+        [Column("nomeGruppo")]
         public string GruppoNome { get; set; } = null!;
         public Gruppo Gruppo { get; set; } = null!;
 

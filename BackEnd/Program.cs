@@ -32,7 +32,6 @@ builder.Services.AddSingleton(cloudinary);
 builder.Services.AddScoped<IImageService, CloudinaryImageService>();
 
 // Mappa l'enum degli eventi a livello globale per Npgsql
-Npgsql.NpgsqlConnection.GlobalTypeMapper.MapEnum<StatoEvento>("evento_stato");
 
 // Aggiungi servizi CORS
 builder.Services.AddCors(options =>
@@ -50,8 +49,7 @@ builder.Services.AddCors(options =>
 // Aggiungi il DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
   options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        o => o.MapEnum<StatoEvento>("evento_stato")
+        builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
 // Aggiungi SignalR con supporto per cicli oggetto
