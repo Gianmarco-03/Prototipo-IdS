@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UtenteCard from "./UtenteCard";
+import { checkAdmin } from "../../service/GruppoService";
 
 const BACKEND_URL = "http://localhost:3000";
 
@@ -17,6 +18,13 @@ const GroupInfo = ({ gruppo}) => {
   );
 
   const [showBanner, setShowBanner] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const username =
+      sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
+    checkAdmin(gruppo.nome, username).then(setIsAdmin);
+  }, [gruppo.nome]);
 
   const toggleBanner = () => setShowBanner(!showBanner);
 
@@ -49,7 +57,8 @@ const GroupInfo = ({ gruppo}) => {
    <div className="hashtags-box" onClick={toggleBanner}>
             <ul>
               {partecipanti.slice(0, 5).map((p) => (
-                <UtenteCard className="u-card" key={p} username={p} />
+                <UtenteCard className="u-card" key={p} username={p} gruppo={gruppo.nome} 
+                  isAdmin={amministratori.includes(p)} showActions={isAdmin} onAction={() => window.location.reload()} />
               ))}
             </ul>
           </div>
@@ -62,7 +71,8 @@ const GroupInfo = ({ gruppo}) => {
             <h3>Partecipanti</h3>
             <ul>
               {partecipanti.map((p) => (
-                <UtenteCard key={p} username={p} />
+                <UtenteCard key={p} username={p} gruppo={gruppo.nome}
+                 isAdmin={amministratori.includes(p)} showActions={isAdmin} onAction={() => window.location.reload()} />
               ))}
             </ul>
           </div>

@@ -33,7 +33,8 @@ namespace Base.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Evento>()
-               .ToTable("evento");
+               .ToTable("evento")
+               .HasKey(e => new { e.Nome, e.nomeGruppo });
 
             modelBuilder.Entity<EventoApprovato>()
                 .ToTable("evento_approvato")
@@ -42,7 +43,7 @@ namespace Base.Data
             modelBuilder.Entity<PropostaEvento>()
                 .ToTable("proposta_evento")
                 .HasBaseType<Evento>();
-            
+
 
             modelBuilder.Entity<Messaggio>()
                 .HasOne(m => m.Chat)
@@ -71,22 +72,22 @@ namespace Base.Data
                 .WithMany(g => g.Amministratori)
                 .HasForeignKey(ga => ga.GruppoNome);
 
-                // Evento
+            // Evento
             modelBuilder.Entity<EventoPartecipante>()
-                .HasKey(ep => new { ep.EventoNome, ep.Username });
+                .HasKey(ep => new { ep.nomeGruppo, ep.EventoNome, ep.Username });
 
             modelBuilder.Entity<EventoPartecipante>()
                 .HasOne(ep => ep.Evento)
                 .WithMany(e => e.Partecipanti)
-                .HasForeignKey(ep => ep.EventoNome);
+                .HasForeignKey(ep => new { ep.nomeGruppo, ep.EventoNome });
 
             modelBuilder.Entity<EventoOrganizzatore>()
-                .HasKey(eo => new { eo.EventoNome, eo.Username });
+                .HasKey(eo => new { eo.nomeGruppo, eo.EventoNome, eo.Username });
 
             modelBuilder.Entity<EventoOrganizzatore>()
                 .HasOne(eo => eo.Evento)
                 .WithMany(e => e.Organizzatori)
-                .HasForeignKey(eo => eo.EventoNome);
+                .HasForeignKey(eo => new {eo.EventoNome, eo.nomeGruppo});
                 
         }
 

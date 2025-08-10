@@ -68,10 +68,10 @@ const HomeEventi = () => {
         {filteredCards.map((g, index) => (          
           <Card
             key={g.Nome || g.nome || index}
-            nome={g.Nome || g.nome}
+            nomeEvento={g.Nome || g.nome}
             descrizione={g.Descrizione || g.descrizione}
             imgUrl={g.ImmagineProfilo || g.immagineProfilo}
-            gruppo={g.gruppoId}
+            gruppo={g.nomeGruppo}
             approvato={g.approvato}          />
         ))}
       </div>

@@ -141,14 +141,14 @@ namespace GroupBackend.Controllers
         public async Task<List<Evento>?> GetEventiGruppo(string nomeGruppo)
         {
             return await _context.Eventi
-                .Where(e => e.GruppoId == nomeGruppo)
+                .Where(e => e.nomeGruppo == nomeGruppo)
                 .ToListAsync();
         }
         
         public async Task<List<EventoApprovato>> FindEventiGruppo(string nomeGruppo, string toSearch)
         {
             return await _context.EventiApprovati
-                .Where(e => e.GruppoId == nomeGruppo
+                .Where(e => e.nomeGruppo == nomeGruppo
                     && e.Nome.ToLower().Contains(toSearch.ToLower()))
                 .Take(10)
                 .ToListAsync();

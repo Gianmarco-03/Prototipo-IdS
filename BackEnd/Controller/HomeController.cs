@@ -32,7 +32,7 @@ namespace HomeBackend.Controllers
         {
             return await _context.EventiApprovati
                 .Where(e => _context.GruppoPartecipanti
-                .Any(gp => gp.GruppoNome == e.GruppoId && gp.Username == username))
+                .Any(gp => gp.GruppoNome == e.nomeGruppo && gp.Username == username))
                 .Take(10)
                 .ToListAsync();
         }

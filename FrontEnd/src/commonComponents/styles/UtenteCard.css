@@ -24,3 +24,27 @@
   font-weight: bold;
   font-size: 1.1rem;
 }
+
+
+.admin-icon {
+  margin-left: 8px;
+}
+
+.utente-context-menu {
+  position: absolute;
+  background-color: #393D5E;
+  border: 1px solid #A73EE7;
+  border-radius: 4px;
+  list-style: none;
+  padding: 0;
+  z-index: 1000;
+}
+
+.utente-context-menu li {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.utente-context-menu li:hover {
+  background-color: #4a4e74;
+}

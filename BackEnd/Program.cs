@@ -21,6 +21,8 @@ using UtenteBackend.Controllers;
 using HomeBackend.Controllers;
 using HomeBackend.Hubs;
 using EventBackend.Model;
+using AdminBackend.Controllers;
+using AdminBackend.Hubs;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -70,6 +72,7 @@ builder.Services.AddScoped<IEventController, EventController>();
 builder.Services.AddScoped<IUtenteController, UtenteController>();
 builder.Services.AddScoped<IHomeController, HomeController>();
 builder.Services.AddScoped<IPasswordHasher<Utente>, PasswordHasher<Utente>>();
+builder.Services.AddScoped<IAmministratoreController, AmministratoreController>();
 // Aggiungi SignalR
 builder.Services.AddSignalR();
 
@@ -91,6 +94,7 @@ app.MapHub<GruppoHub>("/gruppoHub");
 app.MapHub<EventHub>("/eventoHub");
 app.MapHub<UtenteHub>("/utenteHub");
 app.MapHub<HomeHub>("/homeHub");
+app.MapHub<AmministratoreHub>("/amministratoreHub");
 
 // Test GET base
 app.MapGet("/", () => "Server Chat Backend Online");
