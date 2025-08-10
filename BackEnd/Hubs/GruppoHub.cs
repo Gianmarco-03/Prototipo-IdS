@@ -57,6 +57,12 @@ namespace GroupBackend.Hubs
             return await ctrl.GetEventiGruppo(nomeGruppo);
         }
 
+         public async Task<List<EventoApprovato>> FindEventiGruppo(string nomeGruppo, string toSearch)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.FindEventiGruppo(nomeGruppo, toSearch);
+        }
+
         
     }
 }

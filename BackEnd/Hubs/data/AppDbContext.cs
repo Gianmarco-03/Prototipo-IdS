@@ -20,6 +20,7 @@ namespace Base.Data
          public DbSet<GruppoPartecipante> GruppoPartecipanti { get; set; }
         public DbSet<Evento> Eventi { get; set; }
         public DbSet<EventoApprovato> EventiApprovati { get; set; }
+        public DbSet<PropostaEvento> Proposte { get; set; }
         public DbSet<EventoPartecipante> EventoPartecipanti { get; set; }
         public DbSet<EventoOrganizzatore> EventoOrganizzatori { get; set; }
 

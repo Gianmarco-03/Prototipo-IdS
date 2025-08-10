@@ -13,7 +13,7 @@ const Chat = () => {
 
   let idChat = nomeGruppo;
   if (nomeEvento)
-    idChat += ("/" + nomeEvento)
+    idChat = nomeEvento;
 
   useEffect(() => {
      // Simulazione sessione utente

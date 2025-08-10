@@ -23,10 +23,10 @@ export async function getGruppoInfo(nome) {
   return await gruppoConnection.invoke("GetInfo", nome);
 }
 
-export async function getEventoInfo(nome) {
+export async function getEventoInfo(nome, gruppo) {
   if (eventoConnection.state !== HubConnectionState.Connected)
     await eventoConnection.start().catch(() => {});
-  return await eventoConnection.invoke("GetInfo", nome);
+  return await eventoConnection.invoke("GetInfo", nome,gruppo);
 }
 
 export async function getUtenteInfo(username) {

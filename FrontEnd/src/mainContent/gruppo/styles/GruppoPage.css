@@ -36,6 +36,11 @@
   transform: scale(1.05);
 }
 
+.searchBar {
+  margin-bottom: 20px;
+}
+
+
 .chat-button {
   position: fixed;
   bottom: 20px;

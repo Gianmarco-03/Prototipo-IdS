@@ -11,5 +11,7 @@ namespace GroupBackend.Controllers
         Task<bool> CreaGruppo(Gruppo gruppo, string username);
         Task<bool> CheckAdmin(string gruppo, string username);
         Task<List<Evento>?> GetEventiGruppo(string nomeGruppo);
+        public Task<List<EventoApprovato>> FindEventiGruppo(string nomeGruppo, string toSearch);
+
     }
 }

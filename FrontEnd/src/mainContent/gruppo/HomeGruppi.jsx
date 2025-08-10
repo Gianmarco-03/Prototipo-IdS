@@ -4,7 +4,7 @@ import NewGroupButton from "./components/NewGroupButton";
 import Card from "./components/Card";
 import "./styles/HomeGruppi.css"; // solo per container e layout generale
 import { creaGruppo } from "../../service/GruppoService";
-import { getGruppi } from "../../service/HomeService";
+import { getGruppi, findGruppi } from "../../service/HomeService";
 import { useNavigate } from "react-router-dom";
 
 const HomeGruppi = () => {
@@ -14,19 +14,29 @@ const HomeGruppi = () => {
   const [errore, setErrore] = useState("");
 
   useEffect(() => {
-    const username = sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
-    getGruppi(username)
-      .then((d) => {
-        setCardsData(Array.isArray(d.$values) ? d.$values : []);
-      })
-      .catch(() => setErrore("nessun gruppo disponibile"));
-  }, []);
+    const username =
+        sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
+
+      const fetchData = async () => {
+        try {
+          const d =
+            search.trim() === ""
+              ? await getGruppi(username)
+              : await findGruppi(search);
+          setCardsData(Array.isArray(d.$values) ? d.$values : []);
+        if (!d || (d.$values || []).length === 0) setErrore("nessun gruppo disponibile");
+        } catch {
+          setErrore("nessun gruppo disponibile");
+        }
+      };
+
+      fetchData();
+  }, [search]);
 
   const filteredCards = cardsData.filter((card) => {
     const name = (card.Nome || card.nome || "").toLowerCase();
-    const matchesSearch = name.includes(search.toLowerCase());
-    const matchesFilter = filter != "" ? name === filter.toLowerCase() : true;
-    return matchesSearch && matchesFilter;
+    const matchesFilter = filter !== "" ? name === filter.toLowerCase() : true;
+    return matchesFilter;
   });
 
   const navigate = useNavigate();
