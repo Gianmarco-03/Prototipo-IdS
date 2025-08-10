@@ -14,18 +14,19 @@ const GruppoPage = () => {
   const [showDaValutare, setShowDaValutare] = useState(false);
   const [search, setSearch] = useState("");
 
+  const fetchData = async () => {
+    const d =
+      search.trim() === ""
+        ? await getEventiGruppo(nomeGruppo)
+        : await findEventiGruppo(nomeGruppo, search);
+    const list = d.$values || d || [];
+    setEventi(list);
+  };
+
+
   useEffect(() => {
     const username =
       sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
-
-    const fetchData = async () => {
-      const d =
-        search.trim() === ""
-          ? await getEventiGruppo(nomeGruppo)
-          : await findEventiGruppo(nomeGruppo, search);
-        const list = d.$values || d || [];
-       setEventi(list);
-    };
 
     fetchData();
 
@@ -68,6 +69,8 @@ const GruppoPage = () => {
             imgUrl={ev.ImmagineProfilo || ev.immagineProfilo}
             gruppo={nomeGruppo}
             approvato={ev.Approvato ?? ev.approvato}
+            isAdmin={isAdmin}
+            onAction={fetchData}
           />
         ))}
       </div>

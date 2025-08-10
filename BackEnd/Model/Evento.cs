@@ -10,7 +10,6 @@ namespace EventBackend.Model
     [Table("evento")]
     public abstract class Evento
     {
-        [Key]
         [Column("nomeEvento")]
         public string Nome { get; set; } = string.Empty;
 
@@ -20,7 +19,7 @@ namespace EventBackend.Model
 
         [Column("fine")] public DateTime? DataFine { get; set; }
 
-        [Column("nomeGruppo")] public string GruppoId { get; set; }
+        [Column("nomeGruppo")] public string nomeGruppo { get; set; } = string.Empty;
         [Column("img_url")] public string? ImmagineProfilo { get; set; }
         [Column("approvato")] public bool Approvato { get; set; } = false;
 

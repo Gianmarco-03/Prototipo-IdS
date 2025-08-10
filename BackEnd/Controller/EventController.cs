@@ -22,7 +22,7 @@ namespace EventBackend.Controllers
             return await _context.EventiApprovati
                 .Include(e => e.Partecipanti)
                 .Include(e => e.Organizzatori)
-                .SingleOrDefaultAsync(e => e.Nome == nomeEvento && e.GruppoId == nomeGruppo);
+                .SingleOrDefaultAsync(e => e.Nome == nomeEvento && e.nomeGruppo == nomeGruppo);
         }
 
 
@@ -35,18 +35,18 @@ namespace EventBackend.Controllers
             _context.EventoOrganizzatori.Add(new EventoOrganizzatore
             {
                 EventoNome = evento.Nome,
-                nomeGruppo = evento.GruppoId,
+                nomeGruppo = evento.nomeGruppo,
                 Username = username
             });
             _context.EventoPartecipanti.Add(new EventoPartecipante
             {
                 EventoNome = evento.Nome,
-                nomeGruppo = evento.GruppoId,
+                nomeGruppo = evento.nomeGruppo,
                 Username = username
             });
             _context.Chats.Add(new ChatBackend.Model.Chat
             {
-                Gruppo = evento.Nome + "/" + evento.GruppoId
+                Gruppo = evento.Nome + "/" + evento.nomeGruppo
             });
             await _context.SaveChangesAsync();
             return true;
