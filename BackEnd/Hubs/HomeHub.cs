@@ -43,10 +43,10 @@ namespace HomeBackend.Hubs
             return await ctrl.GetEventi(username);
         }
 
-        public async Task<List<Evento>> FindEventi(string toSearch)
+        public async Task<List<EventoApprovato>> FindEventi(string username, string toSearch)
         {
             var ctrl = GetCtrl();
-            return await ctrl.FindEventi(toSearch);
+            return await ctrl.FindEventi(username, toSearch);
         }
     }
 }

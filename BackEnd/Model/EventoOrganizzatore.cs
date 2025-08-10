@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventBackend.Model
 {
-    [Table("evento_organizzatori")]
+    [Table("organizzatore_evento")]
     public class EventoOrganizzatore
     {
         [Column("nomeEvento")]

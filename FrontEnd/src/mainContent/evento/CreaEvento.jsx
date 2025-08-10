@@ -18,11 +18,12 @@ const CreaEvento = () => {
     const username = sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
     try {
       const ok = await creaEvento({
-        Nome:   data.GruppoId + "/" + data.Nome,
+        Nome:data.Nome,
         Descrizione: data.Descrizione,
         DataInizio: new Date(data.DataInizio),
         DataFine: data.DataFine ? new Date(data.DataFine) : null,
-        GruppoId: data.GruppoId || null
+        GruppoId: data.GruppoId || null, 
+        promotore: username
       }, username);
       if (ok) navigate(`/evento/${encodeURIComponent(data.GruppoId)}/${encodeURIComponent(data.Nome)}`);
       else setErrore("Creazione fallita");

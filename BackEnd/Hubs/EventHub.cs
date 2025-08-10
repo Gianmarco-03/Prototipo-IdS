@@ -20,14 +20,15 @@ namespace EventBackend.Hubs
             return scope.ServiceProvider.GetRequiredService<IEventController>();
         }
 
-        public async Task<Evento?> GetInfo(string nomeEvento)
+        public async Task<Evento?> GetInfo(string nomeEvento, string nomeGruppo)
         {
             var ctrl = GetCtrl();
-            return await ctrl.GetInfo(nomeEvento);
+            return await ctrl.GetInfo(nomeEvento, nomeGruppo);
         }
 
-        public async Task<bool> CreaEvento(Evento evento, string username)
+        public async Task<bool> CreaEvento(PropostaEvento evento, string username)
         {
+            Console.WriteLine(evento.Nome);
             var ctrl = GetCtrl();
             return await ctrl.CreaEvento(evento, username);
         }

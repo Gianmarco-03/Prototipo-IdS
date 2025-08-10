@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Prototipo_IdS.Services;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace EventBackend.Controllers
 {
@@ -16,30 +17,36 @@ namespace EventBackend.Controllers
         public EventController(AppDbContext context, IImageService imageService) : base(context) { _imageService = imageService; }
 
 
-        public async Task<Evento?> GetInfo(string nomeEvento)
+        public async Task<Evento?> GetInfo(string nomeEvento, string nomeGruppo)
         {
             return await _context.EventiApprovati
                 .Include(e => e.Partecipanti)
                 .Include(e => e.Organizzatori)
-                .SingleOrDefaultAsync(e => e.Nome == nomeEvento);
+                .SingleOrDefaultAsync(e => e.Nome == nomeEvento && e.GruppoId == nomeGruppo);
         }
 
 
-        public async Task<bool> CreaEvento(Evento evento, string username)
+        public async Task<bool> CreaEvento(PropostaEvento evento, string username)
         {
             if (await _context.Eventi.AnyAsync(e => e.Nome == evento.Nome))
                 return false;
 
-            _context.Eventi.Add(evento);
+            _context.Proposte.Add(evento);
             _context.EventoOrganizzatori.Add(new EventoOrganizzatore
             {
                 EventoNome = evento.Nome,
+                nomeGruppo = evento.GruppoId,
                 Username = username
             });
-             _context.EventoPartecipanti.Add(new EventoPartecipante
+            _context.EventoPartecipanti.Add(new EventoPartecipante
             {
                 EventoNome = evento.Nome,
+                nomeGruppo = evento.GruppoId,
                 Username = username
+            });
+            _context.Chats.Add(new ChatBackend.Model.Chat
+            {
+                Gruppo = evento.Nome + "/" + evento.GruppoId
             });
             await _context.SaveChangesAsync();
             return true;
@@ -71,9 +78,9 @@ namespace EventBackend.Controllers
 
         public async Task<bool> Abbandona(string username, string nomeEvento)
         {
-           var evento = await _context.EventiApprovati
-                .Include(ev => ev.Partecipanti)
-                .SingleOrDefaultAsync(ev => ev.Nome == nomeEvento);
+            var evento = await _context.EventiApprovati
+                 .Include(ev => ev.Partecipanti)
+                 .SingleOrDefaultAsync(ev => ev.Nome == nomeEvento);
             if (evento == null) return false;
 
             var entry = evento.Partecipanti.FirstOrDefault(p => p.Username == username);
@@ -102,5 +109,6 @@ namespace EventBackend.Controllers
 
             return Ok(new { path = evento.ImmagineProfilo });
         }
+        
     }
 }

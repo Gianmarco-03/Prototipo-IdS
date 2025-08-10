@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./styles/GruppoPage.css";
 import Card from "../evento/components/Card";
-import { checkAdmin, getEventiGruppo } from "../../service/GruppoService";
-
+import "../evento/styles/SearchBar.css";
+import SearchBar from "../evento/components/SearchBar";
+import { checkAdmin, getEventiGruppo, findEventiGruppo } from "../../service/GruppoService";
 
 const GruppoPage = () => {
   const navigate = useNavigate();
@@ -11,23 +12,27 @@ const GruppoPage = () => {
   const [eventi, setEventi] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showDaValutare, setShowDaValutare] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const username =
       sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
 
-    getEventiGruppo(nomeGruppo).then((d) => {
-      const list = d.$values || d || [];
-      const filtered = list.filter(
-        (ev) => (ev.GruppoId || ev.gruppoId || ev.gruppo) === nomeGruppo
-      );
-      setEventi(filtered);
-    });
+    const fetchData = async () => {
+      const d =
+        search.trim() === ""
+          ? await getEventiGruppo(nomeGruppo)
+          : await findEventiGruppo(nomeGruppo, search);
+        const list = d.$values || d || [];
+       setEventi(list);
+    };
 
-    checkAdmin(nomeGruppo,username).then((g) => {
+    fetchData();
+
+    checkAdmin(nomeGruppo, username).then((g) => {
       setIsAdmin(g);
     });
-  }, [nomeGruppo]);
+  }, [nomeGruppo, search]);
 
   const goToChat = () => {
     navigate(`/chat/${encodeURIComponent(nomeGruppo)}`);
@@ -44,9 +49,8 @@ const GruppoPage = () => {
   return (
     <div className="GruppoPage">
       <h1>Gruppo: {nomeGruppo}</h1>
-      {/* Altri contenuti del gruppo */}
-
-        {isAdmin && (
+      <SearchBar search={search} setSearch={setSearch} filter="" setFilter={() => {}} />
+      {isAdmin && (
         <button
           onClick={() => setShowDaValutare(!showDaValutare)}
           style={{ marginBottom: "20px" }}
@@ -59,7 +63,7 @@ const GruppoPage = () => {
         {filteredEventi.map((ev, index) => (
           <Card
             key={ev.Nome || ev.nome || index}
-            nome={ev.Nome || ev.nome}
+            nomeEvento={ev.nome}
             descrizione={ev.Descrizione || ev.descrizione}
             imgUrl={ev.ImmagineProfilo || ev.immagineProfilo}
             gruppo={nomeGruppo}

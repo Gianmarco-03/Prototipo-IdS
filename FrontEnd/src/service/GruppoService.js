@@ -36,6 +36,12 @@ export function getEventiGruppo(nomeGruppo) {
   return connection.invoke("getEventiGruppo", nomeGruppo);
 }
 
+export async function findEventiGruppo(nomeGruppo, name) {
+  if (connection.state !== HubConnectionState.Connected)
+    await connection.start().catch(() => {});
+return await connection.invoke("FindEventiGruppo", nomeGruppo, name);
+}
+
 
 
 export { connection };

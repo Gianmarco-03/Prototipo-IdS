@@ -2,9 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/CardE.css";
 
-const Card = ({ nome, descrizione, imgUrl, gruppo, approvato }) => {
+const Card = ({ nomeEvento, descrizione, imgUrl, gruppo, approvato }) => {
   const navigate = useNavigate();
-  var nomeEvento = nome.split("/").pop();
   const gotoEvento = () => {
     navigate(`/evento/${gruppo}/${nomeEvento}`);
   };

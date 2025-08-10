@@ -23,11 +23,10 @@ export async function getEventi(username) {
   return await connection.invoke("GetEventi", username);
 }
 
-export async function findEventi(name) {
+export async function findEventi(username, name) {
   if (connection.state !== HubConnectionState.Connected)
     await connection.start().catch(() => {});
-  return await connection.invoke("FindEventi", name);
-}
+  return await connection.invoke("FindEventi", username, name);}
 
 export { connection };
 

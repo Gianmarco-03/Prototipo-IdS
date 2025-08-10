@@ -31,15 +31,15 @@ namespace HomeBackend.Controllers
         public async Task<List<EventoApprovato>> GetEventi(string username)
         {
             return await _context.EventiApprovati
-                .Include(e => e.Partecipanti)
-                .Where(e => e.Partecipanti.Any(p => p.Username == username))
+                .Where(e => _context.GruppoPartecipanti
+                .Any(gp => gp.GruppoNome == e.GruppoId && gp.Username == username))
                 .Take(10)
                 .ToListAsync();
         }
 
-        public async Task<List<Evento>> FindEventi(string toSearch)
+        public async Task<List<EventoApprovato>> FindEventi(string username, string toSearch)
         {
-            return await _context.Eventi
+            return await _context.EventiApprovati
                 .Where(e => e.Nome.ToLower().Contains(toSearch.ToLower()))
                 .Take(10)
                 .ToListAsync();

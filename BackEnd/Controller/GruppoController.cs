@@ -62,14 +62,14 @@ namespace GroupBackend.Controllers
                 GruppoNome = gruppo.Nome,
                 Username = username
             });
-            await _context.SaveChangesAsync();
-
-            _context.Chats.Add(new Chat
+              _context.Chats.Add(new Chat
             {
                 Gruppo = gruppo.Nome
             });
-
+            await _context.SaveChangesAsync();
             return true;
+
+          
         }
 
 
@@ -125,7 +125,7 @@ namespace GroupBackend.Controllers
             if (gruppo == null)
                 return NotFound();
 
-             var url = await _imageService.UploadImageAsync(file);
+            var url = await _imageService.UploadImageAsync(file);
             gruppo.ImmagineProfilo = url;
             await _context.SaveChangesAsync();
 
@@ -142,6 +142,15 @@ namespace GroupBackend.Controllers
         {
             return await _context.Eventi
                 .Where(e => e.GruppoId == nomeGruppo)
+                .ToListAsync();
+        }
+        
+        public async Task<List<EventoApprovato>> FindEventiGruppo(string nomeGruppo, string toSearch)
+        {
+            return await _context.EventiApprovati
+                .Where(e => e.GruppoId == nomeGruppo
+                    && e.Nome.ToLower().Contains(toSearch.ToLower()))
+                .Take(10)
                 .ToListAsync();
         }
     }

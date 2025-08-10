@@ -22,7 +22,7 @@ const SidebarContent = () => {
     } else if (parts[0] === "evento") {
       const nomeGruppo = decodeURIComponent(parts[1]);
       const nomeEvento = decodeURIComponent(parts[2]);
-      getEventoInfo(`${nomeGruppo}/${nomeEvento}`).then(setEvento);
+      getEventoInfo(nomeEvento, nomeGruppo).then(setEvento);
     } else if (parts[0] === "chat") {
       if (parts.length === 2) {
         const nomeGruppo = decodeURIComponent(parts[1]);
