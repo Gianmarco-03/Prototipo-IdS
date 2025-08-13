@@ -40,16 +40,16 @@
 }
 
 .cardE-image {
-  width: 100%;
+  width: 50%;
   height: 100%;
-  transition: width 0.3s ease;
-  overflow: hidden;
-  transition: width 0.4s ease; /* Transizione fluida su hover e mouseout */
+  overflow: hidden; 
+  object-fit: cover;
+  float: right;
+  transition: width 0.4s  ; /* Transizione fluida su hover e mouseout */
 }
 
 .cardE:hover .cardE-image {
   width: 75%;
-  transition: width 0.3s ease;
 }
 
 .cardE:hover{

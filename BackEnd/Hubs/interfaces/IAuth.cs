@@ -5,7 +5,7 @@ namespace AuthBackend.Hubs
 {
     public interface IAuthService
     {
-        Task Login(string username, string password);
+        Task<string> Login(string username, string password);
         Task Registra(Utente utente);
     }
 }

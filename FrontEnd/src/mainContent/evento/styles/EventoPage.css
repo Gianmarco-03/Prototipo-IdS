@@ -1,8 +1,146 @@
-.GruppoPage{  
-    margin-left : 5%; 
-    width: 82%;
-    padding: "20px";
-    color: "#fff";
-    background-color: "#1D203E";
-    height: "100%"
+.evento-page {
+margin-left: 4%;
+  padding: 20px;
+  color: #fff;
+  background-color: #1D203E;
+  min-height: 100vh;
+  position: relative;
+  margin-right: 17%;
+  position: relative;
+}
+
+.evento-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 20px;
+}
+
+.evento-title-box {
+  background-color: #0e0e18;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  padding: 10px 20px;
+}
+
+.evento-title-box h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.evento-action {
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #A73EE7, #00EBFF);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.evento-image-container {
+  margin-top: 20px;
+}
+
+.evento-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.evento-description-box {
+  margin-top: 20px;
+  background-color: #2c2f48;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+
+
+.chat-button-mask {
+  bottom: 37%;
+  width: 82%;
+  height: 65%;
+  background: #1D203E;
+  border-bottom-left-radius: 20px; /* arrotonda */
+  overflow: hidden; /* taglia la maschera */
+  position: relative;
+}
+
+.chat-button-conteiner {
+  position: fixed;
+  bottom: 0%;
+  left: 0%;
+  background: #2c2f48;
+  width: 100%;
+  height:10%;
+  display: flex;
+  flex-direction: row-reverse;   /* disposizione da destra verso sinistra */
+  justify-content: flex-start;   /* “start” è la destra in row-reverse → tutto appoggiato a destra */
+  align-items: flex-end;           /* opzionale, allineamento verticale */
+  gap: 0; 
+  border-color: white;
+  border: 1px;
+}
+
+.angolo-alto{
+  width: 100%;
+  height: 100%;
+  background: #2c2f48;
+  border-top-right-radius: 20px; /* arrotonda */
+  overflow: hidden; /* taglia la maschera */
+  position: relative;
+}
+
+
+.angolo-alto-filler{
+  bottom: 35%;
+  width: 1%;
+  height: 65%;
+  background: #1D203E;
+  overflow: hidden; /* taglia la maschera */
+  position: relative;
+}
+
+
+
+.chat-button {
+  position: fixed;
+  bottom: 20px;
+  left: 6%;
+  padding: 1rem 2rem;
+  background-color: #2c2f48;
+  border-radius: 50px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  z-index: 100;
+}
+
+.chat-button-border{
+    position: relative;
+    overflow: hidden;
+    background-color: #2c2f48;
+    border-color:  white;
+}
+
+.up{
+    width: 17%;
+    height: 7%;
+    bottom: 90%;
+    border-top-style: solid;
+
+}
+
+.right{
+  position: relative;
+  overflow: hidden; /* taglia la maschera */
+  border-right-style: solid;
+  width: 97%;
+  height: 47%;
+  bottom: 67%;
+  
 }

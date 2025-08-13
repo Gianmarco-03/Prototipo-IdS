@@ -19,12 +19,11 @@ namespace AuthBackend.Hubs
             return scope.ServiceProvider.GetRequiredService<IAuthController>();
         }
 
-        public async Task Login(string username, string password)
+        public async Task<string> Login(string username, string password)
         {
             var ctrl = GetCtrl();
             var user = await ctrl.Autentica(username, password);
-            Console.WriteLine(user.Username);
-            await Clients.Caller.SendAsync("LoginEsito", user != null, user.Username);
+            return user != null ? username : null;
         }
 
         public async Task Registra(Utente utente)

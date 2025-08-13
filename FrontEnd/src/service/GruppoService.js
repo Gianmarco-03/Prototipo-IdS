@@ -1,47 +1,30 @@
 import { HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
-
+import { ensureConnection } from "./EnsureConnection"
 const connection = new HubConnectionBuilder()
   .withUrl("http://localhost:5153/gruppoHub")
   .withAutomaticReconnect()
   .build();
 
+
+
 export async function creaGruppo(data, username) {
-  if (connection.state === HubConnectionState.Disconnected){
-     return connection.start().then(() => {
-  return  connection.invoke("CreaGruppo", data, username);
-     });
-  }
-  return await connection.invoke("CreaGruppo", data, username);
-
+  await ensureConnection(connection);
+  return connection.invoke("CreaGruppo", data, username);
 }
 
-export async function  checkAdmin(nomeGruppo, username) {
-  if (connection.state === HubConnectionState.Disconnected){
-     return connection.start().then(() => {
-      return connection.invoke("checkAdmin", nomeGruppo, username);
-    });
-  }
-
-        return connection.invoke("checkAdmin", nomeGruppo, username);
-
+export async function checkAdmin(nomeGruppo, username) {
+  await ensureConnection(connection);
+  return connection.invoke("checkAdmin", nomeGruppo, username);
 }
 
-export function getEventiGruppo(nomeGruppo) {
-  if (connection.state === HubConnectionState.Disconnected) {
-    return connection.start().then(() => {
-      return connection.invoke("getEventiGruppo", nomeGruppo);
-    });
-  }
-
+export async function getEventiGruppo(nomeGruppo) {
+  await ensureConnection(connection);
   return connection.invoke("getEventiGruppo", nomeGruppo);
 }
 
 export async function findEventiGruppo(nomeGruppo, name) {
-  if (connection.state !== HubConnectionState.Connected)
-    await connection.start().catch(() => {});
-return await connection.invoke("FindEventiGruppo", nomeGruppo, name);
+  await ensureConnection(connection);
+  return connection.invoke("FindEventiGruppo", nomeGruppo, name);
 }
-
-
 
 export { connection };

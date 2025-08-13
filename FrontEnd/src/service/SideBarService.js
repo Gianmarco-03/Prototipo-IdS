@@ -1,4 +1,5 @@
 import { HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
+import { ensureConnection } from "./EnsureConnection";
 
 const BACKEND_URL = "http://localhost:5153";
 
@@ -18,19 +19,16 @@ export const utenteConnection = new HubConnectionBuilder()
   .build();
 
 export async function getGruppoInfo(nome) {
-  if (gruppoConnection.state !== HubConnectionState.Connected)
-    await gruppoConnection.start().catch(() => {});
-  return await gruppoConnection.invoke("GetInfo", nome);
+  await ensureConnection(gruppoConnection);
+  return gruppoConnection.invoke("GetInfo", nome);
 }
 
 export async function getEventoInfo(nome, gruppo) {
-  if (eventoConnection.state !== HubConnectionState.Connected)
-    await eventoConnection.start().catch(() => {});
-  return await eventoConnection.invoke("GetInfo", nome,gruppo);
+  await ensureConnection(eventoConnection);
+  return eventoConnection.invoke("GetInfo", nome, gruppo);
 }
 
 export async function getUtenteInfo(username) {
-  if (utenteConnection.state !== HubConnectionState.Connected)
-    await utenteConnection.start().catch(() => {});
-  return await utenteConnection.invoke("GetInfo", username);
+  await ensureConnection(utenteConnection);
+  return utenteConnection.invoke("GetInfo", username);
 }

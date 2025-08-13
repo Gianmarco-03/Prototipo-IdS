@@ -20,9 +20,31 @@ namespace EventBackend.Controllers
         public async Task<Evento?> GetInfo(string nomeEvento, string nomeGruppo)
         {
             return await _context.EventiApprovati
-                .Include(e => e.Partecipanti)
-                .Include(e => e.Organizzatori)
-                .SingleOrDefaultAsync(e => e.Nome == nomeEvento && e.nomeGruppo == nomeGruppo);
+                .Where(e => e.nomeGruppo == nomeGruppo && e.Nome == nomeEvento)
+                .Select(e => new EventoApprovato
+                {
+                    Nome = e.Nome,
+                    nomeGruppo = e.nomeGruppo,
+                    Descrizione = e.Descrizione,
+                    DataInizio = e.DataInizio,
+                    DataFine = e.DataFine,
+                    ImmagineProfilo = e.ImmagineProfilo,
+                    Partecipanti = e.Partecipanti
+                        .Select(p => new EventoPartecipante
+                        {
+                            nomeGruppo = p.nomeGruppo,
+                            EventoNome = p.EventoNome,
+                            Username = p.Username
+                        }).ToList(),
+                    Organizzatori = e.Organizzatori
+                        .Select(p => new EventoOrganizzatore
+                        {
+                            nomeGruppo = p.nomeGruppo,
+                            EventoNome = p.EventoNome,
+                            Username = p.Username
+                        }).ToList()
+                })
+                .SingleOrDefaultAsync();
         }
 
 

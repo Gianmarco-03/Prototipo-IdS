@@ -47,7 +47,6 @@
   left: 15%px;
   padding: 1rem 2rem;
   background-color: #2c2f48;
-  border: none;
   border-radius: 50px;
   color: white;
   font-weight: bold;
@@ -61,4 +60,5 @@
   background: linear-gradient(90deg, #A73EE7, #00EBFF);
   transform: scale(1.1);
 }
+
 

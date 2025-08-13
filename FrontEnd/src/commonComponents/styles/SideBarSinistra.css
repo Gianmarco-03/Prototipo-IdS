@@ -45,16 +45,7 @@
 
 }
 
-/* Icone */
-.goto-Evento::before {
-  content: "📅";
 
-  
-}
-
-.goto-Gruppo::before {
-  content: "👥";
-}
 
 
 
