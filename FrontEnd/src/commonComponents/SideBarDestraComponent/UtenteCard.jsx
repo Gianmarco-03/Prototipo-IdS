@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/UtenteCard.css";
 import { getUtenteInfo } from "../../service/SideBarService";
 import { promuoviUtente, rimuoviUtente } from "../../service/AmministratoreService";
+import { Cog8ToothIcon } from "@heroicons/react/24/outline";
 
 const BACKEND_URL = "http://localhost:3000";
 
@@ -43,9 +44,8 @@ const BACKEND_URL = "http://localhost:3000";
         src={utente.immagineProfilo || `${BACKEND_URL}/images/Def_propic.png`}
         alt={username}
         className="utente-card-image"/>
-      <span className="utente-card-name">{utente.username}</span>
-      {isAdmin && <span className="admin-icon">👑</span>}
-        {menuPos && (
+      {isAdmin && <Cog8ToothIcon className="admin-icon" width={20} height={20}  />}
+      {menuPos && (
           <ul
             className="utente-context-menu"
             style={{ top: menuPos.y, left: menuPos.x }}
@@ -54,6 +54,7 @@ const BACKEND_URL = "http://localhost:3000";
             <li onClick={handleRimuovi}>Rimuovi</li>
           </ul>
       )}
+      <span className="utente-card-name">{utente.username}</span>
 
 
     </div>

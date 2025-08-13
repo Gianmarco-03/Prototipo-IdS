@@ -73,9 +73,16 @@ const GruppoPage = () => {
             onAction={fetchData}
           />
         ))}
+      </div  >
+     <div className="chat-button-conteiner">
+        <div className="chat-button-mask"></div>
+        <div className="angolo-alto-filler">
+          <div className="angolo-alto"></div>
+        </div>
+        <button className="chat-button" onClick={goToChat}>
+            Vai alla Chat
+        </button>
       </div>
-
-      <button className="chat-button"onClick={goToChat}>Vai alla Chat</button>
     </div>
   );
 };

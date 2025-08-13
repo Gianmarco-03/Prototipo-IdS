@@ -2,6 +2,7 @@ import "./styles/SideBarSinistra.css";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { CalendarDateRangeIcon, UserGroupIcon } from "@heroicons/react/24/outline";
 
 
 
@@ -22,8 +23,12 @@ const Selector = () => {
 
   return (
       <aside className="selector">
-        <button className="goto-Evento" onClick={gotoEventi}></button>  
-        <button className="goto-Gruppo" onClick={gotoGruppi}></button>        
+        <button className="goto-Evento" onClick={gotoEventi}>
+            <CalendarDateRangeIcon className="event-icon" width={30} height={30}  />
+        </button>  
+        <button className="goto-Gruppo" onClick={gotoGruppi}>
+          <UserGroupIcon className="event-icon" width={30} height={30}  />
+        </button>        
       </aside>
 
   );

@@ -79,7 +79,7 @@ namespace Base.Data
             modelBuilder.Entity<EventoPartecipante>()
                 .HasOne(ep => ep.Evento)
                 .WithMany(e => e.Partecipanti)
-                .HasForeignKey(ep => new { ep.nomeGruppo, ep.EventoNome });
+                .HasForeignKey(ep => new { ep.EventoNome, ep.nomeGruppo });
 
             modelBuilder.Entity<EventoOrganizzatore>()
                 .HasKey(eo => new { eo.nomeGruppo, eo.EventoNome, eo.Username });

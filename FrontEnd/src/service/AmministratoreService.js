@@ -11,22 +11,22 @@ async function ensureConnection() {
 }
 
 export async function approvaEvento(nomeGruppo, nomeEvento, admin) {
-  await ensureConnection();
+  await ensureConnection(connection);
   return connection.invoke("ApprovaEvento", nomeEvento, nomeGruppo, admin);
 }
 
 export async function bocciaEvento(nomeGruppo, nomeEvento, admin) {
-  await ensureConnection();
+  await ensureConnection(connection);
   return connection.invoke("BocciaEvento", nomeEvento, nomeGruppo, admin);
 }
 
 export async function promuoviUtente(nomeGruppo, username, admin) {
-  await ensureConnection();
+  await ensureConnection(connection);
   return connection.invoke("Promuovi", nomeGruppo, username, admin);
 }
 
 export async function rimuoviUtente(nomeGruppo, username, admin) {
-  await ensureConnection();
+  await ensureConnection(connection);
   return connection.invoke("Rimuovi", nomeGruppo, username, admin);
 }
 

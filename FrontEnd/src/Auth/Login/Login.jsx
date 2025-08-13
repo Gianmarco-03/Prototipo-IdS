@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import connection from '../../service/AuthService';
+import { login as loginService, onLoginEsito, offLoginEsito, disconnect } from '../../service/AuthService';
 import { AuthContext } from '../AuthProvider';
 import "./styles/Login.css";
-import { HubConnectionState } from "@microsoft/signalr";
 
 
 export default function Login({ onLogin }) {
@@ -14,38 +13,23 @@ export default function Login({ onLogin }) {
   const [errore, setErrore] = useState('');
   const [successo, setSuccesso] = useState('');
 
- useEffect(() => {
-    if (connection.state !== HubConnectionState.Connected)
-      connection.start().catch(console.error);
-
-    connection.on('LoginEsito', (ok, user) => {
-      if (ok) {
-        setSuccesso('Login completata con successo!');
-        login(user);
-        console.log("login in di \n" + user);
-        navigate('/');
-        
-      } else {
-        setErrore(user || 'Login fallita');
-      }
-    });
-
-    return () => {
-      connection.off('LoginEsito');
-      connection.stop();
-    };
-  }, [onLogin]);
-  
   const handleSubmit = async e => {
      e.preventDefault();
     setErrore('');
     setSuccesso('');
-    // Send registration data via SignalR
-    connection.invoke('Login', form.username, form.password)
-      .catch(() => setErrore('Errore di connessione al server'));
+    try {
+      let user = await loginService(form.username, form.password);
+      if (user) {
+        setSuccesso('Login completata con successo!');
+        login(user);
+        console.log("login in di \n" + user);
+        navigate('/');
 
+      } else {
+        setErrore(user || 'Login fallita');
+      }      
+    } catch {setErrore('Errore di connessione al server');}
   };
-
   // Aggiorna lo stato form in modo generico
   const handleChange = e => {
     const { name, value } = e.target;

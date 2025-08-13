@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import connection from '../../service/AuthService';
+import { register as registerUser, onRegistrazioneEsito, offRegistrazioneEsito, disconnect } from '../../service/AuthService';
 
 const Registrazione = ({ onRegistrazioneSuccess }) => {
   const [formData, setFormData] = useState({
@@ -14,20 +14,20 @@ const Registrazione = ({ onRegistrazioneSuccess }) => {
   const [successo, setSuccesso] = useState('');
 
  useEffect(() => {
-    connection.start().catch(console.error);
-
-    connection.on('RegistrazioneEsito', (ok, message) => {
+    const handler = (ok, message) => {
       if (ok) {
         setSuccesso(message || 'Registrazione completata con successo!');
         onRegistrazioneSuccess?.();
       } else {
         setErrore(message || 'Registrazione fallita');
       }
-    });
+    };
+
+    onRegistrazioneEsito(handler);
 
     return () => {
-      connection.off('RegistrazioneEsito');
-      connection.stop();
+      offRegistrazioneEsito(handler);
+      disconnect();
     };
   }, [onRegistrazioneSuccess]);
 
@@ -36,15 +36,16 @@ const Registrazione = ({ onRegistrazioneSuccess }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrore('');
     setSuccesso('');
-    // Send registration data via SignalR
-    connection.invoke('Registra', formData)
-      .catch(() => setErrore('Errore di connessione al server'));
+    try {
+      await registerUser(formData);
+    } catch {
+      setErrore('Errore di connessione al server');
+    }
   };
-
 
   return (
     <div className="auth-container">

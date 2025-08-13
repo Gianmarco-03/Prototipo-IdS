@@ -32,7 +32,7 @@ const GroupInfo = ({ gruppo}) => {
 
   return (
     <div className="sidebar-section">
-      <div className="username-box ">
+      <div className="username-box info-box">
         <span className="field-label">{gruppo.nome}</span>
       </div>
       
@@ -46,7 +46,7 @@ const GroupInfo = ({ gruppo}) => {
         </div>
       </div>
      
-      <div className="bio-box">
+      <div className="bio-box info-box">
         <span className="field-label">Descrizione</span>
         <span className="field-value">{gruppo.descrizione}</span>
       </div>
@@ -54,10 +54,10 @@ const GroupInfo = ({ gruppo}) => {
       {partecipanti.length > 0 && (
         <div>
           <strong>Partecipanti:</strong>
-   <div className="hashtags-box" onClick={toggleBanner}>
+   <div className="hashtags-box info-box" onClick={toggleBanner}>
             <ul>
               {partecipanti.slice(0, 5).map((p) => (
-                <UtenteCard className="u-card" key={p} username={p} gruppo={gruppo.nome} 
+                <UtenteCard className="u-card" key={p} username={p} gruppo={gruppo.nome}
                   isAdmin={amministratori.includes(p)} showActions={isAdmin} onAction={() => window.location.reload()} />
               ))}
             </ul>

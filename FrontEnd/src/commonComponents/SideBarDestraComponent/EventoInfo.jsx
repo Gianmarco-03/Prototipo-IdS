@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UtenteCard from "./UtenteCard";
 
@@ -7,6 +7,7 @@ const BACKEND_URL = "http://localhost:3000";
 const EventoInfo = ({ evento, getUtenteInfo }) => {
   
   const navigate = useNavigate();
+  const [showBanner, setShowBanner] = useState(false);
   if (!evento) return null;
 
 
@@ -28,6 +29,8 @@ const EventoInfo = ({ evento, getUtenteInfo }) => {
       navigate(`/gruppo/${encodeURIComponent(evento.gruppoId)}`);
     }
   };
+
+  const toggleBanner = () => setShowBanner(!showBanner);
 
   return (
     <div className="sidebar-section">
@@ -56,7 +59,7 @@ const EventoInfo = ({ evento, getUtenteInfo }) => {
       </div>
      
       {evento.dataInizio && (
-        <div className="periodo-box">
+        <div className="periodo-box info-box">
           <span className="field-label">Periodo</span>
           <span className="field-value">
             start: {new Date(evento.dataInizio).toLocaleDateString()}
@@ -67,11 +70,24 @@ const EventoInfo = ({ evento, getUtenteInfo }) => {
       )}
       {partecipanti.length > 0 && (
         <div>
-          <strong>Partecipanti:</strong>
-          <div className="hashtags-box info-box">
-            {partecipanti.slice(0, 5).map((p) => (
-              <UtenteCard key={p} username={p} getInfo={getUtenteInfo} />
-            ))}
+         <div className="hashtags-box info-box" onClick={toggleBanner}>
+            <ul>
+              {partecipanti.slice(0, 5).map((p) => (
+                <UtenteCard key={p} username={p} getInfo={getUtenteInfo} />
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+      {showBanner && (
+        <div className="partecipanti-banner" onClick={toggleBanner}>
+          <div className="banner-content">
+            <h3>Partecipanti</h3>
+            <ul>
+              {partecipanti.map((p) => (
+                <UtenteCard key={p} username={p} getInfo={getUtenteInfo} />
+              ))}
+            </ul>
           </div>
         </div>
       )}
