@@ -6,21 +6,57 @@ margin-left: 4%;
   min-height: 100vh;
   position: relative;
   margin-right: 17%;
-  position: relative;
 }
 
-.evento-header {
+
+
+.evento-header.shaped {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: 14px 18px;
+  color: var(--header-fg, #0f172a);
+  height: 10%;
+  top: -1%;
+}
+
+.shape-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* non blocca click */
+  z-index: 0;
+}
+
+/* porta avanti i contenuti sopra l'SVG */
+.evento-header.shaped > *:not(.shape-layer) {
+  position: relative;
+  z-index: 1;
+}
+
+
+.evento-header {
+  height: 10%;
+  top: 0%;
+  position: fixed;
+  width: 100%;
+  left: 0%;
+  display: flex;
+  align-items: start;
   gap: 1rem;
-  margin-bottom: 20px;
+  justify-content: center;
 }
 
 .evento-title-box {
-  background-color: #0e0e18;
+  left: 4%;
+  position: absolute;
   border: 2px solid #fff;
   border-radius: 8px;
   padding: 10px 20px;
+  color: white;
+  background-color: #1D203E;
 }
 
 .evento-title-box h1 {
@@ -29,28 +65,46 @@ margin-left: 4%;
 }
 
 .evento-action {
+  background-color: #2c2f48;
+  position: absolute;
+  left: -79%;
   padding: 10px 20px;
-  background: linear-gradient(90deg, #A73EE7, #00EBFF);
-  border: none;
-  border-radius: 8px;
-  color: white;
+  border: solid;
+  border-radius: 50px;
+  color: gainsboro;
   cursor: pointer;
   font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  z-index: 100;
 }
 
+.evento-action:hover {
+  background: linear-gradient(90deg, #A73EE7, #00EBFF);
+  transform: scale(1.1);
+}
+
+
 .evento-image-container {
-  margin-top: 20px;
+  margin-top: 8%;
+  border-style: solid;
+  border-radius: 8px;
+   border: 1px solid #444;
 }
 
 .evento-image {
-  width: 100%;
+  position: absolute;
+  top: 32%;
+  left: 3.5%;
+  width: 80%;
   max-height: 400px;
   object-fit: cover;
   border-radius: 8px;
+  
 }
 
 .evento-description-box {
-  margin-top: 20px;
+  margin-top: 33%;
   background-color: #2c2f48;
   border: 1px solid #444;
   border-radius: 8px;
@@ -59,49 +113,13 @@ margin-left: 4%;
 
 
 
-.chat-button-mask {
-  bottom: 37%;
-  width: 82%;
-  height: 65%;
-  background: #1D203E;
-  border-bottom-left-radius: 20px; /* arrotonda */
-  overflow: hidden; /* taglia la maschera */
-  position: relative;
-}
 
 .chat-button-conteiner {
   position: fixed;
   bottom: 0%;
-  left: 0%;
-  background: #2c2f48;
+  right: 10%;
   width: 100%;
   height:10%;
-  display: flex;
-  flex-direction: row-reverse;   /* disposizione da destra verso sinistra */
-  justify-content: flex-start;   /* “start” è la destra in row-reverse → tutto appoggiato a destra */
-  align-items: flex-end;           /* opzionale, allineamento verticale */
-  gap: 0; 
-  border-color: white;
-  border: 1px;
-}
-
-.angolo-alto{
-  width: 100%;
-  height: 100%;
-  background: #2c2f48;
-  border-top-right-radius: 20px; /* arrotonda */
-  overflow: hidden; /* taglia la maschera */
-  position: relative;
-}
-
-
-.angolo-alto-filler{
-  bottom: 35%;
-  width: 1%;
-  height: 65%;
-  background: #1D203E;
-  overflow: hidden; /* taglia la maschera */
-  position: relative;
 }
 
 
@@ -109,7 +127,7 @@ margin-left: 4%;
 .chat-button {
   position: fixed;
   bottom: 20px;
-  left: 6%;
+  right: 20%;
   padding: 1rem 2rem;
   background-color: #2c2f48;
   border-radius: 50px;
@@ -127,20 +145,8 @@ margin-left: 4%;
     border-color:  white;
 }
 
-.up{
-    width: 17%;
-    height: 7%;
-    bottom: 90%;
-    border-top-style: solid;
 
-}
-
-.right{
-  position: relative;
-  overflow: hidden; /* taglia la maschera */
-  border-right-style: solid;
-  width: 97%;
-  height: 47%;
-  bottom: 67%;
-  
+.chat-button:hover {
+  background: linear-gradient(90deg, #A73EE7, #00EBFF);
+  transform: scale(1.1);
 }
