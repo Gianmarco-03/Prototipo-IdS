@@ -35,6 +35,7 @@ const EventoPage = () => {
       sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
     await partecipaEvento(nomeEvento, username);
     setIsPartecipante(true);
+    window.location.reload();
   };
 
   const handleAbbandona = async () => {
@@ -42,6 +43,7 @@ const EventoPage = () => {
       sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
     await abbandonaEvento(nomeEvento, username);
     setIsPartecipante(false);
+    window.location.reload();
   };
 
   const nome = evento?.nome?.split("/").pop() || nomeEvento;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/UtenteCard.css";
 import { getUtenteInfo } from "../../service/SideBarService";
 import { promuoviUtente, rimuoviUtente } from "../../service/AmministratoreService";
-import { Cog8ToothIcon } from "@heroicons/react/24/outline";
+import { StarIcon } from "@heroicons/react/24/outline";
 
 const BACKEND_URL = "http://localhost:3000";
 
@@ -44,7 +44,7 @@ const BACKEND_URL = "http://localhost:3000";
         src={utente.immagineProfilo || `${BACKEND_URL}/images/Def_propic.png`}
         alt={username}
         className="utente-card-image"/>
-      {isAdmin && <Cog8ToothIcon className="admin-icon" width={20} height={20}  />}
+      {isAdmin && <StarIcon className="admin-icon" width={20} height={20}  />}
       {menuPos && (
           <ul
             className="utente-context-menu"

@@ -110,6 +110,7 @@ info-box {
   background-color: #1d203e;
   border-radius: 8px;
   margin-bottom: 11%;
+  padding-bottom: 4%;
 }
 
 .bio-box{
@@ -244,4 +245,8 @@ info-box {
   font-size: 1.1rem;
   max-height: 1%;
   
+}
+
+.user-card{
+  margin-left: 4%;
 }
