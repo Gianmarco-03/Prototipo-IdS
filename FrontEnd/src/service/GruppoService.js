@@ -27,4 +27,15 @@ export async function findEventiGruppo(nomeGruppo, name) {
   return connection.invoke("FindEventiGruppo", nomeGruppo, name);
 }
 
+
+export async function partecipaGruppo(nomeGruppo, username) {
+  await ensureConnection(connection);
+  return connection.invoke("Partecipa", username, nomeGruppo);
+}
+
+export async function abbandonaGruppo(nomeGruppo, username) {
+  await ensureConnection(connection);
+  return connection.invoke("Abbandona", username, nomeGruppo);
+}
+
 export { connection };

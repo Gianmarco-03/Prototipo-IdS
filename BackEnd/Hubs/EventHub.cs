@@ -36,13 +36,17 @@ namespace EventBackend.Hubs
         public async Task Partecipa(string username, string nomeEvento)
         {
             var ctrl = GetCtrl();
-            await ctrl.Partecipa(username, nomeEvento);
+            if (await ctrl.Partecipa(username, nomeEvento)){
+                await Clients.All.SendAsync("PartecipantiAggiornati");
+            }
         }
 
         public async Task Abbandona(string username, string nomeEvento)
         {
             var ctrl = GetCtrl();
-            await ctrl.Abbandona(username, nomeEvento);
+            if (await ctrl.Abbandona(username, nomeEvento)){
+                await Clients.All.SendAsync("PartecipantiAggiornati");
+            }        
         }
     }
 }

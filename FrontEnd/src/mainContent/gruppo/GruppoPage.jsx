@@ -4,7 +4,15 @@ import "./styles/GruppoPage.css";
 import Card from "../evento/components/Card";
 import "../evento/styles/SearchBar.css";
 import SearchBar from "../evento/components/SearchBar";
-import { checkAdmin, getEventiGruppo, findEventiGruppo } from "../../service/GruppoService";
+import {
+  checkAdmin,
+  getEventiGruppo,
+  findEventiGruppo,
+  partecipaGruppo,
+  abbandonaGruppo,
+} from "../../service/GruppoService";
+import { getGruppoInfo } from "../../service/SideBarService";
+import { UserMinusIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 
 const GruppoPage = () => {
   const navigate = useNavigate();
@@ -13,6 +21,7 @@ const GruppoPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showDaValutare, setShowDaValutare] = useState(false);
   const [search, setSearch] = useState("");
+  const [isPartecipante, setIsPartecipante] = useState(false);
 
   const fetchData = async () => {
     const d =
@@ -30,13 +39,31 @@ const GruppoPage = () => {
 
     fetchData();
 
-    checkAdmin(nomeGruppo, username).then((g) => {
-      setIsAdmin(g);
+    checkAdmin(nomeGruppo, username).then(setIsAdmin);
+
+    getGruppoInfo(nomeGruppo).then((g) => {
+      const list = g?.partecipanti?.$values || g?.partecipanti || [];
+      const names = list.map((p) => (typeof p === "string" ? p : p.username));
+      setIsPartecipante(names.includes(username));
     });
   }, [nomeGruppo, search]);
 
   const goToChat = () => {
     navigate(`/chat/${encodeURIComponent(nomeGruppo)}`);
+  };
+
+  const handlePartecipa = async () => {
+    const username =
+      sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
+    await partecipaGruppo(nomeGruppo, username);
+    setIsPartecipante(true);
+  };
+
+  const handleAbbandona = async () => {
+    const username =
+      sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
+    await abbandonaGruppo(nomeGruppo, username);
+    setIsPartecipante(false);
   };
 
   const filteredEventi = eventi.filter((ev) => {
@@ -48,17 +75,129 @@ const GruppoPage = () => {
 
 
   return (
-    <div className="GruppoPage">
-      <h1>Gruppo: {nomeGruppo}</h1>
-      <SearchBar search={search} setSearch={setSearch} filter="" setFilter={() => {}} />
-      {isAdmin && (
-        <button
-          onClick={() => setShowDaValutare(!showDaValutare)}
-          style={{ marginBottom: "20px" }}
+    <div className="gruppo-page">
+      <div className="gruppo-header shaped">
+        <svg
+          className="shape-layer"
+          viewBox="0 0 150 60"
+          preserveAspectRatio="none"
+          aria-hidden="true"
         >
-          {showDaValutare ? "Mostra tutti" : "Mostra da valutare"}
-        </button>
-      )}
+          <path
+            id="shapePath"
+            d="
+              M 0 0
+              H 150
+              V 20
+              H 40
+              A 4 16 0 0 0 36 36
+              V 44
+              A 4 16 0 0 1 32 60
+              H 0
+              Z
+            "
+            fill="var(--header-bg, #2c2f48)"
+          />
+          <path
+            d="M 0 0 H 150"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 40 20 A 4 16 0 0 0 36 36"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 36 36 V 44"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 36 44 A 4 16 0 0 1 32 60"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 150 0 V 20"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 0 0 V 60"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 32 60 H 0"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 40 20 H 150"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+        </svg>
+        <div className="gruppo-title-box">
+          <h1>{nomeGruppo}</h1>
+        </div>
+        {isPartecipante ? (
+          <button className="gruppo-action" onClick={handleAbbandona}>
+            <UserMinusIcon className="group-icon" width={30} height={30} />
+          </button>
+        ) : (
+          <button className="gruppo-action" onClick={handlePartecipa}>
+            <UserPlusIcon className="group-icon" width={30} height={30} />
+          </button>
+        )}
+      </div>
+      <SearchBar style={{marginTop: '4rem'}} search={search} setSearch={setSearch} filter="" setFilter={() => {}} />
+
+        {isAdmin && (
+          <div className="toggle-valutazione">
+            <div className="toggle-switch">
+              <div className={`switch-bg ${showDaValutare ? "right" : "left"}`}></div>
+              <div
+                className={`option ${!showDaValutare ? "active" : ""}`}
+                onClick={() => setShowDaValutare(false)}
+              >
+                Tutti
+              </div>
+              <div
+                className={`option ${showDaValutare ? "active" : ""}`}
+                onClick={() => setShowDaValutare(true)}
+              >
+                Da valutare
+              </div>
+            </div>
+          </div>
+        )}
+
 
       <div className="eventi-grid">
         {filteredEventi.map((ev, index) => (
@@ -73,14 +212,71 @@ const GruppoPage = () => {
             onAction={fetchData}
           />
         ))}
-      </div  >
-     <div className="chat-button-conteiner">
-        <div className="chat-button-mask"></div>
-        <div className="angolo-alto-filler">
-          <div className="angolo-alto"></div>
-        </div>
+      </div>
+      <div className="chat-button-conteiner">
+        <svg
+          className="shape-layer"
+          viewBox="0 0 150 60"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path
+            id="shapePath"
+            d="
+              M 0 40
+              H 110
+              A 4 16 0 0 0 114 24
+              V 16
+              A 4 16 0 0 1 118 0
+              H 150
+              V 60
+              H 0
+            "
+            fill="var(--header-bg, #2c2f48)"
+          />
+          <path
+            d="M 118 0 H 150"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 114 16 A 4 16 0 0 1 118 0"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 114 24 V 16"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 110 40 A 4 16 0 0 0 114 24"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+          <path
+            d="M 110 40 H 0"
+            fill="none"
+            stroke="white"
+            strokeWidth={3}
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="butt"
+          />
+        </svg>
         <button className="chat-button" onClick={goToChat}>
-            Vai alla Chat
+          Vai alla Chat
         </button>
       </div>
     </div>
