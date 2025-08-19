@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getEventoInfo } from "../../service/SideBarService";
 import { partecipaEvento, abbandonaEvento } from "../../service/EventoService";
-import "./styles/EventoPage.css";import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./styles/EventoPage.css"
 import { UserMinusIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 
