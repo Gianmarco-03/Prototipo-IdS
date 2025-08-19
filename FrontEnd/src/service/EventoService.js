@@ -11,14 +11,14 @@ const connection = new HubConnectionBuilder()
 export async function creaEvento(data, username) {
   return connection.invoke("CreaEvento", data, username);
 }
-export async function partecipaEvento(nomeEvento, username) {
+export async function partecipaEvento(nomeGruppo, nomeEvento, username) {
    await ensureConnection(connection);
-  return await connection.invoke("Partecipa", username, nomeEvento);
+  return await connection.invoke("Partecipa", username, nomeEvento,nomeGruppo);
 }
 
-export async function abbandonaEvento(nomeEvento, username) {
+export async function abbandonaEvento(nomeGruppo, nomeEvento, username) {
   await ensureConnection(connection);
-  return await connection.invoke("Abbandona", username, nomeEvento);
+  return await connection.invoke("Abbandona", username, nomeEvento, nomeGruppo);
 }
 
 export { connection };

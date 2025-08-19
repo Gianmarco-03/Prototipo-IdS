@@ -76,11 +76,11 @@ namespace EventBackend.Controllers
 
 
 
-        public async Task<bool> Partecipa(string username, string nomeEvento)
+        public async Task<bool> Partecipa(string username, string nomeEvento, string nomeGruppo)
         {
             var evento = await _context.EventiApprovati
                 .Include(g => g.Partecipanti)
-                .SingleOrDefaultAsync(g => g.Nome == nomeEvento);
+                .SingleOrDefaultAsync(g => g.Nome == nomeEvento && g.nomeGruppo == nomeGruppo);
 
             if (evento == null) return false;
 
@@ -98,7 +98,7 @@ namespace EventBackend.Controllers
             return true;
         }
 
-        public async Task<bool> Abbandona(string username, string nomeEvento)
+        public async Task<bool> Abbandona(string username, string nomeEvento, string nomeGruppo)
         {
             var evento = await _context.EventiApprovati
                  .Include(ev => ev.Partecipanti)
@@ -125,7 +125,7 @@ namespace EventBackend.Controllers
             if (evento == null)
                 return NotFound();
 
-            var url = await _imageService.UploadImageAsync(file);
+            var url = await _imageService.UploadImageAsync(file, $"eventi/{nomeEvento}", "profilo");
             evento.ImmagineProfilo = url;
             await _context.SaveChangesAsync();
 

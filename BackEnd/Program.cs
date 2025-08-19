@@ -54,8 +54,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
-// Aggiungi SignalR con supporto per cicli oggetto
-builder.Services.AddSignalR()
+// Aggiungi SignalR con supporto per cicli oggetto e messaggi grandi
+builder.Services.AddSignalR(options =>
+{
+    // Consenti fino a 10 MB per messaggi (utile per immagini base64)
+    options.MaximumReceiveMessageSize = 10 * 1024 * 1024;
+})
     .AddJsonProtocol(options =>
     {
         options.PayloadSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
@@ -73,8 +77,6 @@ builder.Services.AddScoped<IUtenteController, UtenteController>();
 builder.Services.AddScoped<IHomeController, HomeController>();
 builder.Services.AddScoped<IPasswordHasher<Utente>, PasswordHasher<Utente>>();
 builder.Services.AddScoped<IAmministratoreController, AmministratoreController>();
-// Aggiungi SignalR
-builder.Services.AddSignalR();
 
 var app = builder.Build();
 

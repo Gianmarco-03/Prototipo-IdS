@@ -11,6 +11,7 @@ import Layout from "./Layout";
 import Login from "./Auth/Login/Login";
 import Registrazione from "./Auth/Registrazione/Registrazione";
 import RequireAuth from "././Auth/RequireAuth";
+import ModificaUtente from "./mainContent/utente/ModificaUtente";
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
               <Route path="chat/:nomeGruppo/:nomeEvento" element={<Chat />} />
               <Route path="nuovo-gruppo" element={<CreaGruppo />} />
               <Route path="nuovo-evento" element={<CreaEvento />} />
+              <Route path="profilo" element={<ModificaUtente />} />
             </Route>
 
             <Route path="eventi" element={<HomeEventi />} /> {/* Pubblica */}

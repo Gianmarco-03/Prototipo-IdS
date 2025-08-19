@@ -54,7 +54,7 @@ public class AuthController : BaseController, IAuthController
         if (user == null)
             return NotFound();
 
-        var url = await _imageService.UploadImageAsync(file);
+        var url = await _imageService.UploadImageAsync(file, $"utenti/{username}", "profilo");
         user.ImmagineProfilo = url;
         await _context.SaveChangesAsync();
 
