@@ -50,7 +50,7 @@ const UserInfo = ({ user }) => {
           <div className="hashtags-box info-box">
               <ul>
                 {toArray  (user.hashtag).map((tag,p) => (
-                  <span className="HT-card " key={p}>#{tag} </span>
+                  <span className="HT-card " key={p}>{tag} </span>
                 ))}
               </ul>
           </div>  

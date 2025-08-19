@@ -125,7 +125,7 @@ namespace GroupBackend.Controllers
             if (gruppo == null)
                 return NotFound();
 
-            var url = await _imageService.UploadImageAsync(file);
+            var url = await _imageService.UploadImageAsync(file, $"gruppi/{nomeGruppo}", "profilo");
             gruppo.ImmagineProfilo = url;
             await _context.SaveChangesAsync();
 

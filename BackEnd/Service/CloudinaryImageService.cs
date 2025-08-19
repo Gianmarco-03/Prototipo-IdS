@@ -13,12 +13,14 @@ namespace Prototipo_IdS.Services
             _cloudinary = cloudinary;
         }
 
-        public async Task<string> UploadImageAsync(IFormFile file)
+        public async Task<string> UploadImageAsync(IFormFile file, string folder, string fileName)
         {
             await using var stream = file.OpenReadStream();
             var uploadParams = new ImageUploadParams
             {
-                File = new FileDescription(file.FileName, stream)
+                File = new FileDescription(file.FileName, stream),
+                Folder = folder,
+                PublicId = fileName
             };
             var result = await _cloudinary.UploadAsync(uploadParams);
             if (result.Error != null) throw new Exception(result.Error.Message);
