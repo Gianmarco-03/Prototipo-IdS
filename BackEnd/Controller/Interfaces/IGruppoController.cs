@@ -1,5 +1,6 @@
 using EventBackend.Model;
 using GroupBackend.Model;
+using Microsoft.AspNetCore.Http;
 
 namespace GroupBackend.Controllers
 {
@@ -12,6 +13,8 @@ namespace GroupBackend.Controllers
         Task<bool> CheckAdmin(string gruppo, string username);
         Task<List<Evento>?> GetEventiGruppo(string nomeGruppo);
         public Task<List<EventoApprovato>> FindEventiGruppo(string nomeGruppo, string toSearch);
+        Task<bool> UpdateInfo(Gruppo gruppo);
+        Task<string?> UploadImage(string nomeGruppo, IFormFile file);
 
     }
 }
