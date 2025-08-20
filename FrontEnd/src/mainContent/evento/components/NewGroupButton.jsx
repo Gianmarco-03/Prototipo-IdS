@@ -7,7 +7,7 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 const NewGroupButton = ({ onClick }) => {
   return (
     <div className="groupContainer">
-        <div className="gruppo-title-box">
+        <div className="title">
           <h1>{"eventi"}</h1>
         </div>
         <button className="newGroupButton" onClick={onClick}>

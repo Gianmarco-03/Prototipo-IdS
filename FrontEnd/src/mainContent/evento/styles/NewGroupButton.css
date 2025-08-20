@@ -7,7 +7,7 @@
   align-items: center;
   gap: 1rem;
   justify-content: center;
-  top: 3%;
+  top: 2%;
 }
 
 .newGroupButton {
@@ -29,7 +29,7 @@ background-color: #2c2f48;
   transform: scale(1.1);
 }
 
-.gruppo-title-box{
+.title{
   left: 4%;
   border: 2px solid #fff;
   border-radius: 8px;
@@ -38,4 +38,14 @@ background-color: #2c2f48;
   background-color: #1D203E;
   margin: 3%;
   min-width: 30%;
+  min-height: 50%;
+    overflow-wrap: break-word;
+  word-break: break-word; /* compatibilità */
+}
+
+.title h1 {
+  position:relative;
+  left: 0;
+  margin: 0;
+  font-size: 2rem;
 }

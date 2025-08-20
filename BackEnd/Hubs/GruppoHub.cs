@@ -57,12 +57,26 @@ namespace GroupBackend.Hubs
             return await ctrl.GetEventiGruppo(nomeGruppo);
         }
 
-         public async Task<List<EventoApprovato>> FindEventiGruppo(string nomeGruppo, string toSearch)
+        public async Task<List<EventoApprovato>> FindEventiGruppo(string nomeGruppo, string toSearch)
         {
             var ctrl = GetCtrl();
             return await ctrl.FindEventiGruppo(nomeGruppo, toSearch);
         }
 
+        public async Task<bool> UpdateInfo(Gruppo gruppo)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.UpdateInfo(gruppo);
+        }
+
+        public async Task<string?> UploadImage(string nomeGruppo, string fileBase64)
+        {
+            var bytes = Convert.FromBase64String(fileBase64);
+            await using var stream = new MemoryStream(bytes);
+            IFormFile file = new FormFile(stream, 0, bytes.Length, "file", "upload.jpg");
+            var ctrl = GetCtrl();
+            return await ctrl.UploadImage(nomeGruppo, file);
+        }
         
     }
 }

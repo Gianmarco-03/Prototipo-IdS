@@ -77,7 +77,7 @@ namespace EventBackend.Controllers
 
 
         public async Task<bool> Partecipa(string username, string nomeEvento, string nomeGruppo)
-        {
+ {
             var evento = await _context.EventiApprovati
                 .Include(g => g.Partecipanti)
                 .SingleOrDefaultAsync(g => g.Nome == nomeEvento && g.nomeGruppo == nomeGruppo);
@@ -102,7 +102,7 @@ namespace EventBackend.Controllers
         {
             var evento = await _context.EventiApprovati
                  .Include(ev => ev.Partecipanti)
-                 .SingleOrDefaultAsync(ev => ev.Nome == nomeEvento);
+                 .SingleOrDefaultAsync(ev => ev.Nome == nomeEvento && ev.nomeGruppo == nomeGruppo);
             if (evento == null) return false;
 
             var entry = evento.Partecipanti.FirstOrDefault(p => p.Username == username);
@@ -114,23 +114,40 @@ namespace EventBackend.Controllers
             return true;
         }
 
+        public async Task<bool> UpdateInfo(Evento evento)
+        {
+            var ev = await _context.EventiApprovati.SingleOrDefaultAsync(e => e.Nome == evento.Nome && e.nomeGruppo == evento.nomeGruppo);
+            if (ev == null) return false;
 
-        [HttpPost("upload/{nomeEvento}")]
-        public async Task<IActionResult> UploadImage(string nomeEvento, [FromForm] IFormFile file)
+            ev.Descrizione = evento.Descrizione;
+            ev.DataInizio = evento.DataInizio;
+            ev.DataFine = evento.DataFine;
+            ev.ImmagineProfilo = evento.ImmagineProfilo;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<string?> UploadImage(string nomeEvento, string nomeGruppo, IFormFile file)
         {
             if (file == null || file.Length == 0)
-                return BadRequest();
+                return null;
 
-            var evento = await _context.Eventi.FindAsync(nomeEvento);
+            var evento = await _context.EventiApprovati.SingleOrDefaultAsync(e => e.Nome == nomeEvento && e.nomeGruppo == nomeGruppo);
             if (evento == null)
-                return NotFound();
+                return null;
 
             var url = await _imageService.UploadImageAsync(file, $"eventi/{nomeEvento}", "profilo");
             evento.ImmagineProfilo = url;
             await _context.SaveChangesAsync();
 
-            return Ok(new { path = evento.ImmagineProfilo });
+            return evento.ImmagineProfilo;
         }
-        
+
+        public async Task<bool> CheckOrganizzatore(string nomeEvento, string nomeGruppo, string username)
+        {
+            return await _context.EventoOrganizzatori.AnyAsync(o => o.EventoNome == nomeEvento && o.nomeGruppo == nomeGruppo && o.Username == username);
+        }
+
     }
 }

@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.SignalR;
 using EventBackend.Hubs;
 using EventBackend.Controllers;
 using EventBackend.Model;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.IO;
 
 namespace EventBackend.Hubs
 {
@@ -46,7 +49,28 @@ namespace EventBackend.Hubs
             var ctrl = GetCtrl();
             if (await ctrl.Abbandona(username, nomeEvento,nomeGruppo)){
                 await Clients.All.SendAsync("PartecipantiAggiornati");
-            }        
+                       }
+        }
+
+        public async Task<bool> UpdateInfo(Evento evento)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.UpdateInfo(evento);
+        }
+
+        public async Task<string?> UploadImage(string nomeEvento, string nomeGruppo, string fileBase64)
+        {
+            var bytes = Convert.FromBase64String(fileBase64);
+            await using var stream = new MemoryStream(bytes);
+            IFormFile file = new FormFile(stream, 0, bytes.Length, "file", "upload.jpg");
+            var ctrl = GetCtrl();
+            return await ctrl.UploadImage(nomeEvento, nomeGruppo, file);
+        }
+
+        public async Task<bool> CheckOrganizzatore(string nomeEvento, string nomeGruppo, string username)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.CheckOrganizzatore(nomeEvento, nomeGruppo, username);
         }
     }
 }

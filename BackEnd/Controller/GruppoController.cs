@@ -115,21 +115,31 @@ namespace GroupBackend.Controllers
 
             return true;
         }
-        [HttpPost("upload/{nomeGruppo}")]
-        public async Task<IActionResult> UploadImage(string nomeGruppo, [FromForm] IFormFile file)
+        public async Task<bool> UpdateInfo(Gruppo gruppo)
+        {
+            var g = await _context.Gruppi.SingleOrDefaultAsync(x => x.Nome == gruppo.Nome);
+            if (g == null) return false;
+
+            g.Descrizione = gruppo.Descrizione;
+            g.ImmagineProfilo = gruppo.ImmagineProfilo;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<string?> UploadImage(string nomeGruppo, IFormFile file)
         {
             if (file == null || file.Length == 0)
-                return BadRequest();
+                return null;
 
             var gruppo = await _context.Gruppi.FindAsync(nomeGruppo);
             if (gruppo == null)
-                return NotFound();
+                return null;
 
             var url = await _imageService.UploadImageAsync(file, $"gruppi/{nomeGruppo}", "profilo");
             gruppo.ImmagineProfilo = url;
             await _context.SaveChangesAsync();
 
-            return Ok(new { path = gruppo.ImmagineProfilo });
+            return gruppo.ImmagineProfilo;
         }
 
         public async Task<bool> CheckAdmin(string gruppo, string username)

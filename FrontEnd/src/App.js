@@ -12,6 +12,8 @@ import Login from "./Auth/Login/Login";
 import Registrazione from "./Auth/Registrazione/Registrazione";
 import RequireAuth from "././Auth/RequireAuth";
 import ModificaUtente from "./mainContent/utente/ModificaUtente";
+import ModificaGruppo from "./mainContent/gruppo/ModificaGruppo";
+import ModificaEvento from "./mainContent/evento/ModificaEvento";
 
 
 const App = () => {
@@ -28,6 +30,8 @@ const App = () => {
               <Route index element={<HomeGruppi />} />
               <Route path="gruppo/:nomeGruppo" element={<GruppoPage />} />
               <Route path="evento/:nomeGruppo/:nomeEvento" element={<EventoPage />} />
+              <Route path="gruppo/:nomeGruppo/modifica" element={<ModificaGruppo />} />
+              <Route path="evento/:nomeGruppo/:nomeEvento/modifica" element={<ModificaEvento />} />
               <Route path="chat/:nomeGruppo" element={<Chat />} />
               <Route path="chat/:nomeGruppo/:nomeEvento" element={<Chat />} />
               <Route path="nuovo-gruppo" element={<CreaGruppo />} />

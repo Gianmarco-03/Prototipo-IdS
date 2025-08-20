@@ -1,8 +1,8 @@
 /* Sidebar base */
 .sidebar {
   position: fixed;        /* Fissa la sidebar rispetto alla finestra */
-  top: 0;                /* Parte dall'alto della finestra */
-  right: 0;           
+  top: -1%;                /* Parte dall'alto della finestra */
+  right: -1rem;           
   width: 15%;
   height: 100vh;
   background-color: #2C2F48;
@@ -17,7 +17,9 @@
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
   z-index: 1000;
-  padding: 1rem;
+  border: solid;
+  padding-right: 2rem;
+  padding-left: 1rem;
 }
 
 
@@ -27,7 +29,9 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  width: 50%;
+  width: 100%;
+  border-radius: 32px;
+  background-color: #1d203e ;
 }
 
 /* Icona */
