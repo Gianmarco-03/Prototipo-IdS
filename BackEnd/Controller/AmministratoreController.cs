@@ -47,12 +47,6 @@ namespace AdminBackend.Controllers
                 Gruppo = nomeGruppo +"/"+ nomeEvento
             });
             await _context.SaveChangesAsync();
-
-            foreach (var p in partecipanti)
-                _context.EventoPartecipanti.Add(new EventoPartecipante { EventoNome = nomeEvento, Username = p.Username, nomeGruppo = p.nomeGruppo });
-            foreach (var o in organizzatori)
-                _context.EventoOrganizzatori.Add(new EventoOrganizzatore { EventoNome = nomeEvento, Username = o.Username, nomeGruppo = o.nomeGruppo });
-            await _context.SaveChangesAsync();
             return true;
         }
 

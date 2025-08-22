@@ -102,13 +102,18 @@ margin-left: 4%;
   border-radius: 8px;
   
 }
+.evento-details {
+  margin-top: 33%;
+  display: flex;
+  gap: 1rem;
+}
 
 .evento-description-box {
-  margin-top: 33%;
   background-color: #2c2f48;
   border: 1px solid #444;
   border-radius: 8px;
   padding: 15px;
+  flex: 0 0 70%;
 }
 
 
@@ -150,3 +155,60 @@ margin-left: 4%;
   background: linear-gradient(90deg, #A73EE7, #00EBFF);
   transform: scale(1.1);
 }
+
+.inviti-container {
+  background-color: #2c2f48;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.invito-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.invito-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.invito-form input {
+  flex: 1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #666;
+  background-color: #1d203e;
+  color: #fff;
+}
+
+.invito-form button {
+  padding: 4px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4a4d6e;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.invito-form button:hover {
+  background-color: #5e62a4;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.green { background-color: #4caf50; }
+.status-dot.yellow { background-color: #ffeb3b; }
+.status-dot.red { background-color: #f44336; }

@@ -23,6 +23,8 @@ namespace Base.Data
         public DbSet<PropostaEvento> Proposte { get; set; }
         public DbSet<EventoPartecipante> EventoPartecipanti { get; set; }
         public DbSet<EventoOrganizzatore> EventoOrganizzatori { get; set; }
+        public DbSet<EventoCondiviso> EventiCondivisi { get; set; }
+        public DbSet<Invito> Inviti { get; set; }
 
 
 
@@ -43,6 +45,13 @@ namespace Base.Data
             modelBuilder.Entity<PropostaEvento>()
                 .ToTable("proposta_evento")
                 .HasBaseType<Evento>();
+
+            modelBuilder.Entity<EventoCondiviso>()
+                .ToTable("evento_condiviso")
+                .HasBaseType<Evento>();
+
+            modelBuilder.Entity<Invito>()
+                .ToTable("invito");
 
 
             modelBuilder.Entity<Messaggio>()
@@ -87,8 +96,15 @@ namespace Base.Data
             modelBuilder.Entity<EventoOrganizzatore>()
                 .HasOne(eo => eo.Evento)
                 .WithMany(e => e.Organizzatori)
-                .HasForeignKey(eo => new {eo.EventoNome, eo.nomeGruppo});
-                
+                .HasForeignKey(eo => new { eo.EventoNome, eo.nomeGruppo });
+
+            modelBuilder.Entity<EventoCondiviso>()
+                .HasMany(ec => ec.Inviti)
+                .WithOne(i => i.EventoCondiviso)
+                .HasForeignKey(i => new { i.EventoCondivisoNome, i.DaGruppo });
+
+            modelBuilder.Entity<Invito>()
+                .HasKey(i => new { i.DaGruppo, i.PerGruppo, i.EventoCondivisoNome });
         }
 
     }

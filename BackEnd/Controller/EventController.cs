@@ -66,10 +66,6 @@ namespace EventBackend.Controllers
                 nomeGruppo = evento.nomeGruppo,
                 Username = username
             });
-            _context.Chats.Add(new ChatBackend.Model.Chat
-            {
-                Gruppo = evento.Nome + "/" + evento.nomeGruppo
-            });
             await _context.SaveChangesAsync();
             return true;
         }

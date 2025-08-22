@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UtenteCard from "./UtenteCard";
 import { checkAdmin } from "../../service/GruppoService";
+import { useNavigate } from "react-router-dom";
 
 const BACKEND_URL = "http://localhost:3000";
 
@@ -19,6 +20,7 @@ const GroupInfo = ({ gruppo}) => {
 
   const [showBanner, setShowBanner] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const username =
@@ -30,8 +32,12 @@ const GroupInfo = ({ gruppo}) => {
 
   if (!gruppo) return null;
 
+   const gotoCreaCondiviso = () => {
+    navigate(`/gruppo/${encodeURIComponent(gruppo.nome)}/nuovo-evento-condiviso`);
+  };
+
   return (
-    <div className="sidebar-section">
+    <div className="sidebar-section gruppo-info">
       <div className="username-box info-box">
         <span className="field-label">{gruppo.nome}</span>
       </div>
@@ -77,6 +83,11 @@ const GroupInfo = ({ gruppo}) => {
             </ul>
           </div>
         </div>
+      )}
+       {isAdmin && (
+        <button className="sidebar-create-button" onClick={gotoCreaCondiviso}>
+          Nuovo evento condiviso
+        </button>
       )}
     </div>
   );
