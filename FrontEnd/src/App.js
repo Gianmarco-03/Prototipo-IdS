@@ -6,6 +6,7 @@ import GruppoPage from "./mainContent/gruppo/GruppoPage";
 import EventoPage from "./mainContent/evento/EventoPage";
 import CreaGruppo from "./mainContent/gruppo/CreaGruppo";
 import CreaEvento from "./mainContent/evento/CreaEvento";
+import CreaEventoCondiviso from "./mainContent/evento/CreaEventoCondiviso";
 import Chat from "./mainContent/chat/Chat";
 import Layout from "./Layout";
 import Login from "./Auth/Login/Login";
@@ -36,6 +37,7 @@ const App = () => {
               <Route path="chat/:nomeGruppo/:nomeEvento" element={<Chat />} />
               <Route path="nuovo-gruppo" element={<CreaGruppo />} />
               <Route path="nuovo-evento" element={<CreaEvento />} />
+              <Route path="gruppo/:nomeGruppo/nuovo-evento-condiviso" element={<CreaEventoCondiviso />} />
               <Route path="profilo" element={<ModificaUtente />} />
             </Route>
 

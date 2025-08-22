@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getEventoInfo } from "../../service/SideBarService";
-import { partecipaEvento, abbandonaEvento } from "../../service/EventoService";
+import { partecipaEvento, abbandonaEvento, getInvitiEvento, invitaGruppoEvento, rispondiInvitoEvento } from "../../service/EventoService";
 import { useNavigate, useParams } from "react-router-dom";
-import "./styles/EventoPage.css"
+import "./styles/EventoPage.css";
 import { UserMinusIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 
 
@@ -13,6 +13,9 @@ const EventoPage = () => {
   const { nomeEvento, nomeGruppo } = useParams();
   const [evento, setEvento] = useState(null);
   const [isPartecipante, setIsPartecipante] = useState(false);
+  const [inviti, setInviti] = useState(null);
+  const [isOrganizzatore, setIsOrganizzatore] = useState(false);
+  const [nuovoInvito, setNuovoInvito] = useState("");
 
   useEffect(() => {
     const username =
@@ -22,6 +25,17 @@ const EventoPage = () => {
       const list = ev?.partecipanti?.$values || ev?.partecipanti || [];
       const names = list.map((p) => (typeof p === "string" ? p : p.username));
       setIsPartecipante(names.includes(username));
+      const orgs = ev?.organizzatori?.$values || ev?.organizzatori || [];
+      const orgNames = orgs.map((p) => (typeof p === "string" ? p : p.username));
+      setIsOrganizzatore(orgNames.includes(username));
+    });
+    getInvitiEvento(nomeEvento, nomeGruppo).then((i) => {
+      if (i === null || i === undefined) {
+        setInviti(null);
+      } else {
+        const list = i.$values || i;
+        setInviti(list);
+      }
     });
   }, [nomeEvento, nomeGruppo]);
 
@@ -43,6 +57,22 @@ const EventoPage = () => {
       sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
     await abbandonaEvento(nomeGruppo,nomeEvento, username);
     setIsPartecipante(false);
+  };
+
+  const handleInvita = async (e) => {
+    e.preventDefault();
+    await invitaGruppoEvento(nomeEvento, nomeGruppo, nuovoInvito);
+    const i = await getInvitiEvento(nomeEvento, nomeGruppo);
+    setInviti(i.$values.length != 0 ? (i.$values || i) : null);
+    setNuovoInvito("");
+  };
+
+  const handleRispondi = async (g, accetta) => {
+    const username = sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
+    await rispondiInvitoEvento(nomeEvento, nomeGruppo, g, accetta, username);
+    const i = await getInvitiEvento(nomeEvento, nomeGruppo);
+    setInviti(i.$values.length != 0 ? (i.$values || i) : null);
+    if (accetta) setIsOrganizzatore(true);
   };
 
   const nome = evento?.nome?.split("/").pop() || nomeEvento;
@@ -153,9 +183,39 @@ const EventoPage = () => {
     )}
     </div>
   </div>
-      <div className="evento-description-box">
-        {descr}
-      </div>
+  <div className="evento-details">
+        <div className="evento-description-box">{descr}</div>
+        {(inviti !== null || isOrganizzatore) && (
+          <div className="inviti-container">
+            {inviti && inviti.map((inv) => (
+              <div key={inv.Id || inv.id} className="invito-item">
+                <span
+                  className={`status-dot ${inv.accettato === true ? "green" : inv.accettato === false ? "red" : "yellow"}`}
+                ></span>
+                <span>{inv.PerGruppo || inv.perGruppo}</span>
+                {sessionStorage.getItem("gruppo") === (inv.PerGruppo || inv.perGruppo) &&
+                  inv.accettato == null &&
+                  sessionStorage.getItem("admin") === "true" && (
+                    <>
+                      <button onClick={() => handleRispondi(inv.PerGruppo || inv.perGruppo, true)}>✓</button>
+                      <button onClick={() => handleRispondi(inv.PerGruppo || inv.perGruppo, false)}>✗</button>
+                    </>
+                  )}
+              </div>
+            ))}
+            {isOrganizzatore && (
+              <form onSubmit={handleInvita} className="invito-form">
+                <input
+                  value={nuovoInvito}
+                  onChange={(e) => setNuovoInvito(e.target.value)}
+                  placeholder="Invita gruppo"
+                />
+                <button type="submit">Invita</button>
+              </form>
+            )}
+          </div>
+        )}                      
+        </div>
       <div className="chat-button-conteiner">
         <svg
           className="shape-layer"

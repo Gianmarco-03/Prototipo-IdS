@@ -182,3 +182,24 @@
 .card-action-panel button:hover {
   background-color: #4a4e74;
 }
+.shared-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  font-size: 1.2rem;
+  z-index: 3;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.status-dot.green { background-color: #4caf50; }
+.status-dot.yellow { background-color: #ffeb3b; }
+.status-dot.red { background-color: #f44336; }
+.status-dot.approvato { background-color: #4caf50; }
+.status-dot.davalutare { background-color: #ffeb3b; }

@@ -200,18 +200,22 @@ const GruppoPage = () => {
 
 
       <div className="eventi-grid">
-        {filteredEventi.map((ev, index) => (
-          <Card
-            key={ev.Nome || ev.nome || index}
-            nomeEvento={ev.nome}
-            descrizione={ev.Descrizione || ev.descrizione}
-            imgUrl={ev.ImmagineProfilo || ev.immagineProfilo}
-            gruppo={nomeGruppo}
-            approvato={ev.Approvato ?? ev.approvato}
-            isAdmin={isAdmin}
-            onAction={fetchData}
-          />
-        ))}
+        {filteredEventi.map((ev, index) => {
+          const gruppoEv = ev.nomeGruppo || ev.NomeGruppo || nomeGruppo;
+          return (
+            <Card
+              key={ev.Nome || ev.nome || index}
+              nomeEvento={ev.nome || ev.Nome}
+              descrizione={ev.Descrizione || ev.descrizione}
+              imgUrl={ev.ImmagineProfilo || ev.immagineProfilo}
+              gruppo={gruppoEv}
+              approvato={ev.Approvato ?? ev.approvato}
+              isAdmin={isAdmin}
+              condiviso={gruppoEv !== nomeGruppo}
+              onAction={fetchData}
+            />
+          );
+        })}
       </div>
       <div className="chat-button-conteiner">
         <svg

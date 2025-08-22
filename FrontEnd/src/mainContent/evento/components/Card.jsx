@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/CardE.css";
 import { approvaEvento, bocciaEvento } from "../../../service/AmministratoreService";
 
-const Card = ({ nomeEvento, descrizione, imgUrl, gruppo, approvato, isAdmin, onAction }) => {
+const Card = ({ nomeEvento, descrizione, imgUrl, gruppo, approvato, isAdmin, onAction, condiviso }) => {
   const navigate = useNavigate();
   const gotoEvento = () => {
     navigate(`/evento/${gruppo}/${nomeEvento}`);
@@ -39,6 +39,7 @@ const Card = ({ nomeEvento, descrizione, imgUrl, gruppo, approvato, isAdmin, onA
     <>
     <div className="cardE">
       <div className="cardE-image" style={{ backgroundImage: `url(${imgUrl})` }}></div>
+      {condiviso && <span className="shared-badge" title="Evento condiviso">🔗</span>}
        {isAdmin && !approvato && (
         <>
           <div className={`card-action-panel ${panelOpen ? "open" : ""}`}>

@@ -1,0 +1,86 @@
+using EventBackend.Model;
+using Base.Data;
+using Base.Controllers;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using AdminBackend.Controllers;
+
+namespace EventBackend.Controllers
+{
+    public class EventoCondivisoController : BaseController, IEventoCondivisoController
+    {
+        private readonly IEventController _eventController;
+        private readonly IAmministratoreController _amministratoreController;
+        public EventoCondivisoController(AppDbContext context, IEventController eventController, IAmministratoreController amministratoreController) : base(context)
+        {
+            _eventController = eventController;
+            _amministratoreController = amministratoreController;
+        }
+
+        public async Task<bool> CreaEventoCondiviso(PropostaEvento evento, string gruppoPromotore, string username, List<string> gruppiInvitati)
+        {
+            evento.nomeGruppo = gruppoPromotore;
+            var condiviso = new EventoCondiviso(evento);
+            _context.EventiCondivisi.Add(condiviso);
+            await _context.SaveChangesAsync();
+            foreach (var g in gruppiInvitati.Distinct())
+            {
+                if (await _context.Gruppi.AnyAsync(gr => gr.Nome == g))
+                {
+                    _context.Inviti.Add(new Invito
+                    {
+                        DaGruppo = gruppoPromotore,
+                        PerGruppo = g,
+                        EventoCondivisoNome = evento.Nome
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+
+        public async Task<List<Invito>> GetInviti(string nomeEvento, string gruppoPromotore)
+        {
+            return await _context.Inviti
+                .Where(i => i.EventoCondivisoNome == nomeEvento && i.DaGruppo == gruppoPromotore)
+                .ToListAsync();
+        }
+
+        public async Task<bool> InvitaGruppo(string nomeEvento, string gruppoPromotore, string gruppoInvitato)
+        {
+            if (!await _context.Gruppi.AnyAsync(g => g.Nome == gruppoInvitato))
+                return false;
+            if (await _context.Inviti.AnyAsync(i => i.EventoCondivisoNome == nomeEvento && i.DaGruppo == gruppoPromotore && i.PerGruppo == gruppoInvitato))
+                return false;
+            _context.Inviti.Add(new Invito
+            {
+                DaGruppo = gruppoPromotore,
+                PerGruppo = gruppoInvitato,
+                EventoCondivisoNome = nomeEvento
+            });
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> RispondiInvito(string nomeEvento, string gruppoPromotore, string gruppoInvitato, bool accetta, string username)
+        {
+            var invito = await _context.Inviti.SingleOrDefaultAsync(i => i.EventoCondivisoNome == nomeEvento && i.DaGruppo == gruppoPromotore && i.PerGruppo == gruppoInvitato);
+            if (invito == null) return false;
+            invito.Accettato = accetta;
+            if (accetta)
+            {
+                _context.EventoOrganizzatori.Add(new EventoOrganizzatore
+                {
+                    EventoNome = nomeEvento,
+                    nomeGruppo = gruppoPromotore,
+                    Username = username
+                });
+            }
+            await _context.SaveChangesAsync();
+            return true;
+        }
+    }
+}
