@@ -37,7 +37,7 @@ namespace HomeBackend.Hubs
             return await ctrl.FindGruppi(toSearch);
         }
 
-        public async Task<List<EventoApprovato>> GetEventi(string username)
+        public async Task<List<Evento>> GetEventi(string username)
         {
             var ctrl = GetCtrl();
             return await ctrl.GetEventi(username);

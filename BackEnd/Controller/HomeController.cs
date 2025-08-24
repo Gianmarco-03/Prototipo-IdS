@@ -3,6 +3,7 @@ using Base.Data;
 using GroupBackend.Model;
 using EventBackend.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.ObjectPool;
 
 namespace HomeBackend.Controllers
 {
@@ -28,9 +29,33 @@ namespace HomeBackend.Controllers
                 .ToListAsync();
         }
 
-        public async Task<List<EventoApprovato>> GetEventi(string username)
+        public async Task<List<Evento>> GetEventi(string username)
         {
-            return await _context.EventiApprovati
+            var approvati = await GetEventiApprovati(username);  // List<EventoApprovato>
+            var condivisi = await GetEventiCondivisi(username);  // List<EventoCondiviso>
+
+            var tutti = approvati.Cast<Evento>()
+                                .Concat(condivisi.Cast<Evento>())
+                                // opzionale: deduplica per (Nome, NomeGruppo)
+                                .GroupBy(e => new { e.Nome, e.nomeGruppo })
+                                .Select(g => g.First())
+                                .ToList();
+
+            return tutti;
+        }
+
+        private async Task<List<EventoApprovato>> GetEventiApprovati(string username)
+        { 
+                return await _context.EventiApprovati
+                .Where(e => _context.GruppoPartecipanti
+                .Any(gp => gp.GruppoNome == e.nomeGruppo && gp.Username == username))
+                .Take(10)
+                .ToListAsync();
+        }
+
+         private async Task<List<EventoCondiviso>> GetEventiCondivisi(string username)
+        { 
+                return await _context.EventiCondivisi
                 .Where(e => _context.GruppoPartecipanti
                 .Any(gp => gp.GruppoNome == e.nomeGruppo && gp.Username == username))
                 .Take(10)

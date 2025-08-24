@@ -151,7 +151,8 @@ namespace GroupBackend.Controllers
         public async Task<List<Evento>?> GetEventiGruppo(string nomeGruppo)
         {
             return await _context.Eventi
-                .Where(e => e.nomeGruppo == nomeGruppo)
+                .Where(e => e.nomeGruppo == nomeGruppo
+                && (e is EventoApprovato || e is EventoCondiviso || e is PropostaEvento))
                 .ToListAsync();
         }
         
