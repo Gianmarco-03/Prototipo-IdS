@@ -5,18 +5,28 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EventBackend.Model
 {
     /// <summary>
-    /// Concrete decorator that marks an event as shared between groups.
-    /// The event is promoted by a single group but can invite other groups
-    /// through the Invito entity.
+    /// Rappresenta un evento approvato che è stato contrassegnato come
+    /// condiviso tra più gruppi. Viene usato come DTO per restituire gli
+    /// eventi condivisi al client.
     /// </summary>
-    [Table("evento_condiviso")]
     public class EventoCondiviso : EventoDecorator
     {
-
         public List<Invito> Inviti { get; set; } = new();
 
-        public EventoCondiviso(){}
+        public EventoCondiviso()
+        {
+            Approvato = true;
+        }
 
-        public EventoCondiviso(Evento evento) : base(evento){}
+        public EventoCondiviso(Evento evento)
+        {
+            Nome = evento.Nome;
+            Descrizione = evento.Descrizione;
+            DataInizio = evento.DataInizio;
+            DataFine = evento.DataFine;
+            nomeGruppo = evento.nomeGruppo;
+            ImmagineProfilo = evento.ImmagineProfilo;
+            Approvato = true;
+        }
     }
 }

@@ -30,17 +30,17 @@ const GruppoPage = () => {
       search.trim() === ""
         ? getEventiGruppo(nomeGruppo)
         : findEventiGruppo(nomeGruppo, search);
-    const invitiPromise = getInvitiPerGruppo(nomeGruppo)
+    const invitiPromise = await getInvitiPerGruppo(nomeGruppo)
     const [d, inv] = await Promise.all([eventiPromise, invitiPromise]);
     const list = d?.$values || d || [];
     const invList = inv ? (Array.isArray(inv.$values) ? inv.$values : inv) : [];
     const invCards = invList.map((i) => ({
-      Nome: i.EventoCondiviso?.Nome || i.EventoCondivisoNome || i.eventoCondivisoNome,
+      Nome: i.eventoCondiviso?.Nome || i.eventoCondivisoNome || i.eventoCondivisoNome,
       Descrizione:
-        i.EventoCondiviso?.Descrizione || i.EventoCondiviso?.descrizione,
+        i.eventoCondiviso?.Descrizione || i.eventoCondiviso?.descrizione,
       ImmagineProfilo:
-        i.EventoCondiviso?.ImmagineProfilo ||
-        i.EventoCondiviso?.immagineProfilo,
+        i.eventoCondiviso?.ImmagineProfilo ||
+        i.eventoCondiviso?.immagineProfilo,
       nomeGruppo: i.DaGruppo || i.daGruppo,
       accettato: i.Accettato ?? i.accettato,
       invito: true,

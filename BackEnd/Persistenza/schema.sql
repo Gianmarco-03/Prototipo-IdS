@@ -98,9 +98,19 @@ CREATE TABLE Invito (
     daGruppo VARCHAR(100),
     perGruppo VARCHAR(100),
     eventoCondiviso VARCHAR(100),
+    accettato: BOOLEAN
     FOREIGN KEY (daGruppo) REFERENCES Gruppo(nomeGruppo),
     FOREIGN KEY (perGruppo) REFERENCES Gruppo(nomeGruppo),
     FOREIGN KEY (eventoCondiviso, daGruppo) REFERENCES Evento_Condiviso(nomeEvento, gruppoPromotore)
+);
+
+CREATE TABLE Evento_Decorator(
+    nomeEvento VARCHAR(100),
+    gruppoPromotore VARCHAR(100),
+    tipo TEXT,
+    PRIMARY KEY (nomeEvento, gruppoPromotore),
+    FOREIGN KEY (nomeEvento, gruppoPromotore) REFERENCES Evento(nomeEvento, nomeGruppo),
+    FOREIGN KEY (gruppoPromotore) REFERENCES Gruppo(nomeGruppo)
 );
 
 -- ORGANIZZATORE_EVENTO

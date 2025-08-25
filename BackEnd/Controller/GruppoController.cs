@@ -152,7 +152,7 @@ namespace GroupBackend.Controllers
         {
             return await _context.Eventi
                 .Where(e => e.nomeGruppo == nomeGruppo
-                && (e is EventoApprovato || e is EventoCondiviso || e is PropostaEvento))
+                && (e is EventoApprovato || e is PropostaEvento))
                 .ToListAsync();
         }
 
@@ -164,13 +164,24 @@ namespace GroupBackend.Controllers
                 .Take(10)
                 .ToListAsync();
         }
-        
+
         public async Task<List<Invito>> GetInvitiPerGruppo(string gruppoInvitato)
         {
-            return await _context.Inviti
-                .Include(i => i.EventoCondiviso)
+            var inviti = await _context.Inviti
                 .Where(i => i.PerGruppo == gruppoInvitato)
                 .ToListAsync();
+
+            foreach (Invito i in inviti)
+            {
+                i.EventoCondiviso = new EventoCondiviso(
+                   await _context.EventiApprovati
+                        .Where(e => e.nomeGruppo == i.DaGruppo && e.Nome == i.EventoCondivisoNome)
+                        .FirstOrDefaultAsync()
+                );
+                Console.WriteLine(i.EventoCondiviso.Descrizione);
+            }
+
+            return inviti;
         }
     }
 }

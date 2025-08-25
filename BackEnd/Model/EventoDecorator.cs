@@ -3,28 +3,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EventBackend.Model
 {
     /// <summary>
-    /// Abstract decorator for Evento. It stores a reference to the base evento
-    /// and exposes the same properties so that concrete decorators can extend
-    /// behaviour without modifying existing classes.
+        /// Rappresenta una decorazione applicata ad un evento approvato.
+        /// Ogni decoratore identifica l'evento tramite nome e gruppo
+        /// e ne specifica il tipo (es. "condiviso").
     /// </summary>
-    public abstract class EventoDecorator : Evento
+   [Table("evento_decorator")]
+    public class EventoDecorator : Evento
     {
-        protected Evento? InnerEvento { get; set; }
+        [Column("nomeGruppo")]
+        public string nomeGruppo { get; set; } = string.Empty;
 
-        protected EventoDecorator()
-        {
-        }
+        [Column("nomeEvento")]
+        public string nomeEvento { get; set; } = string.Empty;
 
-        protected EventoDecorator(Evento evento)
-        {
-            InnerEvento = evento;
-            Nome = evento.Nome;
-            Descrizione = evento.Descrizione;
-            DataInizio = evento.DataInizio;
-            DataFine = evento.DataFine;
-            nomeGruppo = evento.nomeGruppo;
-            ImmagineProfilo = evento.ImmagineProfilo;
-            Approvato = evento.Approvato;
-        }
+        [Column("tipo")]
+        public string Tipo { get; set; } = string.Empty;
+
+        private Evento e { get; set; } 
+
     }
 }

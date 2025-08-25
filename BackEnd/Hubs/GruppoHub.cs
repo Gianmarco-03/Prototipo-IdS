@@ -80,6 +80,7 @@ namespace GroupBackend.Hubs
 
         public async Task<List<Invito>> GetInvitiPerGruppo(string gruppoInvitato)
         {
+            Console.WriteLine("vivo");
             var ctrl = GetCtrl();
             return await ctrl.GetInvitiPerGruppo(gruppoInvitato);
         }

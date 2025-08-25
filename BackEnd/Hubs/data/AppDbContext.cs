@@ -23,6 +23,7 @@ namespace Base.Data
         public DbSet<PropostaEvento> Proposte { get; set; }
         public DbSet<EventoPartecipante> EventoPartecipanti { get; set; }
         public DbSet<EventoOrganizzatore> EventoOrganizzatori { get; set; }
+        public DbSet<EventoDecorator> EventoDecoratori { get; set; }
         public DbSet<EventoCondiviso> EventiCondivisi { get; set; }
         public DbSet<Invito> Inviti { get; set; }
 
@@ -46,9 +47,12 @@ namespace Base.Data
                 .ToTable("proposta_evento")
                 .HasBaseType<Evento>();
 
+            modelBuilder.Entity<EventoDecorator>()
+                .ToTable("evento_decorator");
+
             modelBuilder.Entity<EventoCondiviso>()
                 .ToTable("evento_condiviso")
-                .HasBaseType<Evento>();
+                .HasBaseType<EventoDecorator>();
 
             modelBuilder.Entity<Invito>()
                 .ToTable("invito");
