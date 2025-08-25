@@ -6,6 +6,7 @@ margin-left: 4%;
   min-height: 100vh;
   position: relative;
   margin-right: 17%;
+  text-overflow:ellipsis;
 }
 
 
@@ -57,11 +58,19 @@ margin-left: 4%;
   padding: 10px 20px;
   color: white;
   background-color: #1D203E;
+  max-width: 10%;
+  overflow: hidden;       /* nasconde testo in eccesso */
+  white-space: nowrap;    /* non va a capo */
+  text-overflow: ellipsis; /* aggiunge "..." */
 }
+
 
 .evento-title-box h1 {
   margin: 0;
   font-size: 2rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .evento-action {

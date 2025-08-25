@@ -10,6 +10,7 @@ import {
   findEventiGruppo,
   partecipaGruppo,
   abbandonaGruppo,
+  getInvitiPerGruppo
 } from "../../service/GruppoService";
 import { getGruppoInfo } from "../../service/SideBarService";
 import { UserMinusIcon, UserPlusIcon } from "@heroicons/react/24/outline";
@@ -23,13 +24,28 @@ const GruppoPage = () => {
   const [search, setSearch] = useState("");
   const [isPartecipante, setIsPartecipante] = useState(false);
 
+
   const fetchData = async () => {
-    const d =
+    const eventiPromise =
       search.trim() === ""
-        ? await getEventiGruppo(nomeGruppo)
-        : await findEventiGruppo(nomeGruppo, search);
-    const list = d.$values || d || [];
-    setEventi(list);
+        ? getEventiGruppo(nomeGruppo)
+        : findEventiGruppo(nomeGruppo, search);
+    const invitiPromise = getInvitiPerGruppo(nomeGruppo)
+    const [d, inv] = await Promise.all([eventiPromise, invitiPromise]);
+    const list = d?.$values || d || [];
+    const invList = inv ? (Array.isArray(inv.$values) ? inv.$values : inv) : [];
+    const invCards = invList.map((i) => ({
+      Nome: i.EventoCondiviso?.Nome || i.EventoCondivisoNome || i.eventoCondivisoNome,
+      Descrizione:
+        i.EventoCondiviso?.Descrizione || i.EventoCondiviso?.descrizione,
+      ImmagineProfilo:
+        i.EventoCondiviso?.ImmagineProfilo ||
+        i.EventoCondiviso?.immagineProfilo,
+      nomeGruppo: i.DaGruppo || i.daGruppo,
+      accettato: i.Accettato ?? i.accettato,
+      invito: true,
+    }));
+    setEventi([...list, ...invCards]);
   };
 
 
@@ -67,6 +83,7 @@ const GruppoPage = () => {
   };
 
   const filteredEventi = eventi.filter((ev) => {
+    if (ev.invito) return true;
     const approvato = ev.Approvato ?? ev.approvato;
     if (!isAdmin) return approvato;
     if (showDaValutare) return approvato === false;
@@ -213,6 +230,8 @@ const GruppoPage = () => {
               isAdmin={isAdmin}
               condiviso={gruppoEv !== nomeGruppo}
               onAction={fetchData}
+              isInvito={ev.invito}
+              accettato={ev.accettato}
             />
           );
         })}

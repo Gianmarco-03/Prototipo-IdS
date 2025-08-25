@@ -12,6 +12,7 @@ namespace GroupBackend.Controllers
         Task<bool> CreaGruppo(Gruppo gruppo, string username);
         Task<bool> CheckAdmin(string gruppo, string username);
         Task<List<Evento>?> GetEventiGruppo(string nomeGruppo);
+        Task<List<Invito>> GetInvitiPerGruppo(string gruppoInvitato);
         public Task<List<EventoApprovato>> FindEventiGruppo(string nomeGruppo, string toSearch);
         Task<bool> UpdateInfo(Gruppo gruppo);
         Task<string?> UploadImage(string nomeGruppo, IFormFile file);

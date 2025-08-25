@@ -1,16 +1,85 @@
 import "./styles/SideBarDestra.css";
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import SideBarContent from "./SideBarDestraComponent/SideBarContent";
-import { useNavigate } from "react-router-dom";
-import { UserIcon } from "@heroicons/react/24/outline";
+import { useNavigate, useLocation } from "react-router-dom";
+import { UserIcon, PencilSquareIcon, ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
+import { checkAdmin } from "../service/GruppoService";
+import { checkOrganizzatore } from "../service/EventoService";
+import { AuthContext } from "../Auth/AuthProvider";
+
 
 
 const Sidebar = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const [canEdit, setCanEdit] = useState(false);
+  const [editPath, setEditPath] = useState("");
+  const { logout } = useContext(AuthContext);
+
+  useEffect(() => {
+    const parts = location.pathname.split("/").filter(Boolean);
+    const username =
+      sessionStorage.getItem("user") ||
+      sessionStorage.getItem("username") ||
+      "";
+    if (parts[0] === "gruppo" && parts[1]) {
+      const nomeGruppo = decodeURIComponent(parts[1]);
+      checkAdmin(nomeGruppo, username).then((ok) => {
+        setCanEdit(ok);
+        setEditPath(ok ? `/gruppo/${encodeURIComponent(nomeGruppo)}/modifica` : "");
+      });
+    } else if (parts[0] === "evento" && parts[2]) {
+      const nomeGruppo = decodeURIComponent(parts[1]);
+      const nomeEvento = decodeURIComponent(parts[2]);
+      checkOrganizzatore(nomeEvento, nomeGruppo, username).then((ok) => {
+        setCanEdit(ok);
+        setEditPath(
+          ok
+            ? `/evento/${encodeURIComponent(nomeGruppo)}/${encodeURIComponent(
+                nomeEvento
+              )}/modifica`
+            : ""
+        );
+      });
+    } else if (parts[0] === "chat" && parts[1]) {
+      const nomeGruppo = decodeURIComponent(parts[1]);
+      if (parts.length >= 3) {
+        const nomeEvento = decodeURIComponent(parts[2]);
+        checkOrganizzatore(nomeEvento, nomeGruppo, username).then((ok) => {
+          setCanEdit(ok);
+          setEditPath(
+            ok
+              ? `/evento/${encodeURIComponent(nomeGruppo)}/${encodeURIComponent(
+                  nomeEvento
+                )}/modifica`
+              : ""
+          );
+        });
+      } else {
+        checkAdmin(nomeGruppo, username).then((ok) => {
+          setCanEdit(ok);
+          setEditPath(ok ? `/gruppo/${encodeURIComponent(nomeGruppo)}/modifica` : "");
+        });
+      }
+    } else {
+      setCanEdit(false);
+      setEditPath("");
+    }
+  }, [location]);
+
   const gotoProfilo = () => {
     navigate(`/profilo`);
   };
+  const gotoEdit = () => {
+    if (canEdit && editPath) navigate(editPath);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
 
   return (
       <aside className="sidebar">
@@ -20,15 +89,25 @@ const Sidebar = () => {
             onClick={gotoProfilo}
             title="Modifica profilo"
           >
-          <UserIcon className="event-icon" width={30} height={30} />          </button>
-          <button
-            className="sidebar-icon-button"
-            onClick={() => alert("Impostazioni")}
-            title="Impostazioni"
-          >
-            ⚙️
+            <UserIcon className="event-icon" width={30} height={30} />
           </button>
-        </div> 
+          {canEdit && (
+            <button
+              className="sidebar-icon-button"
+              onClick={gotoEdit}
+              title="Modifica"
+            >
+              <PencilSquareIcon className="event-icon" width={30} height={30} />
+            </button>
+          )}
+           <button
+            className="sidebar-icon-button"
+            onClick={handleLogout}
+            title="Logout"
+          >
+            <ArrowLeftOnRectangleIcon className="event-icon" width={30} height={30} />
+          </button>
+        </div>
         <SideBarContent/>
       </aside>
 

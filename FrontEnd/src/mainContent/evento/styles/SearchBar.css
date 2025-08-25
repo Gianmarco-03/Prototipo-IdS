@@ -4,6 +4,9 @@
   gap: 10px;
   flex-wrap: wrap;
   align-items: center;
+  z-index: 1;
+  position: fixed;
+  left: 37%;
 }
 
 .searchInput, .select {
