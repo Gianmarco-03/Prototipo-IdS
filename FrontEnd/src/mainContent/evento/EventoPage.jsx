@@ -187,7 +187,7 @@ const EventoPage = () => {
         <div className="evento-description-box">{descr}</div>
         {(inviti !== null || isOrganizzatore) && (
           <div className="inviti-container">
-            {inviti.length != 0 && inviti.map((inv) => (
+            {inviti && inviti.map((inv) => (
               <div key={inv.Id || inv.id} className="invito-item">
                 <span
                   className={`status-dot ${inv.accettato === true ? "green" : inv.accettato === false ? "red" : "yellow"}`}

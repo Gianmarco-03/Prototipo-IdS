@@ -53,14 +53,19 @@ namespace HomeBackend.Controllers
                 .ToListAsync();
         }
 
-         private async Task<List<EventoCondiviso>> GetEventiCondivisi(string username)
+        private async Task<List<EventoCondiviso>> GetEventiCondivisi(string username)
         { 
-                return await _context.EventiCondivisi
-                .Where(e => _context.GruppoPartecipanti
-                .Any(gp => gp.GruppoNome == e.nomeGruppo && gp.Username == username))
+               return await _context.EventiApprovati
+                .Where(e => _context.EventoDecoratori
+                    .Any(ed => ed.nomeEvento == e.Nome && ed.nomeGruppo == e.nomeGruppo && ed.Tipo == "condiviso")
+                    && _context.GruppoPartecipanti
+                        .Any(gp => gp.GruppoNome == e.nomeGruppo && gp.Username == username))
+                .Select(e => new EventoCondiviso(e))
                 .Take(10)
                 .ToListAsync();
         }
+
+        //bisogna vedere se si riesce a fare una sola funzione
 
         public async Task<List<EventoApprovato>> FindEventi(string username, string toSearch)
         {

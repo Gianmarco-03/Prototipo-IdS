@@ -10,20 +10,34 @@ namespace EventBackend.Controllers
 {
     public class EventoCondivisoController : BaseController, IEventoCondivisoController
     {
-        private readonly IEventController _eventController;
-        private readonly IAmministratoreController _amministratoreController;
-        public EventoCondivisoController(AppDbContext context, IEventController eventController, IAmministratoreController amministratoreController) : base(context)
+        public EventoCondivisoController(AppDbContext context) : base(context)
         {
-            _eventController = eventController;
-            _amministratoreController = amministratoreController;
         }
 
-        public async Task<bool> CreaEventoCondiviso(PropostaEvento evento, string gruppoPromotore, string username, List<string> gruppiInvitati)
+  public async Task<bool> CreaEventoCondiviso(PropostaEvento evento, string gruppoPromotore, string username, List<string> gruppiInvitati)
         {
             evento.nomeGruppo = gruppoPromotore;
-            var condiviso = new EventoCondiviso(evento);
-            _context.EventiCondivisi.Add(condiviso);
+
+            var approvato = new EventoApprovato
+            {
+                Nome = evento.Nome,
+                Descrizione = evento.Descrizione,
+                DataInizio = evento.DataInizio,
+                DataFine = evento.DataFine,
+                nomeGruppo = evento.nomeGruppo,
+                ImmagineProfilo = evento.ImmagineProfilo
+            };
+
+            _context.EventiApprovati.Add(approvato);
+            _context.EventiCondivisi.Add(new EventoCondiviso
+            {
+                nomeGruppo = approvato.nomeGruppo,
+                nomeEvento = approvato.Nome,
+                Tipo = "condiviso"
+            });
+
             await _context.SaveChangesAsync();
+
             foreach (var g in gruppiInvitati.Distinct())
             {
                 if (await _context.Gruppi.AnyAsync(gr => gr.Nome == g))
