@@ -57,20 +57,22 @@ body {
 }
 
 .shape-layer-HE {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 103%;
   height: 15%;
   pointer-events: none;
   top: -1%;
   left:-1%;
-  z-index: 0;
+  z-index: 1;
 }
 
 
 .cardsContainer {
   margin-top: 2em;
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(auto-fill, minmax(50%, 80%));
   gap: 20px;
+  margin-top: 5em;
+  flex-wrap: wrap; 
 }

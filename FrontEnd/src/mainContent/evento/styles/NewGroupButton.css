@@ -8,6 +8,7 @@
   gap: 1rem;
   justify-content: center;
   top: 2%;
+  z-index: 2;
 }
 
 .newGroupButton {

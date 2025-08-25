@@ -64,4 +64,10 @@ export async function uploadImmagine(nomeGruppo, file) {
   return connection.invoke("UploadImage", nomeGruppo, base64);
 }
 
+
+export async function getInvitiPerGruppo(gruppoInvitato) {
+  await ensureConnection(connection);
+  return connection.invoke("GetInvitiPerGruppo", gruppoInvitato);
+}
+
 export { connection };

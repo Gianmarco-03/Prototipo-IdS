@@ -19,7 +19,9 @@ namespace EventBackend.Controllers
 
         public async Task<Evento?> GetInfo(string nomeEvento, string nomeGruppo)
         {
-            return await _context.EventiApprovati
+            bool isCondiviso = await _context.EventiCondivisi
+                .AnyAsync(ec => ec.nomeGruppo == nomeGruppo && ec.Nome == nomeEvento);
+            var e = await _context.EventiApprovati
                 .Where(e => e.nomeGruppo == nomeGruppo && e.Nome == nomeEvento)
                 .Select(e => new EventoApprovato
                 {
@@ -45,6 +47,9 @@ namespace EventBackend.Controllers
                         }).ToList()
                 })
                 .SingleOrDefaultAsync();
+            if (isCondiviso) return new EventoCondiviso(e);
+            else return e;
+            
         }
 
 

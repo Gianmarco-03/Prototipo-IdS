@@ -77,6 +77,12 @@ namespace GroupBackend.Hubs
             var ctrl = GetCtrl();
             return await ctrl.UploadImage(nomeGruppo, file);
         }
+
+        public async Task<List<Invito>> GetInvitiPerGruppo(string gruppoInvitato)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.GetInvitiPerGruppo(gruppoInvitato);
+        }
         
     }
 }

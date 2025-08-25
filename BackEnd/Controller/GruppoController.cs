@@ -62,14 +62,14 @@ namespace GroupBackend.Controllers
                 GruppoNome = gruppo.Nome,
                 Username = username
             });
-              _context.Chats.Add(new Chat
+            _context.Chats.Add(new Chat
             {
                 Gruppo = gruppo.Nome
             });
             await _context.SaveChangesAsync();
             return true;
 
-          
+
         }
 
 
@@ -155,13 +155,21 @@ namespace GroupBackend.Controllers
                 && (e is EventoApprovato || e is EventoCondiviso || e is PropostaEvento))
                 .ToListAsync();
         }
-        
+
         public async Task<List<EventoApprovato>> FindEventiGruppo(string nomeGruppo, string toSearch)
         {
             return await _context.EventiApprovati
                 .Where(e => e.nomeGruppo == nomeGruppo
                     && e.Nome.ToLower().Contains(toSearch.ToLower()))
                 .Take(10)
+                .ToListAsync();
+        }
+        
+        public async Task<List<Invito>> GetInvitiPerGruppo(string gruppoInvitato)
+        {
+            return await _context.Inviti
+                .Include(i => i.EventoCondiviso)
+                .Where(i => i.PerGruppo == gruppoInvitato)
                 .ToListAsync();
         }
     }
