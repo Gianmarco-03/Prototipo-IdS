@@ -37,18 +37,18 @@ const EventoPage = () => {
     });
     isCondiviso(nomeEvento, nomeGruppo)
       .then((i) => {
-        setCondiviso(i)
-      })
-    if(Condiviso){
-      getInvitiEvento(nomeEvento, nomeGruppo).then((i) => {
-        if (i === null || i === undefined) {
-          setInviti(null);
-        } else {
-          const list = i.$values || i;
-          setInviti(list);
+        setCondiviso(i);
+        if(i){
+          getInvitiEvento(nomeEvento, nomeGruppo).then((i) => {
+            if (i === null || i === undefined) {
+              setInviti(null);
+            } else {
+              const list = i.$values || i;
+              setInviti(list);
+            }
+          });
         }
-      });
-    }
+      })
   }, [nomeEvento, nomeGruppo]);
 
 
@@ -199,7 +199,7 @@ const EventoPage = () => {
         <div className="evento-description-box">{descr}</div>
         {(Condiviso && isOrganizzatore) && (
           <div className="inviti-container">
-            {Condiviso && inviti.map((inv) => (
+            {inviti && inviti.map((inv) => (
               <div key={inv.Id || inv.id} className="invito-item">
                 <span
                   className={`status-dot ${inv.accettato === true ? "green" : inv.accettato === false ? "red" : "yellow"}`}
