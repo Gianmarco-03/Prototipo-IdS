@@ -31,7 +31,7 @@ namespace HomeBackend.Hubs
             return res;
         }
 
-        public async Task<List<Evento>> GetEventi(string username)
+        public async Task<List<EventoApprovato>> GetEventi(string username)
         {
             var ctrl = GetCtrl();
             return await ctrl.GetEventi(username);

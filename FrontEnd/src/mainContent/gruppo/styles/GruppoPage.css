@@ -78,6 +78,7 @@
 .gruppo-action:hover {
   background: linear-gradient(90deg, #A73EE7, #00EBFF);
   transform: scale(1.1);
+  box-shadow: 0px 0px 100px #00EBFF ;
 }
 
 .eventi-grid {
@@ -86,6 +87,7 @@
   gap: 20px;
   margin-top: 4rem;
   flex-wrap: wrap;
+  margin-top:  5em;
 }
 
 .toggle-valutazione {
@@ -123,10 +125,12 @@
 
 .toggle-switch .switch-bg.right {
   transform: translateX(100%);
+  box-shadow: 20px 20px 100px #00EBFF ;
 }
 
 .toggle-switch .switch-bg.left {
   transform: translateX(0);
+  box-shadow:   0 0 100px #00EBFF ;
 }
 
 .toggle-switch .option {
@@ -169,4 +173,5 @@
 .chat-button:hover {
   background: linear-gradient(90deg, #A73EE7, #00EBFF);
   transform: scale(1.1);
+  box-shadow: 0px 0px 70px #00EBFF ;
 }

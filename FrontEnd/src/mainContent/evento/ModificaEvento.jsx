@@ -13,58 +13,77 @@ const ModificaEvento = () => {
   const username =
     sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
 
-  const [descrizione, setDescrizione] = useState("");
-  const [dataInizio, setDataInizio] = useState("");
-  const [dataFine, setDataFine] = useState("");
   const [file, setFile] = useState(null);
-  const [imgUrl, setImgUrl] = useState("");
+  const [evento, setEvento] = useState(null);
   const [messaggio, setMessaggio] = useState("");
   const [autorizzato, setAutorizzato] = useState(false);
+  const [loadingAuth, setLoadingAuth] = useState(true);
+  const [loadingEvento, setLoadingEvento] = useState(true);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    if (!username) return;
-    checkOrganizzatore(nomeEvento, nomeGruppo, username).then((ok) => {
-      setAutorizzato(ok);
-      if (!ok) setMessaggio("Non autorizzato");
-    });
-    getEvento(nomeGruppo, nomeEvento).then((ev) => {
-      if (ev) {
-        setDescrizione(ev.descrizione || "");
-        setDataInizio(ev.dataInizio ? ev.dataInizio.split("T")[0] : "");
-        setDataFine(ev.dataFine ? ev.dataFine.split("T")[0] : "");
-        setImgUrl(ev.immagineProfilo || "");
+    let alive = true;
+    (async () => {
+      if (!username) {
+        setMessaggio("Utente non trovato");
+        setLoadingAuth(false);
+        setLoadingEvento(false);
+        return;
       }
-    });
+      try {
+        const ok = await checkOrganizzatore(nomeEvento, nomeGruppo, username);
+        if (!alive) return;
+        setAutorizzato(ok);
+        setLoadingAuth(false);
+        if (!ok) {
+          setMessaggio("Non autorizzato");
+          return;
+        }
+        const ev = await getEvento(nomeGruppo, nomeEvento);
+        if (!alive) return;
+        if (ev) setEvento(ev);
+      } catch (e) {
+        if (!alive) return;
+        setMessaggio("Errore di caricamento");
+      } finally {
+        if (alive) setLoadingEvento(false);
+      }
+    })();
+    return () => { alive = false; };
   }, [nomeEvento, nomeGruppo, username]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!autorizzato) return;
+    if (!autorizzato || !evento) return;
     try {
-      let path = imgUrl;
+      let nextImgUrl = evento.immagineProfilo;
       if (file) {
         const res = await uploadImmagine(nomeEvento, nomeGruppo, file);
-        path = res;
-        setImgUrl(path);
+        nextImgUrl = res;
+        setEvento(prev => prev ? { ...prev, immagineProfilo: res } : prev);
       }
-      await updateEvento({
-        Nome: nomeEvento,
-        nomeGruppo: nomeGruppo,
-        Descrizione: descrizione,
-        DataInizio: new Date(dataInizio),
-        DataFine: dataFine ? new Date(dataFine) : null,
-        ImmagineProfilo: path,
-      });
+      const payload = { ...evento, immagineProfilo: nextImgUrl };
+      await updateEvento(payload);
+      setEvento(payload);
       setMessaggio("Evento aggiornato");
     } catch (err) {
       setMessaggio("Errore durante l'aggiornamento");
     }
   };
 
-  if (!autorizzato) {
-    return <div className="auth-container">{messaggio}</div>;
+  // ---- RENDER GUARDS ----
+  if (loadingAuth || (autorizzato && loadingEvento)) {
+    return <div className="auth-container">Caricamento…</div>;
   }
+  if (!autorizzato) {
+    return <div className="auth-container">{messaggio || "Non autorizzato"}</div>;
+  }
+  if (!evento) {
+    return <div className="auth-container">Evento non trovato</div>;
+  }
+
+  // helper per date "YYYY-MM-DD"
+  const asDateInput = (v) => (v ? String(v).slice(0, 10) : "");
 
   return (
     <div className="auth-container">
@@ -74,13 +93,16 @@ const ModificaEvento = () => {
         <input className="auth-input" value={nomeEvento} disabled />
         <label className="auth-label">Gruppo</label>
         <input className="auth-input" value={nomeGruppo} disabled />
+
         <label className="auth-label">Immagine</label>
         <div
           className="profile-image-wrapper"
           onClick={() => fileInputRef.current?.click()}
         >
-          {imgUrl && (
-            <img src={imgUrl} alt="Evento" className="profile-image" />
+          {evento.immagineProfilo ? (
+            <img src={evento.immagineProfilo} alt="Evento" className="profile-image" />
+          ) : (
+            <div className="profile-image placeholder">Scegli immagine</div>
           )}
           <div className="profile-image-overlay">Cambia</div>
         </div>
@@ -90,37 +112,49 @@ const ModificaEvento = () => {
           accept="image/*"
           style={{ display: "none" }}
           onChange={(e) => {
-            const f = e.target.files[0];
+            const f = e.target.files?.[0];
             if (f) {
               setFile(f);
-              setImgUrl(URL.createObjectURL(f));
+              const preview = URL.createObjectURL(f);
+              setEvento(prev => prev ? { ...prev, immagineProfilo: preview } : prev);
             }
           }}
         />
+
         <label className="auth-label">Descrizione</label>
         <textarea
           className="auth-input"
-          value={descrizione}
-          onChange={(e) => setDescrizione(e.target.value)}
+          value={evento.descrizione ?? ""}
+          onChange={(e) =>
+            setEvento(prev => ({ ...prev, descrizione: e.target.value }))
+          }
         />
+
         <label className="auth-label">Data Inizio</label>
         <input
           type="date"
           className="auth-input"
-          value={dataInizio}
-          onChange={(e) => setDataInizio(e.target.value)}
+          value={asDateInput(evento.dataInizio)}
+          onChange={(e) =>
+            setEvento(prev => ({ ...prev, dataInizio: e.target.value }))
+          }
         />
+
         <label className="auth-label">Data Fine</label>
         <input
           type="date"
           className="auth-input"
-          value={dataFine}
-          onChange={(e) => setDataFine(e.target.value)}
+          value={asDateInput(evento.dataFine)}
+          onChange={(e) =>
+            setEvento(prev => ({ ...prev, dataFine: e.target.value })) // <-- niente "DataFine"
+          }
         />
+
         <button className="auth-button" type="submit">
           Salva
         </button>
       </form>
+
       {messaggio && <p>{messaggio}</p>}
     </div>
   );

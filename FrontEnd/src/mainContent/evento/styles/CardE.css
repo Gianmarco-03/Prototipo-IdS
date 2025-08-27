@@ -1,14 +1,11 @@
 .gruppo {
-  float: right;
   width: 50%;
-  margin-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: 12px;
   background-color: #393D5E;
   color: #FFFFFF;
-  padding: 1rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   position: relative;
   z-index: 10;
@@ -19,6 +16,7 @@
 .gruppo.text {
   flex: 1;
   margin-right: 1rem;
+  margin-bottom: 1rem;;
 }
 
 /* CARD GENERICA */
@@ -130,7 +128,7 @@
 }
 
 #descrizione {
-  height: 50%;
+  height: 45%;
   overflow-y: auto;
 }
 
@@ -153,7 +151,6 @@
 }
 
 .status-container{
-  padding-bottom: 5%;
   padding-left: 2%;
 }
 

@@ -17,46 +17,16 @@ namespace HomeBackend.Controllers
                 .Include(g => g.Partecipanti)
                 .Where(g => g.Partecipanti.Any(p => p.Username == username))
                 .OrderByDescending(g => g.Nome)
-                .Take(10)
                 .ToListAsync();
         }
 
-        public async Task<List<Evento>> GetEventi(string username)
+        public async Task<List<EventoApprovato>> GetEventi(string username)
         {
-            var approvati = await GetEventiApprovati(username);  // List<EventoApprovato>
-            var condivisi = await GetEventiCondivisi(username);  // List<EventoCondiviso>
-
-            var tutti = approvati.Cast<Evento>()
-                                .Concat(condivisi.Cast<Evento>())
-                                // opzionale: deduplica per (Nome, NomeGruppo)
-                                .GroupBy(e => new { e.Nome, e.nomeGruppo })
-                                .Select(g => g.First())
-                                .ToList();
-
-            return tutti;
+            return await _context.EventiApprovati
+            .Include(e => e.Partecipanti)
+            .Where(e => e.Partecipanti
+            .Any(p => p.Username == username))
+            .ToListAsync();
         }
-
-        private async Task<List<EventoApprovato>> GetEventiApprovati(string username)
-        { 
-                return await _context.EventiApprovati
-                .Where(e => _context.GruppoPartecipanti
-                .Any(gp => gp.GruppoNome == e.nomeGruppo && gp.Username == username))
-                .Take(10)
-                .ToListAsync();
-        }
-
-        private async Task<List<EventoCondiviso>> GetEventiCondivisi(string username)
-        { 
-               return await _context.EventiApprovati
-                .Where(e => _context.EventoDecoratori
-                    .Any(ed => ed.nomeEvento == e.Nome && ed.nomeGruppo == e.nomeGruppo && ed.Tipo == "condiviso")
-                    && _context.GruppoPartecipanti
-                        .Any(gp => gp.GruppoNome == e.nomeGruppo && gp.Username == username))
-                .Select(e => new EventoCondiviso(e))
-                .Take(10)
-                .ToListAsync();
-        }
-
-        //bisogna vedere se si riesce a fare una sola funzione
     }
 }

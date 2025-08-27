@@ -7,7 +7,7 @@ namespace ChatBackend.Controllers
     {
         public  Task SendMessage(Messaggio m);
         public Task<List<Messaggio>> GetLast(string gruppo);
-
+        public Task DeleteMessage(int id);  
 
     }
 }

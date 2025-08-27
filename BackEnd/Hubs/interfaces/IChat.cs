@@ -7,6 +7,7 @@ namespace ChatBackend.Hubs
     {
         public Task SendMessage(string gruppo, string user, string message);
         public Task JoinGroup(string gruppo);
+        public Task DeleteMessage(string gruppo, int id);
 
     }
 }
