@@ -4,40 +4,51 @@ import NewGroupButton from "./components/NewGroupButton";
 import Card from "./components/Card";
 import "./styles/HomeGruppi.css"; // solo per container e layout generale
 import { creaGruppo } from "../../service/GruppoService";
-import { getGruppi, findGruppi } from "../../service/HomeService";
+import { getGruppi } from "../../service/HomeService";
+import { findGruppi } from "../../service/SearchService";
 import { useNavigate } from "react-router-dom";
 
 const HomeGruppi = () => {
   const [cardsData, setCardsData] = useState([]);
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("");
+  const [filters, setFilters] = useState({
+    includeDescription: false,
+    minPartecipanti: "",
+    maxPartecipanti: "",
+  });
   const [errore, setErrore] = useState("");
 
   useEffect(() => {
     const username =
         sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
 
+      const hasFilters =
+        search.trim() !== "" ||
+        filters.includeDescription ||
+        filters.minPartecipanti ||
+        filters.maxPartecipanti;
+
       const fetchData = async () => {
         try {
-          const d =
-            search.trim() === ""
-              ? await getGruppi(username)
-              : await findGruppi(search);
+          const d = hasFilters
+            ? await findGruppi(
+                search,
+                filters.includeDescription,
+                filters.minPartecipanti ? Number(filters.minPartecipanti) : null,
+                filters.maxPartecipanti ? Number(filters.maxPartecipanti) : null
+              )
+            : await getGruppi(username);
           setCardsData(Array.isArray(d.$values) ? d.$values : []);
-        if (!d || (d.$values || []).length === 0) setErrore("nessun gruppo disponibile");
+          if (!d || (d.$values || []).length === 0) setErrore("nessun gruppo disponibile");
         } catch {
           setErrore("nessun gruppo disponibile");
         }
       };
 
       fetchData();
-  }, [search]);
+  }, [search, filters]);
 
-  const filteredCards = cardsData.filter((card) => {
-    const name = (card.Nome || card.nome || "").toLowerCase();
-    const matchesFilter = filter !== "" ? name === filter.toLowerCase() : true;
-    return matchesFilter;
-  });
+  const filteredCards = cardsData;
 
   const navigate = useNavigate();
   const handleNewGroup = () => {
@@ -138,8 +149,8 @@ const HomeGruppi = () => {
         <SearchBar
           search={search}
           setSearch={setSearch}
-          filter={filter}
-          setFilter={setFilter}
+          filters={filters}
+          setFilters={setFilters}
         />
       <div className="cardsContainer">
         {filteredCards.length === 0 && errore && <p>{errore}</p>}

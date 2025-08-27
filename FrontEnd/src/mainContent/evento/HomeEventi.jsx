@@ -3,7 +3,8 @@ import SearchBar from "./components/SearchBar";
 import NewGroupButton from "./components/NewGroupButton";
 import Card from "./components/Card";
 import "./styles/HomeEventi.css"; // solo per container e layout generale
-import { getEventi, findEventi } from "../../service/HomeService";
+import { getEventi } from "../../service/HomeService";
+import { findEventi } from "../../service/SearchService";
 import { useNavigate } from "react-router-dom";
 
 
@@ -11,19 +12,41 @@ import { useNavigate } from "react-router-dom";
 const HomeEventi = () => {
   const [cardsData, setCardsData] = useState([]);
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("");
+  const [filters, setFilters] = useState({
+    includeDescription: false,
+    minPartecipanti: "",
+    maxPartecipanti: "",
+    startDate: "",
+    endDate: "",
+  });
   const [errore, setErrore] = useState("");
 
   useEffect(() => {
     const username =
       sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
 
+    const hasFilters =
+      search.trim() !== "" ||
+      filters.includeDescription ||
+      filters.minPartecipanti ||
+      filters.maxPartecipanti ||
+      filters.startDate ||
+      filters.endDate;
+
     const fetchData = async () => {
       try {
-        const d =
-          search.trim() === ""
-            ? await getEventi(username)
-            : await findEventi(username, search);
+        const d = hasFilters
+          ? await findEventi(
+              username,
+              search,
+              filters.includeDescription,
+              filters.minPartecipanti ? Number(filters.minPartecipanti) : null,
+              filters.maxPartecipanti ? Number(filters.maxPartecipanti) : null,
+              filters.startDate || null,
+              filters.endDate || null
+            )
+          : await getEventi(username);
+
         const list = Array.isArray(d.$values) ? d.$values : [];
         setCardsData(list);
         if (!d || list.length === 0) setErrore("nessun evento disponibile");
@@ -33,13 +56,9 @@ const HomeEventi = () => {
     };
 
     fetchData();
-  }, [search]);
+  }, [search, filters]);
 
-  const filteredCards = cardsData.filter((card) => {
-    const name = (card.Nome || card.nome || "").toLowerCase();
-    const matchesFilter = filter ? name === filter.toLowerCase() : true;
-    return matchesFilter;
-  });
+  const filteredCards = cardsData;
 
   const navigate = useNavigate();
   const handleNewGroup = () => {
@@ -140,8 +159,8 @@ const HomeEventi = () => {
         <SearchBar
           search={search}
           setSearch={setSearch}
-          filter={filter}
-          setFilter={setFilter}
+          filters={filters}
+          setFilters={setFilters}
         />
       <div className="cardsContainer">
         {filteredCards.length === 0 && errore && <p>{errore}</p>}

@@ -31,22 +31,10 @@ namespace HomeBackend.Hubs
             return res;
         }
 
-        public async Task<List<Gruppo>> FindGruppi(string toSearch)
-        {
-            var ctrl = GetCtrl();
-            return await ctrl.FindGruppi(toSearch);
-        }
-
         public async Task<List<Evento>> GetEventi(string username)
         {
             var ctrl = GetCtrl();
             return await ctrl.GetEventi(username);
-        }
-
-        public async Task<List<EventoApprovato>> FindEventi(string username, string toSearch)
-        {
-            var ctrl = GetCtrl();
-            return await ctrl.FindEventi(username, toSearch);
         }
     }
 }

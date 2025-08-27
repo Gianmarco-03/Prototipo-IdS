@@ -83,18 +83,17 @@ namespace EventBackend.Controllers
         {
             var invito = await _context.Inviti.SingleOrDefaultAsync(i => i.EventoCondivisoNome == nomeEvento && i.DaGruppo == gruppoPromotore && i.PerGruppo == gruppoInvitato);
             if (invito == null) return false;
+            invito.Accettato = accetta;
             if (accetta)
             {
-                invito.Accettato = accetta;
                 var esiste =
                     await _context.EventoOrganizzatori
                         .AnyAsync(o => o.EventoNome == nomeEvento && o.nomeGruppo == gruppoPromotore && o.Username == username)
                     &&
                     await _context.EventoPartecipanti
-                        .AnyAsync(o => o.EventoNome == nomeEvento && o.nomeGruppo == gruppoPromotore && o.Username == username); ;
+                        .AnyAsync(o => o.EventoNome == nomeEvento && o.nomeGruppo == gruppoPromotore && o.Username == username);
                 if (!esiste)
                 {
-                    invito.Accettato = true;
                     _context.EventoOrganizzatori.Add(new EventoOrganizzatore
                     {
                         EventoNome = nomeEvento,
@@ -109,7 +108,6 @@ namespace EventBackend.Controllers
                         Username = username
                     });
                 }
-                else _context.Inviti.Remove(invito);
             }
             await _context.SaveChangesAsync();
             return true;

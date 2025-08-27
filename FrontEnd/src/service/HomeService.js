@@ -12,19 +12,9 @@ export async function getGruppi(username) {
   return connection.invoke("GetGruppi", username);
 }
 
-export async function findGruppi(name) {
-  await ensureConnection(connection);
-  return connection.invoke("FindGruppi", name);
-}
-
 export async function getEventi(username) {
   await ensureConnection(connection);
   return connection.invoke("GetEventi", username);
-}
-
-export async function findEventi(username, name) {
-  await ensureConnection(connection);
-  return connection.invoke("FindEventi", username, name);
 }
 
 export { connection };

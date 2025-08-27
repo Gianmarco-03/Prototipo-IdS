@@ -221,8 +221,8 @@
   margin-right: 4px;
 }
 
-.status-dot.green { background-color: #4caf50; }
-.status-dot.yellow { background-color: #ffeb3b; }
-.status-dot.red { background-color: #f44336; }
+
 .status-dot.approvato { background-color: #4caf50; }
-.status-dot.davalutare { background-color: #ffeb3b; }
+.status-dot.accettato { background-color: #4caf50; }
+.status-dot.da.valutare { background-color: #ffeb3b; }
+.status-dot.rifiutato { background-color: #f44336; }

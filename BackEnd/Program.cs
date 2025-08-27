@@ -23,7 +23,8 @@ using HomeBackend.Hubs;
 using EventBackend.Model;
 using AdminBackend.Controllers;
 using AdminBackend.Hubs;
-
+using SearchBackend.Controllers;
+using SearchBackend.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var cloudAccount = new Account(builder.Configuration["Cloudinary:CloudName"],
@@ -78,6 +79,7 @@ builder.Services.AddScoped<IUtenteController, UtenteController>();
 builder.Services.AddScoped<IHomeController, HomeController>();
 builder.Services.AddScoped<IPasswordHasher<Utente>, PasswordHasher<Utente>>();
 builder.Services.AddScoped<IAmministratoreController, AmministratoreController>();
+builder.Services.AddScoped<ISearchController, SearchController>();  
 
 var app = builder.Build();
 
@@ -99,6 +101,7 @@ app.MapHub<EventHub>("/eventoHub");
 app.MapHub<UtenteHub>("/utenteHub");
 app.MapHub<HomeHub>("/homeHub");
 app.MapHub<AmministratoreHub>("/amministratoreHub");
+app.MapHub<SearchHub>("/searchHub");
 
 // Test GET base
 app.MapGet("/", () => "Server Chat Backend Online");

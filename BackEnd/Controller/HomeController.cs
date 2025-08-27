@@ -21,14 +21,6 @@ namespace HomeBackend.Controllers
                 .ToListAsync();
         }
 
-        public async Task<List<Gruppo>> FindGruppi(string toSearch)
-        {
-            return await _context.Gruppi
-                .Where(g => g.Nome.ToLower().Contains(toSearch.ToLower()))
-                .Take(10)
-                .ToListAsync();
-        }
-
         public async Task<List<Evento>> GetEventi(string username)
         {
             var approvati = await GetEventiApprovati(username);  // List<EventoApprovato>
@@ -66,13 +58,5 @@ namespace HomeBackend.Controllers
         }
 
         //bisogna vedere se si riesce a fare una sola funzione
-
-        public async Task<List<EventoApprovato>> FindEventi(string username, string toSearch)
-        {
-            return await _context.EventiApprovati
-                .Where(e => e.Nome.ToLower().Contains(toSearch.ToLower()))
-                .Take(10)
-                .ToListAsync();
-        }
     }
 }
