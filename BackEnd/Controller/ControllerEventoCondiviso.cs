@@ -79,6 +79,12 @@ namespace EventBackend.Controllers
             return true;
         }
 
+        public async Task<bool> isCondiviso(string nomeEvento, string nomeGruppo)
+        {
+            return await _context.EventiCondivisi
+                .AnyAsync(ec => ec.nomeEvento == nomeEvento && ec.nomeGruppo == nomeGruppo);
+        }
+
         public async Task<bool> RispondiInvito(string nomeEvento, string gruppoPromotore, string gruppoInvitato, bool accetta, string username)
         {
             var invito = await _context.Inviti.SingleOrDefaultAsync(i => i.EventoCondivisoNome == nomeEvento && i.DaGruppo == gruppoPromotore && i.PerGruppo == gruppoInvitato);

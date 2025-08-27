@@ -43,6 +43,12 @@ namespace EventBackend.Hubs
             var ctrl = GetCtrl();
             return await ctrl.RispondiInvito(nomeEvento, gruppoPromotore, gruppoInvitato, accetta, username);
         }
+
+        public async Task<bool> isCondiviso(string nomeEvento, string nomeGruppo)
+        {
+            var ctrl = GetCtrl();
+            return await ctrl.isCondiviso(nomeEvento, nomeGruppo);
+        }
     }
 }
         

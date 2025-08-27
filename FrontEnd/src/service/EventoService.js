@@ -86,6 +86,11 @@
     return sharedConnection.invoke("RispondiInvito", nomeEvento, gruppoPromotore, gruppoInvitato, accetta, username);
   }
 
+    export async function isCondiviso(nomeEvento, nomeGruppo) {
+    await ensureConnection(sharedConnection);
+    return sharedConnection.invoke("isCondiviso", nomeEvento, nomeGruppo);
+  }
+
 
 
   export { connection, sharedConnection };
