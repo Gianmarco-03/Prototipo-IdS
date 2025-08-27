@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getEventoInfo } from "../../service/SideBarService";
-import { partecipaEvento, abbandonaEvento, getInvitiEvento, invitaGruppoEvento, rispondiInvitoEvento } from "../../service/EventoService";
+import { partecipaEvento, abbandonaEvento, getInvitiEvento, invitaGruppoEvento, rispondiInvitoEvento, isCondiviso } from "../../service/EventoService";
 import { useNavigate, useParams } from "react-router-dom";
 import "./styles/EventoPage.css";
 import { UserMinusIcon, UserPlusIcon } from "@heroicons/react/24/outline";
@@ -12,12 +12,14 @@ const EventoPage = () => {
   const navigate = useNavigate();
   const { nomeEvento, nomeGruppo } = useParams();
   const [evento, setEvento] = useState(null);
+  const [Condiviso, setCondiviso] = useState(false);
   const [isPartecipante, setIsPartecipante] = useState(false);
   const [inviti, setInviti] = useState(null);
   const [isOrganizzatore, setIsOrganizzatore] = useState(false);
   const [nuovoInvito, setNuovoInvito] = useState("");
 
   useEffect(() => {
+
       sessionStorage.setItem("evento", nomeEvento);
       if (sessionStorage.getItem("gruppo") !== nomeGruppo) {
         sessionStorage.setItem("gruppo", nomeGruppo);
@@ -33,14 +35,20 @@ const EventoPage = () => {
       const orgNames = orgs.map((p) => (typeof p === "string" ? p : p.username));
       setIsOrganizzatore(orgNames.includes(username));
     });
-    getInvitiEvento(nomeEvento, nomeGruppo).then((i) => {
-      if (i === null || i === undefined) {
-        setInviti(null);
-      } else {
-        const list = i.$values || i;
-        setInviti(list);
-      }
-    });
+    isCondiviso(nomeEvento, nomeGruppo)
+      .then((i) => {
+        setCondiviso(i)
+      })
+    if(Condiviso){
+      getInvitiEvento(nomeEvento, nomeGruppo).then((i) => {
+        if (i === null || i === undefined) {
+          setInviti(null);
+        } else {
+          const list = i.$values || i;
+          setInviti(list);
+        }
+      });
+    }
   }, [nomeEvento, nomeGruppo]);
 
 
@@ -189,9 +197,9 @@ const EventoPage = () => {
   </div>
   <div className="evento-details">
         <div className="evento-description-box">{descr}</div>
-        {(inviti !== null || isOrganizzatore) && (
+        {(Condiviso && isOrganizzatore) && (
           <div className="inviti-container">
-            {inviti && inviti.map((inv) => (
+            {Condiviso && inviti.map((inv) => (
               <div key={inv.Id || inv.id} className="invito-item">
                 <span
                   className={`status-dot ${inv.accettato === true ? "green" : inv.accettato === false ? "red" : "yellow"}`}
