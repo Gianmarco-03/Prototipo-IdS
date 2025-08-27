@@ -81,6 +81,7 @@ namespace EventBackend.Controllers
 
         public async Task<bool> isCondiviso(string nomeEvento, string nomeGruppo)
         {
+            Console.WriteLine("\nvivo\n");
             return await _context.EventiCondivisi
                 .AnyAsync(ec => ec.nomeEvento == nomeEvento && ec.nomeGruppo == nomeGruppo);
         }
