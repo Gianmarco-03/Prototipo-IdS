@@ -22,8 +22,18 @@ const GruppoPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showDaValutare, setShowDaValutare] = useState(false);
   const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState({
+    includeDescription: false,
+    minPartecipanti: "",
+    maxPartecipanti: "",
+    startDate: "",
+    endDate: "",
+  });
   const [isPartecipante, setIsPartecipante] = useState(false);
 
+    useEffect(() => {
+    sessionStorage.setItem("gruppo", nomeGruppo);
+  }, [nomeGruppo]);
 
   const fetchData = async () => {
     const eventiPromise =
@@ -83,10 +93,12 @@ const GruppoPage = () => {
   };
 
   const filteredEventi = eventi.filter((ev) => {
-    if (ev.invito) return true;
-    const approvato = ev.Approvato ?? ev.approvato;
+    let approvato = false;
+    if (ev.invito )
+      approvato = ev.accettato;
+    else approvato = ev.Approvato ?? ev.approvato;
     if (!isAdmin) return approvato;
-    if (showDaValutare) return approvato === false;
+    if (showDaValutare) return approvato !== true;
     return true;
   });
 
@@ -193,7 +205,13 @@ const GruppoPage = () => {
           </button>
         )}
       </div>
-      <SearchBar style={{marginTop: '4rem'}} search={search} setSearch={setSearch} filter="" setFilter={() => {}} />
+      <SearchBar
+        style={{ marginTop: '4rem' }}
+        search={search}
+        setSearch={setSearch}
+        filters={filters}
+        setFilters={setFilters}
+      />
 
         {isAdmin && (
           <div className="toggle-valutazione">

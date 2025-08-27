@@ -168,7 +168,7 @@ namespace GroupBackend.Controllers
         public async Task<List<Invito>> GetInvitiPerGruppo(string gruppoInvitato)
         {
             var inviti = await _context.Inviti
-                .Where(i => i.PerGruppo == gruppoInvitato)
+                .Where(i => i.PerGruppo == gruppoInvitato && i.Accettato != false)
                 .ToListAsync();
 
             foreach (Invito i in inviti)

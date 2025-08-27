@@ -39,7 +39,7 @@ const Card = ({ nomeEvento, descrizione, imgUrl, gruppo, approvato, isAdmin, onA
   const handleReject = async () => {
     if (isInvito) {
       const gruppoInvitato = sessionStorage.getItem("gruppo") || "";
-      await rispondiInvitoEvento(nomeEvento, gruppo, gruppoInvitato, true, username);
+      await rispondiInvitoEvento(nomeEvento, gruppo, gruppoInvitato, false, username);
     } else {
       await approvaEvento(gruppo, nomeEvento, username);
     }    setPanelOpen(false);
@@ -87,9 +87,9 @@ const statoVal = isInvito
             readOnly
           />
           <div className="status-container">
-            <span
-              className={`status-dot ${approvato ? "approvato" : "davalutare"}`}
-            ></span>
+            {<span
+              className={`status-dot ${statoVal}`}
+            ></span>}
             <span className="status-text">{statoVal}</span>
           </div>
 

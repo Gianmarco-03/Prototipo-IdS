@@ -92,6 +92,8 @@
   display: flex;
   justify-content: start;
   margin-top: 3%;
+  z-index: 3;
+  position: fixed;
 }
 
 .toggle-switch {
