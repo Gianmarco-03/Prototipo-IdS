@@ -50,6 +50,8 @@
 
 .sidebar-icon-button:hover {
   background: linear-gradient(135deg, #A73EE7, #00EBFF);
+  box-shadow:0 0 15px #00EBFF ;
+
 }
 
 /* Spazio fittizio per spostare i contenuti */
@@ -92,6 +94,9 @@
 
 .sidebar-create-button:hover {
   background: linear-gradient(90deg, #A73EE7, #00EBFF);
+  transform: scale(1.1);  /* Ingrandisce l'immagine del 20% */
+  transition: transform 0.3s ease;  /* Animazione fluida */
+  box-shadow:0 0 120px #00EBFF ;
 }
 
 .sidebar-image {
@@ -165,6 +170,7 @@ info-box {
   align-items: center;
   justify-content: center;
   margin: 0 auto 1rem;
+  box-shadow: 20px 20px 100px #00EBFF ;
 }
 
 .profile-image-container {
@@ -180,6 +186,7 @@ info-box {
 .profile-image-container:hover{
   transform: scale(1.2);  /* Ingrandisce l'immagine del 20% */
   transition: transform 0.3s ease;  /* Animazione fluida */
+  box-shadow:0 0 120px #00EBFF ;
 }
   
 

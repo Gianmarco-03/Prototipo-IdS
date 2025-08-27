@@ -40,7 +40,7 @@
 .goto-Evento:hover,
 .goto-Gruppo:hover {
   background: linear-gradient(135deg, #A73EE7, #00EBFF);
-  box-shadow: 0 0 12px #A73EE7;
+  box-shadow: 0 0 30px #A73EE7;
   color: white;
 
 }

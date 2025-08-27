@@ -33,6 +33,7 @@ const GruppoPage = () => {
 
     useEffect(() => {
     sessionStorage.setItem("gruppo", nomeGruppo);
+    sessionStorage.removeItem("evento");
   }, [nomeGruppo]);
 
   const fetchData = async () => {

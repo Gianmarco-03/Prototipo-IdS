@@ -6,6 +6,6 @@ namespace HomeBackend.Controllers
     public interface IHomeController
     {
         Task<List<Gruppo>> GetGruppi(string username);
-        Task<List<Evento>> GetEventi(string username);        
+        Task<List<EventoApprovato>> GetEventi(string username);        
     }
 }

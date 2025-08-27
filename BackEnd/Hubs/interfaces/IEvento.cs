@@ -8,7 +8,7 @@ namespace EventBackend.Hubs
         Task Partecipa(string username, string nomeEvento, string nomeGruppo);
         Task Abbandona(string username, string nomeEvento, string nomeGruppo);
         Task<bool> CreaEvento(PropostaEvento evento, string username);
-        Task<bool> UpdateInfo(Evento evento);
+        Task<bool> UpdateInfo(EventoApprovato evento);
         Task<string?> UploadImage(string nomeEvento, string nomeGruppo, string fileBase64);
         Task<bool> CheckOrganizzatore(string nomeEvento, string nomeGruppo, string username);
     }

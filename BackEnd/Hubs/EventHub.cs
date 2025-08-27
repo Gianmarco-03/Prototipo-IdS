@@ -52,7 +52,7 @@ namespace EventBackend.Hubs
                        }
         }
 
-        public async Task<bool> UpdateInfo(Evento evento)
+        public async Task<bool> UpdateInfo(EventoApprovato evento)
         {
             var ctrl = GetCtrl();
             return await ctrl.UpdateInfo(evento);

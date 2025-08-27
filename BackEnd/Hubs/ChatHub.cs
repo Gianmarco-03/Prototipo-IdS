@@ -5,11 +5,11 @@ using ChatBackend.Model;
 
 namespace ChatBackend.Hubs
 {
-    public class ChatHub : Hub , IChatService
+    public class ChatHub : Hub, IChatService
     {
         // Metodo chiamato dal client per inviare messaggi
         private readonly IServiceScopeFactory _scopeFactory;
-         public ChatHub(IServiceScopeFactory scopeFactory)
+        public ChatHub(IServiceScopeFactory scopeFactory)
         {
             _scopeFactory = scopeFactory;
         }
@@ -21,7 +21,7 @@ namespace ChatBackend.Hubs
             return controller;
         }
 
-        
+
         public async Task SendMessage(string gruppo, string user, string message)
         {
 
@@ -30,7 +30,7 @@ namespace ChatBackend.Hubs
             IChatController ctrl = this.getCtrl();
             ctrl.SendMessage(m);
             // Invia a tutti i client connessi il messaggio
-            await Clients.Groups(gruppo).SendAsync("ReceiveMessage", user, message);
+            await Clients.Groups(gruppo).SendAsync("ReceiveMessage",m.id, user, message, m.DataOra);
         }
 
         public async Task JoinGroup(string gruppo)
@@ -40,8 +40,14 @@ namespace ChatBackend.Hubs
             List<Messaggio> toSend = await ctrl.GetLast(gruppo);
             foreach (Messaggio m in toSend)
             {
-                await Clients.Caller.SendAsync("ReceiveMessage", m.Mittente, m.Testo);
+                await Clients.Caller.SendAsync("ReceiveMessage",m.id, m.Mittente, m.Testo, m.DataOra);
             }
+        }
+        public async Task DeleteMessage(string gruppo, int id)
+        {
+            IChatController ctrl = this.getCtrl();
+            await ctrl.DeleteMessage(id);
+            await Clients.Groups(gruppo).SendAsync("MessageDeleted", id);
            
         }
     }

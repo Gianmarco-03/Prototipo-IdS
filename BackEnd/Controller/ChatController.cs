@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace ChatBackend.Controllers;
-public class ChatController : BaseController, IChatController 
+
+public class ChatController : BaseController, IChatController
 {
 
     public ChatController(AppDbContext context) : base(context) { }
@@ -32,5 +33,14 @@ public class ChatController : BaseController, IChatController
         .OrderByDescending(m => m.DataOra)
         .Take(10)
         .ToListAsync()).OrderBy(m => m.DataOra).ToList();
+    }
+    public async Task DeleteMessage(int id)
+    {
+        var message = await _context.Messaggi.FindAsync(id);
+        if (message != null)
+        {
+            _context.Messaggi.Remove(message);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -92,14 +92,10 @@ const statoVal = isInvito
             ></span>}
             <span className="status-text">{statoVal}</span>
           </div>
-
-
-            
-
-        </div>
-        <textarea readonly className="gruppo" onClick={gotoGruppo}>
+             <textarea readonly className="gruppo" onClick={gotoGruppo}>
             {gruppo}
         </textarea>
+        </div>
       </div>
     </div>  
        </>

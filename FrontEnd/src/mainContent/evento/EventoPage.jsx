@@ -18,12 +18,16 @@ const EventoPage = () => {
   const [nuovoInvito, setNuovoInvito] = useState("");
 
   useEffect(() => {
-    const username =
-      sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
-    getEventoInfo(nomeEvento, nomeGruppo).then((ev) => {
-      setEvento(ev);
-      const list = ev?.partecipanti?.$values || ev?.partecipanti || [];
-      const names = list.map((p) => (typeof p === "string" ? p : p.username));
+      sessionStorage.setItem("evento", nomeEvento);
+      if (sessionStorage.getItem("gruppo") !== nomeGruppo) {
+        sessionStorage.setItem("gruppo", nomeGruppo);
+      }
+      const username =
+        sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
+      getEventoInfo(nomeEvento, nomeGruppo).then((ev) => {
+        setEvento(ev);
+        const list = ev?.partecipanti?.$values || ev?.partecipanti || [];
+        const names = list.map((p) => (typeof p === "string" ? p : p.username));
       setIsPartecipante(names.includes(username));
       const orgs = ev?.organizzatori?.$values || ev?.organizzatori || [];
       const orgNames = orgs.map((p) => (typeof p === "string" ? p : p.username));
