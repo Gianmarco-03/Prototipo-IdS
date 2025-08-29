@@ -53,15 +53,20 @@ const EventoPage = () => {
 
 
   const goToChat = () => {
-    navigate(`/chat/${encodeURIComponent(nomeGruppo)}/${encodeURIComponent(nomeEvento)}`);
-   };
+    if(isPartecipante)
+      navigate(`/chat/${encodeURIComponent(nomeGruppo)}/${encodeURIComponent(nomeEvento)}`);
+    else alert("devi far partecipare all'evento per poter accedere alla chat");
+
+  };
 
   const handlePartecipa = async () => {
     const username =
       sessionStorage.getItem("user") || sessionStorage.getItem("username") || "";
-    await partecipaEvento(nomeGruppo,nomeEvento, username);
-    setIsPartecipante(true);
-    
+    await partecipaEvento(nomeGruppo,nomeEvento, username).then(ok =>{;  
+      if(ok) setIsPartecipante(true);
+      else alert("entra nel gruppo prima di partecipare all'evento");
+    })
+  
   };
 
   const handleAbbandona = async () => {

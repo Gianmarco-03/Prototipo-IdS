@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { creaEvento } from "../../service/EventoService";
 import "./styles/CreaEvento.css";
 
 const CreaEvento = () => {
-  const [data, setData] = useState({ Nome: "", Descrizione: "", DataInizio: "", DataFine: "", GruppoId: "" });
+  const location = useLocation();
+  const gruppoPrefill = location.state?.gruppo || "";
+  const [data, setData] = useState({ Nome: "", Descrizione: "", DataInizio: "", DataFine: "", GruppoId: gruppoPrefill });
   const [errore, setErrore] = useState("");
   const navigate = useNavigate();
+  const gruppoBloccato = !!gruppoPrefill;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +48,13 @@ const CreaEvento = () => {
         <label className="auth-label">Data Fine</label>
         <input type="date" className="auth-input" name="DataFine" value={data.DataFine} onChange={handleChange} />
         <label className="auth-label">Gruppo</label>
-        <input className="auth-input" name="GruppoId" value={data.GruppoId} onChange={handleChange} />
+        <input
+          className="auth-input"
+          name="GruppoId"
+          value={data.GruppoId}
+          onChange={handleChange}
+          readOnly={gruppoBloccato}
+        />
         <button className="auth-button" type="submit">Crea</button>
       </form>
       {errore && <p style={{color:'red'}}>{errore}</p>}

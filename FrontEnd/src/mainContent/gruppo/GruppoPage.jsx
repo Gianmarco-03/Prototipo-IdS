@@ -76,8 +76,19 @@ const GruppoPage = () => {
   }, [nomeGruppo, search]);
 
   const goToChat = () => {
-    navigate(`/chat/${encodeURIComponent(nomeGruppo)}`);
+    if(isPartecipante)
+      navigate(`/chat/${encodeURIComponent(nomeGruppo)}`);
+    else alert("devi far parte del gruppo per accedere alla chat");
+
   };
+
+  const goToCreaEvento = () => {
+    if(isPartecipante)
+      navigate('/nuovo-evento', { state: { gruppo: nomeGruppo } });
+    else 
+      alert("devi far parte del gruppo per proporre un evento");
+  };
+
 
   const handlePartecipa = async () => {
     const username =
@@ -205,6 +216,7 @@ const GruppoPage = () => {
             <UserPlusIcon className="group-icon" width={30} height={30} />
           </button>
         )}
+        
       </div>
       <SearchBar
         style={{ marginTop: '4rem' }}
@@ -213,7 +225,13 @@ const GruppoPage = () => {
         filters={filters}
         setFilters={setFilters}
       />
-
+      {isPartecipante && (
+          <button   
+            className="gruppo-action create-event-button"
+            onClick={goToCreaEvento}>
+            Crea Evento
+          </button>
+        )}
         {isAdmin && (
           <div className="toggle-valutazione">
             <div className="toggle-switch">
