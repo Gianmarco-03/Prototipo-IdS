@@ -110,6 +110,16 @@ namespace GroupBackend.Controllers
             if (entry != null)
             {
                 gruppo.Partecipanti.Remove(entry);
+                  // Rimuovi l'utente da tutti gli eventi del gruppo a cui partecipa
+                var partecipazioni = _context.EventoPartecipanti
+                    .Where(ep => ep.nomeGruppo == nomeGruppo && ep.Username == username);
+                _context.EventoPartecipanti.RemoveRange(partecipazioni);
+
+                // Rimuovi l'utente anche come organizzatore degli eventi del gruppo
+                var organizzazioni = _context.EventoOrganizzatori
+                    .Where(eo => eo.nomeGruppo == nomeGruppo && eo.Username == username);
+                _context.EventoOrganizzatori.RemoveRange(organizzazioni);
+
                 await _context.SaveChangesAsync();
             }
 

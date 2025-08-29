@@ -80,6 +80,26 @@ namespace EventBackend.Controllers
 
             if (evento == null) return false;
 
+            var userGroups = await _context.GruppoPartecipanti
+                .Where(gp => gp.Username == username)
+                .Select(gp => gp.GruppoNome)
+                .ToListAsync();
+
+            var allowed = userGroups.Contains(nomeGruppo);
+
+            if (!allowed)
+            {
+                var invited = await _context.Inviti
+                    .Where(i => i.EventoCondivisoNome == nomeEvento && i.DaGruppo == nomeGruppo && i.Accettato == true)
+                    .Select(i => i.PerGruppo)
+                    .ToListAsync();
+
+                allowed = userGroups.Any(g => invited.Contains(g));
+            }
+
+            if (!allowed) return false;
+
+
             if (!evento.Partecipanti.Any(p => p.Username == username))
             {
                 evento.Partecipanti.Add(new EventoPartecipante
