@@ -58,8 +58,8 @@ const HomeGruppi = () => {
   return (
     <div className="container">
       <div className="home-header shaped">
-        <svg
-          className="shape-layer-HG"
+<svg
+          className="shape-layer-HE"
           viewBox="0 0 150 60"
           preserveAspectRatio="none"
           aria-hidden="true"

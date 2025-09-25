@@ -5,6 +5,9 @@ import { approvaEvento, bocciaEvento } from "../../../service/AmministratoreServ
 import { rispondiInvitoEvento } from "../../../service/EventoService";
 
 const Card = ({ nomeEvento, descrizione, imgUrl, gruppo, approvato, isAdmin, onAction, condiviso, isInvito, accettato }) => {
+ 
+  const BACKEND_URL = "http://localhost:3000";
+ 
   const navigate = useNavigate();
   const gotoEvento = () => {
     navigate(`/evento/${gruppo}/${nomeEvento}`);
@@ -58,7 +61,7 @@ const statoVal = isInvito
   return (
     <>
     <div className="cardE">
-      <div className="cardE-image" style={{ backgroundImage: `url(${imgUrl})` }}></div>
+      <div className="cardE-image" ><img src={imgUrl || `${BACKEND_URL}/images/Def_propic.png`}/> </div>
       {(isAdmin && !approvato) || (isInvito && (accettato === null || accettato === undefined)) ? (
         <>
           <div className={`card-action-panel ${panelOpen ? "open" : ""}`}>

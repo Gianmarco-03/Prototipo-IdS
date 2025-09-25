@@ -67,7 +67,7 @@ const HomeEventi = () => {
 
   return (
     <div className="container">
-            <div className="home-header shaped">
+      <div className="home-header shaped">
         <svg
           className="shape-layer-HE"
           viewBox="0 0 150 60"
